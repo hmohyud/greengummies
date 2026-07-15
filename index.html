@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gorilla Greens — Super Greens Gummies Built for Men</title>
+<meta name="description" content="15 organic superfoods in two gummies a day. No adaptogens, no ashwagandha, no chalky shakes. Strength runs on greens.">
+<meta property="og:type" content="website">
+<!-- TODO before launch: add og:url, og:image (1200x630 raster), and <link rel="canonical"> once the production domain is known -->
+<meta property="og:title" content="Gorilla Greens — Super Greens Gummies Built for Men">
+<meta property="og:description" content="A 400-pound silverback builds its muscle on plants. 15 organic superfoods, two gummies, zero excuses.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600;1,9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #F4F3EC;
+  --paper-2: #ECEDE2;
+  --ink: #182A1E;
+  --ink-soft: #51604F;
+  --line: #D6D9C9;
+  --forest: #17563A;
+  --forest-deep: #0E3624;
+  --band: #0F2C1D;
+  --band-ink: #EDF2E6;
+  --band-soft: #9FB6A3;
+  --leaf: #2E9E4F;
+  --melon: #D4553B;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Hanken Grotesk', 'Segoe UI', system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, .serif { font-family: Fraunces, Georgia, serif; font-weight: 600; line-height: 1.06; letter-spacing: -0.01em; }
+a { color: inherit; }
+img, svg { display: block; max-width: 100%; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+section { padding: 96px 0; }
+section[id] { scroll-margin-top: 92px; }
+.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--forest); margin-bottom: 18px; }
+.eyebrow::before { content: ''; display: inline-block; width: 24px; height: 2px; background: currentColor; vertical-align: 4px; margin-right: 12px; }
+.sub { color: var(--ink-soft); max-width: 58ch; font-size: 18px; }
+h2 { font-size: clamp(38px, 5vw, 62px); margin-bottom: 18px; max-width: 22ch; text-wrap: balance; }
+.center { text-align: center; }
+.center h2, .center .sub { margin-left: auto; margin-right: auto; }
+.rule { border: 0; border-top: 1px solid var(--line); }
+
+/* buttons */
+.btn { display: inline-block; background: var(--forest); color: #F6F8F1; font-weight: 600; font-size: 16px; text-decoration: none; border: 0; border-radius: 10px; padding: 15px 30px; cursor: pointer; font-family: inherit; transition: background 0.15s ease, transform 0.15s ease; }
+.btn:hover { background: var(--forest-deep); transform: translateY(-1px); }
+.btn .arr { display: inline-block; margin-left: 9px; transition: transform 0.18s ease; }
+.btn:hover .arr { transform: translateX(5px); }
+.btn.on-dark { background: var(--band-ink); color: var(--forest-deep); }
+.btn.on-dark:hover { background: #FFFFFF; }
+.textlink { font-weight: 600; color: var(--forest); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+.textlink:hover { border-color: var(--forest); }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--forest); outline-offset: 3px; border-radius: 4px; }
+
+/* announce + nav */
+.announce { background: var(--forest-deep); color: var(--band-ink); font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; text-align: center; padding: 10px 16px; }
+header.nav { position: sticky; top: 0; z-index: 50; background: rgba(244,243,236,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.navrow { display: flex; align-items: center; gap: 28px; padding: 14px 0; }
+.brand { display: flex; align-items: center; gap: 13px; text-decoration: none; }
+.tile { display: block; border-radius: 10px; overflow: hidden; }
+.tile svg { width: 100%; height: 100%; display: block; }
+.brand .tile { width: 42px; height: 42px; flex: none; }
+.brand b { font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 21px; letter-spacing: -0.01em; }
+.navlinks { display: flex; gap: 26px; margin-left: auto; }
+.navlinks a { text-decoration: none; color: var(--ink-soft); font-weight: 600; font-size: 15px; }
+.navlinks a:hover { color: var(--ink); }
+.nav-cta { padding: 11px 22px; font-size: 15px; }
+.menu-btn { display: none; margin-left: auto; background: none; border: 1px solid var(--line); color: var(--ink); border-radius: 8px; padding: 7px 12px; font-size: 17px; cursor: pointer; }
+
+/* hero */
+.hero { padding: 90px 0 84px; }
+.hero .wrap { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center; }
+.hero h1 { font-size: clamp(52px, 7.4vw, 104px); font-weight: 600; margin-bottom: 24px; letter-spacing: -0.02em; text-wrap: balance; }
+.hero h1 em { font-style: italic; color: var(--forest); }
+.hero .sub { margin-bottom: 34px; }
+.cta-row { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; margin-bottom: 30px; }
+.meta-line { color: var(--ink-soft); font-size: 15px; }
+.meta-line b { color: var(--ink); }
+.meta-line .sep { margin: 0 10px; color: var(--line); }
+.hero-art { position: relative; width: min(500px, 86vw); aspect-ratio: 1; margin: 0 auto; }
+.ring { width: 100%; height: 100%; animation: spin 55s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.logo-card { position: absolute; top: 50%; left: 50%; width: 61%; aspect-ratio: 1; transform: translate(-50%, -50%) rotate(-3deg); border-radius: 34px; overflow: hidden; display: block; box-shadow: 0 34px 70px rgba(15,44,29,0.35); }
+.logo-card svg { width: 100%; height: 100%; display: block; }
+
+/* stats strip */
+.stats { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.stats .wrap { display: grid; grid-template-columns: repeat(4, 1fr); }
+.stat { padding: 26px 12px; text-align: center; border-left: 1px solid var(--line); }
+.stat:first-child { border-left: 0; }
+.stat b { display: block; font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 44px; color: var(--forest); }
+.stat span { color: var(--ink-soft); font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
+
+/* quiet badge row */
+.badgerow { padding: 26px 0; border-bottom: 1px solid var(--line); }
+.badgerow ul { list-style: none; display: flex; flex-wrap: wrap; gap: 10px 0; justify-content: space-between; }
+.badgerow li { color: var(--ink-soft); font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0 14px; }
+
+/* why: editorial split */
+.split { display: grid; grid-template-columns: 5fr 7fr; gap: 70px; align-items: start; }
+.split .sticky { position: sticky; top: 120px; }
+.inout { display: grid; grid-template-columns: 1fr 1fr; gap: 0 44px; margin-top: 42px; }
+.inout h3 { font-size: 15px; font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding-bottom: 12px; border-bottom: 2px solid var(--ink); margin-bottom: 4px; }
+.inout .out-col h3 { color: var(--melon); border-color: var(--melon); }
+.inout ul { list-style: none; }
+.inout li { padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 15.5px; color: var(--ink-soft); }
+.inout li b { display: block; color: var(--ink); font-size: 16px; margin-bottom: 2px; }
+.pullquote { font-family: Fraunces, Georgia, serif; font-size: clamp(26px, 3.2vw, 38px); font-weight: 500; line-height: 1.25; margin-top: 56px; max-width: 26ch; }
+.pullquote footer { font-family: 'Hanken Grotesk', sans-serif; font-size: 14px; color: var(--ink-soft); margin-top: 14px; font-weight: 600; }
+
+/* steps */
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; margin-top: 54px; }
+.step { border-top: 2px solid var(--ink); padding-top: 20px; }
+.step .num { font-family: Fraunces, Georgia, serif; font-style: italic; font-size: 52px; font-weight: 600; color: var(--melon); display: block; margin-bottom: 12px; line-height: 1; }
+.step .cat { display: block; font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--forest); margin-bottom: 14px; }
+.step h3 { font-size: 21px; margin-bottom: 10px; }
+.step p { color: var(--ink-soft); font-size: 15.5px; }
+
+/* pillars on tint */
+.tint { background: var(--paper-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+
+/* flavor band (dark) */
+.band { background: var(--band); color: var(--band-ink); position: relative; overflow: hidden; }
+.band .eyebrow { color: #8CC9A2; }
+.band .sub { color: var(--band-soft); }
+.band h2 { color: var(--band-ink); }
+.flavor-chips { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
+.fchip { border: 1px solid rgba(237,242,230,0.3); color: var(--band-ink); border-radius: 999px; padding: 8px 20px; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+.fchip.melon { border-color: rgba(212,85,59,0.55); background: rgba(212,85,59,0.16); color: #F2B3A4; }
+.band h2 em { font-style: italic; color: #F2B3A4; }
+
+/* ingredients */
+.facts-flex { display: grid; grid-template-columns: 7fr 5fr; gap: 60px; align-items: start; margin-top: 50px; }
+.ing-list { list-style: none; columns: 2; column-gap: 44px; }
+.ing-list li { padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 16px; font-weight: 500; break-inside: avoid; }
+.ing-list .idx { font-family: Fraunces, Georgia, serif; color: var(--forest); font-weight: 600; margin-right: 14px; font-size: 14px; }
+.also { color: var(--ink-soft); font-size: 14px; margin-top: 22px; max-width: 64ch; }
+.factlabel { background: #FFFFFF; color: #111; border: 1px solid var(--line); border-radius: 6px; padding: 22px 24px; font-family: Arial, Helvetica, sans-serif; box-shadow: 0 14px 34px rgba(20,40,28,0.08); }
+.factlabel h3 { font-family: Arial Black, Arial, sans-serif; font-size: 25px; letter-spacing: 0; border-bottom: 10px solid #111; padding-bottom: 6px; margin-bottom: 6px; }
+.factlabel .serv { font-size: 13px; border-bottom: 4px solid #111; padding-bottom: 6px; margin-bottom: 4px; }
+.factlabel table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.factlabel td { padding: 4px 0; border-top: 1px solid #999; }
+.factlabel td:last-child { text-align: right; font-weight: bold; }
+.factlabel .blend { font-size: 12px; border-top: 4px solid #111; padding-top: 6px; margin-top: 6px; }
+.factlabel .dv { font-size: 11px; color: #333; margin-top: 6px; }
+
+/* pricing */
+.price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; max-width: 880px; margin: 54px auto 26px; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: #FBFAF5; }
+.price-card { padding: 42px 40px; text-align: left; }
+.price-card + .price-card { border-left: 1px solid var(--line); }
+.price-card.featured { background: var(--forest); color: #F6F8F1; }
+.plan-tag { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); display: block; margin-bottom: 14px; }
+.featured .plan-tag { color: #A9CDB4; }
+.price-card h3 { font-size: 26px; margin-bottom: 6px; }
+.price-card .pdesc { font-size: 14.5px; color: var(--ink-soft); margin-bottom: 24px; }
+.featured .pdesc { color: #BBD6C2; }
+.price { display: flex; align-items: baseline; gap: 10px; margin-bottom: 2px; }
+.price .now { font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 46px; }
+.price .was { color: var(--ink-soft); text-decoration: line-through; font-size: 17px; }
+.featured .was { color: #9DBFA8; }
+.per { font-size: 14px; color: var(--ink-soft); margin-bottom: 20px; }
+.featured .per { color: #BBD6C2; }
+.plist { list-style: none; margin: 0 0 28px; }
+.plist li { padding: 6px 0 6px 24px; position: relative; font-size: 15px; }
+.plist li::before { content: '·'; position: absolute; left: 6px; font-weight: 900; color: var(--forest); }
+.featured .plist li::before { color: #8CC9A2; }
+.savings { font-size: 14px; font-weight: 600; color: var(--forest); margin-bottom: 20px; }
+.featured .savings { color: #A9E3BC; }
+.trust-row { text-align: center; color: var(--ink-soft); font-size: 14.5px; }
+
+
+/* faq */
+.faq-list { max-width: 780px; margin: 46px auto 0; border-top: 1px solid var(--line); }
+details { border-bottom: 1px solid var(--line); }
+summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: baseline; gap: 18px; padding: 22px 4px; font-weight: 600; font-size: 17px; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: '+'; font-family: Fraunces, Georgia, serif; font-size: 22px; color: var(--forest); transition: transform 0.15s; flex: none; }
+details[open] summary::after { transform: rotate(45deg); }
+details .a { padding: 0 4px 24px; color: var(--ink-soft); font-size: 15.5px; max-width: 68ch; }
+
+/* final band */
+.final.band { text-align: center; }
+.final h2 { font-size: clamp(44px, 6vw, 76px); max-width: none; }
+.final .sub { margin: 0 auto 34px; }
+.guarantee { color: var(--band-soft); font-size: 14px; margin-top: 18px; }
+.ape-mark { position: absolute; right: -60px; bottom: -80px; width: 360px; height: 414px; opacity: 0.14; pointer-events: none; }
+.final .wrap { position: relative; }
+
+/* footer */
+footer.site { background: var(--paper); padding: 64px 0 44px; border-top: 1px solid var(--line); }
+.foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 34px; margin-bottom: 44px; }
+.foot-brand .tile { width: 46px; height: 46px; border-radius: 11px; margin-bottom: 14px; }
+.foot-brand p { color: var(--ink-soft); font-size: 14.5px; max-width: 36ch; }
+.foot-brand .dist { font-size: 13px; margin-top: 10px; }
+footer.site h3 { font-family: 'Hanken Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 14px; }
+footer.site ul { list-style: none; }
+footer.site li { margin-bottom: 9px; }
+footer.site ul a { color: var(--ink-soft); text-decoration: none; font-size: 14.5px; }
+footer.site ul a:hover { color: var(--ink); }
+footer.site ul.plain li { color: var(--ink-soft); font-size: 14.5px; }
+.legal { border-top: 1px solid var(--line); padding-top: 24px; color: var(--ink-soft); font-size: 12.5px; line-height: 1.7; }
+.legal p { margin-bottom: 10px; max-width: 100ch; }
+
+/* toast */
+.toast { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--paper); border-radius: 10px; padding: 13px 24px; font-weight: 600; font-size: 15px; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+
+/* reveal */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.55s ease, transform 0.55s ease; }
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { transition: none !important; }
+  .ring { animation: none; }
+}
+
+/* responsive */
+@media (max-width: 980px) {
+  section { padding: 70px 0; }
+  .hero .wrap { grid-template-columns: 1fr; gap: 44px; }
+  .hero-art { order: -1; width: min(380px, 82vw); }
+  .split { grid-template-columns: 1fr; gap: 40px; }
+  .split .sticky { position: static; }
+  .steps { grid-template-columns: 1fr; gap: 30px; }
+  .facts-flex { grid-template-columns: 1fr; gap: 44px; }
+  .price-grid { grid-template-columns: 1fr; }
+  .price-card + .price-card { border-left: 0; border-top: 1px solid var(--line); }
+  .rev-grid { grid-template-columns: 1fr; gap: 30px; }
+  .stats .wrap { grid-template-columns: repeat(2, 1fr); }
+  .stat { border-left: 0; border-top: 1px solid var(--line); }
+  .foot-grid { grid-template-columns: 1fr 1fr; }
+  .badgerow ul { justify-content: flex-start; }
+}
+@media (max-width: 700px) {
+  .inout { grid-template-columns: 1fr; gap: 34px; }
+}
+@media (max-width: 860px) {
+  .navlinks { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--paper); border-bottom: 1px solid var(--line); flex-direction: column; gap: 0; padding: 8px 24px 16px; }
+  .navlinks a { padding: 11px 0; }
+  .navlinks.open { display: flex; }
+  .menu-btn { display: block; }
+  .nav-cta { display: none; }
+  .ing-list { columns: 1; }
+}
+</style>
+<noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
+</head>
+<body>
+
+<div class="announce">Free shipping on every order &nbsp;·&nbsp; Subscribe &amp; save 38%</div>
+
+<header class="nav">
+  <div class="wrap navrow">
+    <a class="brand" href="#top" aria-label="Gorilla Greens home">
+      <span class="tile"><svg viewBox="0 0 1254 1254" aria-hidden="true"><defs><radialGradient id="nav-backgroundGradient" cx="50%" cy="47%" r="75%">
+      <stop offset="0%" stop-color="#064929"/>
+      <stop offset="100%" stop-color="#002d1b"/>
+    </radialGradient><linearGradient id="nav-letterGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5fb63b"/>
+      <stop offset="100%" stop-color="#45a72f"/>
+    </linearGradient></defs><g id="nav-background">
+    <rect width="1254" height="1254" fill="url(#nav-backgroundGradient)"/>
+  </g><g id="nav-letter-g">
+    <path d="M 332 233 L 299 265 L 266 304 L 241 340 L 216 384 L 194 435 L 179 483 L 169 531 L 163 583 L 162 635 L 167 694 L 174 732 L 189 784 L 206 826 L 226 865 L 252 905 L 287 948 L 311 973 L 346 1004 L 374 1025 L 421 1054 L 455 1071 L 492 1086 L 538 1100 L 576 1108 L 627 1114 L 685 1114 L 724 1110 L 762 1103 L 803 1092 L 846 1076 L 891 1054 L 918 1037 L 920 1071 L 919 1092 L 1084 1092 L 1084 575 L 819 575 L 814 586 L 825 604 L 828 616 L 828 637 L 822 657 L 828 668 L 834 688 L 836 701 L 835 731 L 918 731 L 920 734 L 919 859 L 887 887 L 861 905 L 835 920 L 801 935 L 777 943 L 752 949 L 708 955 L 696 955 L 696 953 L 691 956 L 669 963 L 623 971 L 620 970 L 648 955 L 660 946 L 674 932 L 656 935 L 632 935 L 625 933 L 644 924 L 658 912 L 634 916 L 597 916 L 577 913 L 542 902 L 523 892 L 507 880 L 492 865 L 481 850 L 470 829 L 465 815 L 461 796 L 460 770 L 462 753 L 466 738 L 453 747 L 437 763 L 424 782 L 422 782 L 424 762 L 431 737 L 447 706 L 464 684 L 442 692 L 424 702 L 407 714 L 390 729 L 379 741 L 378 740 L 387 716 L 404 690 L 430 663 L 444 653 L 436 653 L 402 663 L 385 671 L 382 670 L 390 659 L 404 645 L 424 631 L 408 634 L 383 642 L 360 652 L 338 664 L 318 677 L 298 693 L 276 715 L 266 728 L 265 727 L 272 706 L 281 688 L 295 666 L 311 646 L 333 624 L 353 608 L 374 594 L 398 582 L 385 582 L 366 585 L 352 589 L 350 588 L 358 580 L 375 568 L 404 554 L 388 555 L 366 559 L 322 572 L 275 593 L 256 604 L 240 616 L 238 615 L 252 597 L 265 584 L 284 568 L 307 552 L 336 535 L 370 518 L 420 497 L 387 500 L 384 499 L 416 474 L 452 451 L 429 449 L 410 451 L 394 456 L 393 455 L 405 437 L 423 421 L 407 423 L 387 429 L 366 439 L 351 449 L 348 449 L 352 440 L 361 428 L 379 410 L 393 399 L 416 385 L 448 371 L 468 366 L 445 361 L 425 360 L 426 358 L 438 352 L 455 347 L 461 347 L 451 343 L 430 339 L 399 339 L 376 343 L 373 342 L 392 329 L 410 320 L 439 310 L 466 305 L 502 305 L 520 308 L 538 314 L 529 304 L 513 292 L 498 284 L 496 282 L 497 281 L 510 281 L 532 285 L 551 291 L 581 304 L 617 323 L 637 337 L 651 349 L 671 370 L 693 401 L 710 419 L 751 449 L 773 469 L 785 484 L 791 495 L 792 500 L 793 498 L 1041 342 L 1018 304 L 989 268 L 958 237 L 918 205 L 882 182 L 847 164 L 804 147 L 763 135 L 718 126 L 669 121 L 612 121 L 578 124 L 536 131 L 494 142 L 448 159 L 406 180 L 366 206 Z"
+          fill="url(#nav-letterGradient)"
+          fill-rule="evenodd"/>
+  </g><g id="nav-gorilla-white">
+    <path d="M 663 763 L 655 779 L 668 773 Z M 803 729 L 790 721 L 784 719 L 781 723 L 778 717 L 764 714 L 740 714 L 736 715 L 734 719 L 730 716 L 720 718 L 716 720 L 713 732 L 710 735 L 701 725 L 684 733 L 676 739 L 676 744 L 681 755 L 680 768 L 697 762 L 703 750 L 705 742 L 710 735 L 719 742 L 730 738 L 734 732 L 737 735 L 764 734 L 776 736 L 779 732 L 783 738 L 802 743 Z M 635 528 L 634 530 L 637 531 Z M 589 516 L 596 530 L 604 538 L 614 544 L 624 547 L 639 547 L 650 543 L 644 537 L 638 540 L 629 540 L 625 538 L 618 529 L 626 529 L 620 522 L 622 519 L 617 516 L 609 514 L 596 514 Z M 497 282 L 524 299 L 539 314 L 538 315 L 528 311 L 502 306 L 466 306 L 452 308 L 432 313 L 410 321 L 392 330 L 374 342 L 399 338 L 430 338 L 451 342 L 461 345 L 462 347 L 438 353 L 426 360 L 445 360 L 458 362 L 469 366 L 445 373 L 426 381 L 393 400 L 379 411 L 362 428 L 353 440 L 348 450 L 366 438 L 382 430 L 407 422 L 423 420 L 424 421 L 415 428 L 401 443 L 394 455 L 410 450 L 429 448 L 452 449 L 453 451 L 416 475 L 385 498 L 387 499 L 420 496 L 421 497 L 419 499 L 370 519 L 336 536 L 307 553 L 284 569 L 265 585 L 239 615 L 275 592 L 322 571 L 366 558 L 396 553 L 405 554 L 375 569 L 358 581 L 351 588 L 377 582 L 399 582 L 374 595 L 353 609 L 333 625 L 312 646 L 296 666 L 282 688 L 273 706 L 266 727 L 275 715 L 298 692 L 318 676 L 338 663 L 360 651 L 383 641 L 408 633 L 424 630 L 424 632 L 404 646 L 391 659 L 382 671 L 402 662 L 420 656 L 443 651 L 445 653 L 430 664 L 405 690 L 388 716 L 378 741 L 390 728 L 415 707 L 442 691 L 464 683 L 465 685 L 455 696 L 442 716 L 432 737 L 426 757 L 423 782 L 436 763 L 453 746 L 465 738 L 466 743 L 463 753 L 461 770 L 463 802 L 471 829 L 482 850 L 493 865 L 507 879 L 523 891 L 542 901 L 568 910 L 597 915 L 634 915 L 658 911 L 659 913 L 647 923 L 626 933 L 656 934 L 674 930 L 675 932 L 660 947 L 648 956 L 633 965 L 621 970 L 669 962 L 706 949 L 728 938 L 747 926 L 761 915 L 780 896 L 797 873 L 807 853 L 813 835 L 813 816 L 805 808 L 789 801 L 758 796 L 731 797 L 711 801 L 707 800 L 733 791 L 767 785 L 794 785 L 811 788 L 831 798 L 835 782 L 834 772 L 816 763 L 794 759 L 769 759 L 737 764 L 692 777 L 651 793 L 575 830 L 558 840 L 556 838 L 567 821 L 586 797 L 620 762 L 658 732 L 696 711 L 723 702 L 743 699 L 755 699 L 785 704 L 796 708 L 815 718 L 818 711 L 816 691 L 810 675 L 794 652 L 802 639 L 804 631 L 802 615 L 794 601 L 787 594 L 779 589 L 773 587 L 762 587 L 748 595 L 740 577 L 731 568 L 719 563 L 716 563 L 722 571 L 727 582 L 726 583 L 711 572 L 693 564 L 673 563 L 659 568 L 650 574 L 641 583 L 633 598 L 631 609 L 634 624 L 640 635 L 637 635 L 631 630 L 625 632 L 605 646 L 585 665 L 571 682 L 554 708 L 539 739 L 531 762 L 530 757 L 533 740 L 544 702 L 561 664 L 577 639 L 542 655 L 540 654 L 564 634 L 590 608 L 603 591 L 579 591 L 565 588 L 567 586 L 574 586 L 592 582 L 576 578 L 576 576 L 593 575 L 614 569 L 599 566 L 581 560 L 556 547 L 536 530 L 526 516 L 525 532 L 532 550 L 530 551 L 524 547 L 513 536 L 505 522 L 503 514 L 503 499 L 505 491 L 512 478 L 525 465 L 534 459 L 549 454 L 537 451 L 519 451 L 521 449 L 534 445 L 553 443 L 579 447 L 591 451 L 611 461 L 638 480 L 684 522 L 694 529 L 702 532 L 713 531 L 718 528 L 723 522 L 729 508 L 730 493 L 733 497 L 736 508 L 736 525 L 734 533 L 730 540 L 740 544 L 749 544 L 756 541 L 767 530 L 769 531 L 769 535 L 766 546 L 774 545 L 788 539 L 794 525 L 793 504 L 784 484 L 772 469 L 751 450 L 710 420 L 692 401 L 663 362 L 637 338 L 603 316 L 561 296 L 539 288 L 523 284 Z M 782 611 L 788 616 L 790 620 L 790 630 L 788 636 L 781 644 L 778 638 L 773 643 L 768 652 L 763 641 L 763 627 L 765 621 L 773 612 Z M 677 600 L 686 593 L 698 593 L 714 600 L 725 608 L 740 624 L 747 637 L 750 647 L 748 648 L 735 638 L 723 632 L 713 630 L 718 638 L 716 639 L 691 629 L 680 620 L 676 613 L 675 605 Z"
+          fill="#ffffff"
+          fill-rule="evenodd"/>
+  </g><g id="nav-gorilla-details">
+    <path d="M 831 800 L 824 795 L 809 789 L 788 786 L 755 788 L 715 798 L 735 795 L 765 795 L 783 798 L 796 802 L 807 808 L 815 817 L 816 822 L 816 820 L 823 813 Z M 815 720 L 792 708 L 779 704 L 761 701 L 731 702 L 708 708 L 693 714 L 656 735 L 613 770 L 580 806 L 557 839 L 576 828 L 643 795 L 693 775 L 719 767 L 748 760 L 775 757 L 799 758 L 816 762 L 815 760 L 819 741 L 818 730 Z M 663 761 L 670 773 L 668 775 L 654 780 L 653 779 L 658 771 L 661 762 Z M 805 729 L 803 744 L 784 740 L 780 737 L 779 734 L 776 737 L 737 737 L 735 733 L 731 739 L 720 743 L 717 743 L 711 736 L 707 741 L 704 752 L 699 761 L 696 764 L 680 770 L 678 769 L 680 759 L 678 750 L 674 742 L 675 738 L 683 732 L 699 724 L 702 724 L 710 734 L 715 719 L 718 717 L 731 715 L 734 718 L 735 714 L 744 712 L 768 713 L 778 715 L 781 721 L 783 718 L 794 721 Z M 805 630 L 803 640 L 795 652 L 808 669 L 814 681 L 819 698 L 819 714 L 817 718 L 819 713 L 833 698 L 833 692 L 827 669 L 820 657 L 821 652 Z M 781 612 L 774 613 L 768 619 L 765 625 L 764 638 L 768 650 L 772 642 L 777 637 L 780 638 L 781 642 L 788 632 L 788 619 L 785 614 Z M 679 599 L 677 603 L 677 612 L 680 618 L 687 625 L 697 631 L 716 637 L 711 630 L 712 629 L 724 631 L 736 637 L 748 646 L 745 636 L 737 622 L 718 604 L 708 598 L 696 594 L 687 594 Z M 788 541 L 773 547 L 765 547 L 764 545 L 767 537 L 767 532 L 760 540 L 751 545 L 742 546 L 731 542 L 729 539 L 733 531 L 735 522 L 735 512 L 731 496 L 730 510 L 724 523 L 714 532 L 700 533 L 683 523 L 642 485 L 623 470 L 590 452 L 562 445 L 544 445 L 522 450 L 539 450 L 551 454 L 549 456 L 540 458 L 523 468 L 515 476 L 507 490 L 504 503 L 504 511 L 507 523 L 513 534 L 519 541 L 530 549 L 523 530 L 524 515 L 526 514 L 534 526 L 545 537 L 557 546 L 580 558 L 601 565 L 614 567 L 616 569 L 614 571 L 596 576 L 578 577 L 592 580 L 594 582 L 587 585 L 568 588 L 605 590 L 588 612 L 570 630 L 543 653 L 576 638 L 578 639 L 562 665 L 547 698 L 537 730 L 532 757 L 537 740 L 553 707 L 563 691 L 579 670 L 602 647 L 630 628 L 639 635 L 631 619 L 630 604 L 635 590 L 647 575 L 658 567 L 667 563 L 676 561 L 686 561 L 695 563 L 710 570 L 725 581 L 715 563 L 717 561 L 730 566 L 740 575 L 747 587 L 749 594 L 758 587 L 765 585 L 773 586 L 772 572 L 785 561 L 788 554 Z M 633 528 L 635 527 L 639 531 L 635 533 L 633 531 Z M 587 516 L 589 514 L 599 512 L 616 514 L 623 518 L 621 521 L 627 528 L 626 530 L 620 529 L 624 536 L 634 539 L 644 535 L 651 544 L 642 548 L 635 549 L 621 548 L 615 546 L 606 541 L 597 533 Z"
+          fill="#111111"
+          fill-rule="evenodd"/>
+  </g></svg></span>
+      <b>Gorilla Greens</b>
+    </a>
+    <nav class="navlinks" id="navlinks" aria-label="Main">
+      <a href="#why">Why us</a>
+      <a href="#benefits">How it works</a>
+      <a href="#ingredients">Ingredients</a>
+      <a href="#faq">FAQ</a>
+      <a href="#pricing">Shop</a>
+    </nav>
+    <a class="btn nav-cta" href="#pricing">Shop now</a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navlinks" aria-label="Menu">☰</button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Super greens gummies · Built for men who train</p>
+        <h1>Strength runs on <em>greens.</em></h1>
+        <p class="sub">A 400-pound silverback builds its muscle on plants. Gorilla Greens packs 15 organic superfoods into two gummies a day — no adaptogens, no astragalus, no ashwagandha. Nothing but fuel.</p>
+        <div class="cta-row">
+          <a class="btn" href="#pricing">Get started — $33.99/mo<span class="arr" aria-hidden="true">→</span></a>
+          <a class="textlink" href="#ingredients">See what's inside</a>
+        </div>
+        <p class="meta-line">Non-GMO<span class="sep">|</span>Vegan<span class="sep">|</span>Gluten-free<span class="sep">|</span>Made in USA</p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg class="ring" viewBox="0 0 520 520">
+          <defs><path id="ring-path" d="M260,260 m-218,0 a218,218 0 1,1 436,0 a218,218 0 1,1 -436,0"/></defs>
+          <text font-size="19" letter-spacing="4" fill="#51604F" font-weight="600" font-family="'Hanken Grotesk', sans-serif"><textPath href="#ring-path" textLength="1369">15 ORGANIC SUPERFOODS&#160;&#160;·&#160;&#160;NO ADAPTOGENS&#160;&#160;·&#160;&#160;PLANT-POWERED STRENGTH&#160;&#160;·&#160;&#160;BUILT FOR MEN&#160;&#160;·&#160;&#160;</textPath></text>
+        </svg>
+        <span class="logo-card"><svg viewBox="0 0 1254 1254" aria-hidden="true"><defs><radialGradient id="hero-backgroundGradient" cx="50%" cy="47%" r="75%">
+      <stop offset="0%" stop-color="#064929"/>
+      <stop offset="100%" stop-color="#002d1b"/>
+    </radialGradient><linearGradient id="hero-letterGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5fb63b"/>
+      <stop offset="100%" stop-color="#45a72f"/>
+    </linearGradient></defs><g id="hero-background">
+    <rect width="1254" height="1254" fill="url(#hero-backgroundGradient)"/>
+  </g><g id="hero-letter-g">
+    <path d="M 332 233 L 299 265 L 266 304 L 241 340 L 216 384 L 194 435 L 179 483 L 169 531 L 163 583 L 162 635 L 167 694 L 174 732 L 189 784 L 206 826 L 226 865 L 252 905 L 287 948 L 311 973 L 346 1004 L 374 1025 L 421 1054 L 455 1071 L 492 1086 L 538 1100 L 576 1108 L 627 1114 L 685 1114 L 724 1110 L 762 1103 L 803 1092 L 846 1076 L 891 1054 L 918 1037 L 920 1071 L 919 1092 L 1084 1092 L 1084 575 L 819 575 L 814 586 L 825 604 L 828 616 L 828 637 L 822 657 L 828 668 L 834 688 L 836 701 L 835 731 L 918 731 L 920 734 L 919 859 L 887 887 L 861 905 L 835 920 L 801 935 L 777 943 L 752 949 L 708 955 L 696 955 L 696 953 L 691 956 L 669 963 L 623 971 L 620 970 L 648 955 L 660 946 L 674 932 L 656 935 L 632 935 L 625 933 L 644 924 L 658 912 L 634 916 L 597 916 L 577 913 L 542 902 L 523 892 L 507 880 L 492 865 L 481 850 L 470 829 L 465 815 L 461 796 L 460 770 L 462 753 L 466 738 L 453 747 L 437 763 L 424 782 L 422 782 L 424 762 L 431 737 L 447 706 L 464 684 L 442 692 L 424 702 L 407 714 L 390 729 L 379 741 L 378 740 L 387 716 L 404 690 L 430 663 L 444 653 L 436 653 L 402 663 L 385 671 L 382 670 L 390 659 L 404 645 L 424 631 L 408 634 L 383 642 L 360 652 L 338 664 L 318 677 L 298 693 L 276 715 L 266 728 L 265 727 L 272 706 L 281 688 L 295 666 L 311 646 L 333 624 L 353 608 L 374 594 L 398 582 L 385 582 L 366 585 L 352 589 L 350 588 L 358 580 L 375 568 L 404 554 L 388 555 L 366 559 L 322 572 L 275 593 L 256 604 L 240 616 L 238 615 L 252 597 L 265 584 L 284 568 L 307 552 L 336 535 L 370 518 L 420 497 L 387 500 L 384 499 L 416 474 L 452 451 L 429 449 L 410 451 L 394 456 L 393 455 L 405 437 L 423 421 L 407 423 L 387 429 L 366 439 L 351 449 L 348 449 L 352 440 L 361 428 L 379 410 L 393 399 L 416 385 L 448 371 L 468 366 L 445 361 L 425 360 L 426 358 L 438 352 L 455 347 L 461 347 L 451 343 L 430 339 L 399 339 L 376 343 L 373 342 L 392 329 L 410 320 L 439 310 L 466 305 L 502 305 L 520 308 L 538 314 L 529 304 L 513 292 L 498 284 L 496 282 L 497 281 L 510 281 L 532 285 L 551 291 L 581 304 L 617 323 L 637 337 L 651 349 L 671 370 L 693 401 L 710 419 L 751 449 L 773 469 L 785 484 L 791 495 L 792 500 L 793 498 L 1041 342 L 1018 304 L 989 268 L 958 237 L 918 205 L 882 182 L 847 164 L 804 147 L 763 135 L 718 126 L 669 121 L 612 121 L 578 124 L 536 131 L 494 142 L 448 159 L 406 180 L 366 206 Z"
+          fill="url(#hero-letterGradient)"
+          fill-rule="evenodd"/>
+  </g><g id="hero-gorilla-white">
+    <path d="M 663 763 L 655 779 L 668 773 Z M 803 729 L 790 721 L 784 719 L 781 723 L 778 717 L 764 714 L 740 714 L 736 715 L 734 719 L 730 716 L 720 718 L 716 720 L 713 732 L 710 735 L 701 725 L 684 733 L 676 739 L 676 744 L 681 755 L 680 768 L 697 762 L 703 750 L 705 742 L 710 735 L 719 742 L 730 738 L 734 732 L 737 735 L 764 734 L 776 736 L 779 732 L 783 738 L 802 743 Z M 635 528 L 634 530 L 637 531 Z M 589 516 L 596 530 L 604 538 L 614 544 L 624 547 L 639 547 L 650 543 L 644 537 L 638 540 L 629 540 L 625 538 L 618 529 L 626 529 L 620 522 L 622 519 L 617 516 L 609 514 L 596 514 Z M 497 282 L 524 299 L 539 314 L 538 315 L 528 311 L 502 306 L 466 306 L 452 308 L 432 313 L 410 321 L 392 330 L 374 342 L 399 338 L 430 338 L 451 342 L 461 345 L 462 347 L 438 353 L 426 360 L 445 360 L 458 362 L 469 366 L 445 373 L 426 381 L 393 400 L 379 411 L 362 428 L 353 440 L 348 450 L 366 438 L 382 430 L 407 422 L 423 420 L 424 421 L 415 428 L 401 443 L 394 455 L 410 450 L 429 448 L 452 449 L 453 451 L 416 475 L 385 498 L 387 499 L 420 496 L 421 497 L 419 499 L 370 519 L 336 536 L 307 553 L 284 569 L 265 585 L 239 615 L 275 592 L 322 571 L 366 558 L 396 553 L 405 554 L 375 569 L 358 581 L 351 588 L 377 582 L 399 582 L 374 595 L 353 609 L 333 625 L 312 646 L 296 666 L 282 688 L 273 706 L 266 727 L 275 715 L 298 692 L 318 676 L 338 663 L 360 651 L 383 641 L 408 633 L 424 630 L 424 632 L 404 646 L 391 659 L 382 671 L 402 662 L 420 656 L 443 651 L 445 653 L 430 664 L 405 690 L 388 716 L 378 741 L 390 728 L 415 707 L 442 691 L 464 683 L 465 685 L 455 696 L 442 716 L 432 737 L 426 757 L 423 782 L 436 763 L 453 746 L 465 738 L 466 743 L 463 753 L 461 770 L 463 802 L 471 829 L 482 850 L 493 865 L 507 879 L 523 891 L 542 901 L 568 910 L 597 915 L 634 915 L 658 911 L 659 913 L 647 923 L 626 933 L 656 934 L 674 930 L 675 932 L 660 947 L 648 956 L 633 965 L 621 970 L 669 962 L 706 949 L 728 938 L 747 926 L 761 915 L 780 896 L 797 873 L 807 853 L 813 835 L 813 816 L 805 808 L 789 801 L 758 796 L 731 797 L 711 801 L 707 800 L 733 791 L 767 785 L 794 785 L 811 788 L 831 798 L 835 782 L 834 772 L 816 763 L 794 759 L 769 759 L 737 764 L 692 777 L 651 793 L 575 830 L 558 840 L 556 838 L 567 821 L 586 797 L 620 762 L 658 732 L 696 711 L 723 702 L 743 699 L 755 699 L 785 704 L 796 708 L 815 718 L 818 711 L 816 691 L 810 675 L 794 652 L 802 639 L 804 631 L 802 615 L 794 601 L 787 594 L 779 589 L 773 587 L 762 587 L 748 595 L 740 577 L 731 568 L 719 563 L 716 563 L 722 571 L 727 582 L 726 583 L 711 572 L 693 564 L 673 563 L 659 568 L 650 574 L 641 583 L 633 598 L 631 609 L 634 624 L 640 635 L 637 635 L 631 630 L 625 632 L 605 646 L 585 665 L 571 682 L 554 708 L 539 739 L 531 762 L 530 757 L 533 740 L 544 702 L 561 664 L 577 639 L 542 655 L 540 654 L 564 634 L 590 608 L 603 591 L 579 591 L 565 588 L 567 586 L 574 586 L 592 582 L 576 578 L 576 576 L 593 575 L 614 569 L 599 566 L 581 560 L 556 547 L 536 530 L 526 516 L 525 532 L 532 550 L 530 551 L 524 547 L 513 536 L 505 522 L 503 514 L 503 499 L 505 491 L 512 478 L 525 465 L 534 459 L 549 454 L 537 451 L 519 451 L 521 449 L 534 445 L 553 443 L 579 447 L 591 451 L 611 461 L 638 480 L 684 522 L 694 529 L 702 532 L 713 531 L 718 528 L 723 522 L 729 508 L 730 493 L 733 497 L 736 508 L 736 525 L 734 533 L 730 540 L 740 544 L 749 544 L 756 541 L 767 530 L 769 531 L 769 535 L 766 546 L 774 545 L 788 539 L 794 525 L 793 504 L 784 484 L 772 469 L 751 450 L 710 420 L 692 401 L 663 362 L 637 338 L 603 316 L 561 296 L 539 288 L 523 284 Z M 782 611 L 788 616 L 790 620 L 790 630 L 788 636 L 781 644 L 778 638 L 773 643 L 768 652 L 763 641 L 763 627 L 765 621 L 773 612 Z M 677 600 L 686 593 L 698 593 L 714 600 L 725 608 L 740 624 L 747 637 L 750 647 L 748 648 L 735 638 L 723 632 L 713 630 L 718 638 L 716 639 L 691 629 L 680 620 L 676 613 L 675 605 Z"
+          fill="#ffffff"
+          fill-rule="evenodd"/>
+  </g><g id="hero-gorilla-details">
+    <path d="M 831 800 L 824 795 L 809 789 L 788 786 L 755 788 L 715 798 L 735 795 L 765 795 L 783 798 L 796 802 L 807 808 L 815 817 L 816 822 L 816 820 L 823 813 Z M 815 720 L 792 708 L 779 704 L 761 701 L 731 702 L 708 708 L 693 714 L 656 735 L 613 770 L 580 806 L 557 839 L 576 828 L 643 795 L 693 775 L 719 767 L 748 760 L 775 757 L 799 758 L 816 762 L 815 760 L 819 741 L 818 730 Z M 663 761 L 670 773 L 668 775 L 654 780 L 653 779 L 658 771 L 661 762 Z M 805 729 L 803 744 L 784 740 L 780 737 L 779 734 L 776 737 L 737 737 L 735 733 L 731 739 L 720 743 L 717 743 L 711 736 L 707 741 L 704 752 L 699 761 L 696 764 L 680 770 L 678 769 L 680 759 L 678 750 L 674 742 L 675 738 L 683 732 L 699 724 L 702 724 L 710 734 L 715 719 L 718 717 L 731 715 L 734 718 L 735 714 L 744 712 L 768 713 L 778 715 L 781 721 L 783 718 L 794 721 Z M 805 630 L 803 640 L 795 652 L 808 669 L 814 681 L 819 698 L 819 714 L 817 718 L 819 713 L 833 698 L 833 692 L 827 669 L 820 657 L 821 652 Z M 781 612 L 774 613 L 768 619 L 765 625 L 764 638 L 768 650 L 772 642 L 777 637 L 780 638 L 781 642 L 788 632 L 788 619 L 785 614 Z M 679 599 L 677 603 L 677 612 L 680 618 L 687 625 L 697 631 L 716 637 L 711 630 L 712 629 L 724 631 L 736 637 L 748 646 L 745 636 L 737 622 L 718 604 L 708 598 L 696 594 L 687 594 Z M 788 541 L 773 547 L 765 547 L 764 545 L 767 537 L 767 532 L 760 540 L 751 545 L 742 546 L 731 542 L 729 539 L 733 531 L 735 522 L 735 512 L 731 496 L 730 510 L 724 523 L 714 532 L 700 533 L 683 523 L 642 485 L 623 470 L 590 452 L 562 445 L 544 445 L 522 450 L 539 450 L 551 454 L 549 456 L 540 458 L 523 468 L 515 476 L 507 490 L 504 503 L 504 511 L 507 523 L 513 534 L 519 541 L 530 549 L 523 530 L 524 515 L 526 514 L 534 526 L 545 537 L 557 546 L 580 558 L 601 565 L 614 567 L 616 569 L 614 571 L 596 576 L 578 577 L 592 580 L 594 582 L 587 585 L 568 588 L 605 590 L 588 612 L 570 630 L 543 653 L 576 638 L 578 639 L 562 665 L 547 698 L 537 730 L 532 757 L 537 740 L 553 707 L 563 691 L 579 670 L 602 647 L 630 628 L 639 635 L 631 619 L 630 604 L 635 590 L 647 575 L 658 567 L 667 563 L 676 561 L 686 561 L 695 563 L 710 570 L 725 581 L 715 563 L 717 561 L 730 566 L 740 575 L 747 587 L 749 594 L 758 587 L 765 585 L 773 586 L 772 572 L 785 561 L 788 554 Z M 633 528 L 635 527 L 639 531 L 635 533 L 633 531 Z M 587 516 L 589 514 L 599 512 L 616 514 L 623 518 L 621 521 L 627 528 L 626 530 L 620 529 L 624 536 L 634 539 L 644 535 L 651 544 L 642 548 L 635 549 L 621 548 L 615 546 L 606 541 L 597 533 Z"
+          fill="#111111"
+          fill-rule="evenodd"/>
+  </g></svg></span>
+      </div>
+    </div>
+  </section>
+
+  <div class="stats">
+    <div class="wrap">
+      <div class="stat"><b>60</b><span>Gummies</span></div>
+      <div class="stat"><b>30</b><span>Day supply</span></div>
+      <div class="stat"><b>15</b><span>Superfoods</span></div>
+      <div class="stat"><b>20</b><span>Cal per serving</span></div>
+    </div>
+  </div>
+
+  <div class="badgerow">
+    <div class="wrap"><ul><li>Non-GMO</li><li>Vegan</li><li>Gluten-free</li><li>No adaptogens</li><li>FDA-compliant manufacturing</li><li>Made in USA</li></ul></div>
+  </div>
+
+  <section id="why">
+    <div class="wrap split">
+      <div class="sticky reveal">
+        <p class="eyebrow">Why Gorilla Greens</p>
+        <h2>The strongest primate on Earth doesn't do powders.</h2>
+        <p class="sub">Most greens supplements are either a 40-ingredient mystery blend or a chalky shake you have to choke down. We took a different approach: 15 organic, real-food ingredients in a gummy — and a hard no to everything else.</p>
+        <blockquote class="pullquote">"If we wouldn't take it ourselves, we won't sell it to you."<footer>— The Gorilla Greens team</footer></blockquote>
+      </div>
+      <div class="inout reveal">
+        <div class="in-col">
+          <h3>What's in</h3>
+          <ul>
+            <li><b>15 organic superfoods</b>Kale, spinach, broccoli, elderberry, spirulina and more — food you can pronounce.</li>
+            <li><b>B-vitamins from real sources</b>Riboflavin, niacin, B6, folate and pantothenic acid in every serving.</li>
+            <li><b>A flavor you'll actually crave</b>Strawberry-watermelon, refined over months. Zero grass clippings.</li>
+            <li><b>Clean credentials</b>Non-GMO, vegan, gluten-free, made in the USA.</li>
+          </ul>
+        </div>
+        <div class="out-col">
+          <h3>What's out</h3>
+          <ul>
+            <li><b>Adaptogens</b>Can interfere with common medications. If it argues with your prescriptions, it stays out.</li><li><b>Astragalus</b>May trigger autoimmune responses in some people. Not worth the risk.</li><li><b>Ashwagandha</b>Can affect thyroid hormone levels, with potential liver concerns in long-term use.</li><li><b>Mystery blends</b>Concentrated herbal extracts with limited long-term research. If we can't explain it, we don't sell it.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="benefits" class="tint">
+    <div class="wrap">
+      <p class="eyebrow reveal">How it works</p>
+      <h2 class="reveal">Two gummies. That's the whole protocol.</h2>
+      <div class="steps">
+        <div class="step reveal"><span class="num">1</span><h3>Take two gummies daily</h3><p>With breakfast, with pre-workout, or on the way out the door. No shaker bottle, no cleanup, no excuses.</p></div>
+        <div class="step reveal"><span class="num">2</span><h3>15 superfoods go to work</h3><p>Organic kale, spinach, broccoli, elderberry and more absorb into your system.</p></div>
+        <div class="step reveal"><span class="num">3</span><h3>Feel the difference</h3><p>More energy in the gym, stronger immunity, and a gut that actually digests what you feed it.</p></div>
+      </div>
+      <div class="steps" style="margin-top:44px">
+        <div class="step reveal"><span class="cat">Immune health</span><h3>Defense, year-round</h3><p>Elderberry, spinach, and vitamin-rich greens support your body's natural defenses all year round, so you can keep showing up.</p></div>
+        <div class="step reveal"><span class="cat">Gut &amp; absorption</span><h3>Digest what you eat</h3><p>A healthy gut is the foundation of everything. Organic vegetables support digestive balance and nutrient absorption — food only counts if you absorb it.</p></div>
+        <div class="step reveal"><span class="cat">All-day energy</span><h3>No caffeine crash</h3><p>B-vitamins and natural plant energy deliver sustained vitality from morning lift to evening wind-down.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap center">
+      <p class="eyebrow reveal">Strawberry-watermelon</p>
+      <h2 class="reveal" style="margin-left:auto;margin-right:auto">Tastes like a <em>cheat.</em> Works like a stack.</h2>
+      <p class="sub reveal" style="margin:0 auto">Let's be honest — most greens supplements taste like lawn clippings. We spent months perfecting a strawberry-watermelon flavor you'll actually look forward to. No weird aftertaste. No holding your nose. Just a delicious gummy that happens to be packed with 15 organic superfoods.</p>
+      <div class="flavor-chips reveal">
+        <span class="fchip melon">Strawberry</span><span class="fchip melon">Watermelon</span><span class="fchip">Natural flavors only</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="ingredients">
+    <div class="wrap">
+      <p class="eyebrow reveal">What's inside</p>
+      <h2 class="reveal">15 organic superfoods. Zero fine print.</h2>
+      <p class="sub reveal">Real ingredients you can recognize and pronounce. No fillers, no artificial colors, no mysterious blends.</p>
+      <div class="facts-flex">
+        <div class="reveal">
+          <ul class="ing-list"><li><span class="idx">01</span>Organic Kale</li><li><span class="idx">02</span>Organic Broccoli</li><li><span class="idx">03</span>Organic Spinach</li><li><span class="idx">04</span>Organic Beet Root</li><li><span class="idx">05</span>Organic Carrot</li><li><span class="idx">06</span>Wild Blueberry</li><li><span class="idx">07</span>Elderberry</li><li><span class="idx">08</span>Organic Pomegranate</li><li><span class="idx">09</span>Goji Juice</li><li><span class="idx">10</span>Acai Berry</li><li><span class="idx">11</span>Organic Guava</li><li><span class="idx">12</span>Organic Mango</li><li><span class="idx">13</span>Organic Spirulina</li><li><span class="idx">14</span>Organic Noni</li><li><span class="idx">15</span>Lemon Extract</li></ul>
+          <p class="also"><b>Also contains:</b> Tapioca Syrup, Sugar, Pectin, Citric Acid, Orange Juice Concentrate, Sodium Citrate, Natural Flavor (Strawberry, Watermelon), Palm Oil, Carnauba Wax, Color Added (Purple Carrot Juice Concentrate), Stevioside.</p>
+        </div>
+        <aside class="factlabel reveal" aria-label="Supplement facts">
+          <h3>Supplement Facts</h3>
+          <p class="serv">Serving Size: 2 Gummies &nbsp;|&nbsp; Servings Per Container: 30</p>
+          <table>
+            <tr><td>Calories &nbsp;<b>20</b></td><td></td></tr><tr><td>Total Carbohydrate &nbsp;<b>5 g</b></td><td>2%</td></tr><tr><td>Total Sugars &nbsp;<b>3 g</b></td><td>2%</td></tr><tr><td>Added Sugars &nbsp;<b>3 g</b></td><td>6%</td></tr><tr><td>Riboflavin &nbsp;<b>0.8 mg</b></td><td>62%</td></tr><tr><td>Niacin &nbsp;<b>1.4 mg NE</b></td><td>9%</td></tr><tr><td>Vitamin B6 &nbsp;<b>0.9 mg</b></td><td>53%</td></tr><tr><td>Folate &nbsp;<b>50 mcg DFE</b></td><td>53%</td></tr><tr><td>Pantothenic Acid &nbsp;<b>0.9 mg</b></td><td>18%</td></tr><tr><td>Sodium &nbsp;<b>15 mg</b></td><td>&lt;1%</td></tr><tr><td>Organic Super Greens Blend &nbsp;<b>170 mg</b></td><td>&lt;1%*</td></tr>
+          </table>
+          <p class="blend"><b>*Organic Super Greens Blend contains:</b> Kale Leaf, Broccoli Stalk &amp; Flower, Beet Root, Guava Extract, Spinach Leaf, Lemon Extract, Carrot Root, Wild Blueberry, Mango Extract, Pomegranate Fruit, Goji Juice, Spirulina, Noni Fruit, Acai Berry, Elderberry</p>
+          <p class="dv">Percent Daily Values are based on a 2,000 calorie diet. *Daily Value not established.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" class="tint center">
+    <div class="wrap">
+      <p class="eyebrow reveal">Simple pricing</p>
+      <h2 class="reveal" style="margin-left:auto;margin-right:auto">Pick your plan. Start today.</h2>
+      <div class="price-grid reveal">
+        <div class="price-card">
+          <span class="plan-tag">One-time · No commitment</span>
+          <h3>Single pouch</h3>
+          <p class="pdesc">Try it out, no strings attached.</p>
+          <div class="price"><span class="now">$39.49</span><span class="was">$54.99</span></div>
+          <p class="per">60 gummies · ≈ $0.66 per gummy</p>
+          <p class="savings">Save 28% — that's $15.50 off</p>
+          <ul class="plist">
+            <li>60 gummies (30-day supply)</li>
+            <li>Free shipping</li>
+            <li>30-day money-back guarantee</li>
+          </ul>
+          <button class="btn" type="button" data-soon style="background:transparent;color:var(--forest);border:1.5px solid var(--forest)">Add to cart</button>
+        </div>
+        <div class="price-card featured">
+          <span class="plan-tag">Subscribe &amp; save · Best value</span>
+          <h3>Monthly delivery</h3>
+          <p class="pdesc">A fresh pouch every 30 days. Cancel anytime.</p>
+          <div class="price"><span class="now">$33.99</span><span class="was">$54.99</span></div>
+          <p class="per">60 gummies · ≈ $0.57 per gummy</p>
+          <p class="savings">Save 38% — that's $21.00 off, every month</p>
+          <ul class="plist">
+            <li>60 gummies (30-day supply)</li>
+            <li>Free shipping, always</li>
+            <li>Pause, skip, or cancel anytime</li>
+          </ul>
+          <button class="btn on-dark" type="button" data-soon>Subscribe &amp; save</button>
+        </div>
+      </div>
+      <p class="trust-row reveal">Free shipping on all orders &nbsp;·&nbsp; Cancel anytime &nbsp;·&nbsp; 100% satisfaction guaranteed</p>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <h2 class="center reveal" style="margin-left:auto;margin-right:auto">Questions, answered.</h2>
+      <div class="faq-list">
+        <details class="reveal"><summary>What makes Gorilla Greens different from other greens supplements?</summary><div class="a">Unlike most super greens on the market, Gorilla Greens contains no adaptogens, astragalus, or ashwagandha — ingredients that can interfere with medications or come with hormonal question marks. We focus on 15 organic, real-food ingredients in a gummy you'll actually take every day.</div></details><details class="reveal"><summary>Can I take these with my meds or the rest of my stack?</summary><div class="a">That's exactly why we built the formula this way. We excluded adaptogens that can interfere with common medications, as well as herbs with limited long-term safety data — what's left is real food. As with any supplement, check with your doctor, especially if you take prescription medication. (And yes — the formula is clean enough that the rest of your household can steal them.)</div></details><details class="reveal"><summary>How should I take Gorilla Greens?</summary><div class="a">Take two (2) gummies daily. With or without food, any time of day. Most guys pair them with a morning routine or pre-workout so they never miss a day — consistency is the whole game.</div></details><details class="reveal"><summary>What do they taste like?</summary><div class="a">Strawberry-watermelon, and we spent months getting it right. No grassy aftertaste, no bracing yourself. A treat that happens to be good for you.</div></details><details class="reveal"><summary>How does the subscription work?</summary><div class="a">Subscribe and every pouch is $33.99 — 38% off the $54.99 list price. We ship a fresh pouch every 30 days so you never run out. Pause, skip, or cancel anytime — no questions asked, no hoops.</div></details><details class="reveal"><summary>Is there a money-back guarantee?</summary><div class="a">Absolutely. 30-day money-back guarantee: if you're not completely satisfied for any reason, contact us and we'll issue a full refund — no questions asked.</div></details><details class="reveal"><summary>Are the ingredients really organic?</summary><div class="a">Yes. Our Organic Super Greens Blend contains certified organic ingredients including kale, broccoli, spinach, beet root, carrot, spirulina, and more. The formula is also Non-GMO, vegan, and gluten-free.</div></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="final band">
+    <svg class="ape-mark" viewBox="191 234 692 784" aria-hidden="true"><g id="cta-gorilla-white">
+    <path d="M 663 763 L 655 779 L 668 773 Z M 803 729 L 790 721 L 784 719 L 781 723 L 778 717 L 764 714 L 740 714 L 736 715 L 734 719 L 730 716 L 720 718 L 716 720 L 713 732 L 710 735 L 701 725 L 684 733 L 676 739 L 676 744 L 681 755 L 680 768 L 697 762 L 703 750 L 705 742 L 710 735 L 719 742 L 730 738 L 734 732 L 737 735 L 764 734 L 776 736 L 779 732 L 783 738 L 802 743 Z M 635 528 L 634 530 L 637 531 Z M 589 516 L 596 530 L 604 538 L 614 544 L 624 547 L 639 547 L 650 543 L 644 537 L 638 540 L 629 540 L 625 538 L 618 529 L 626 529 L 620 522 L 622 519 L 617 516 L 609 514 L 596 514 Z M 497 282 L 524 299 L 539 314 L 538 315 L 528 311 L 502 306 L 466 306 L 452 308 L 432 313 L 410 321 L 392 330 L 374 342 L 399 338 L 430 338 L 451 342 L 461 345 L 462 347 L 438 353 L 426 360 L 445 360 L 458 362 L 469 366 L 445 373 L 426 381 L 393 400 L 379 411 L 362 428 L 353 440 L 348 450 L 366 438 L 382 430 L 407 422 L 423 420 L 424 421 L 415 428 L 401 443 L 394 455 L 410 450 L 429 448 L 452 449 L 453 451 L 416 475 L 385 498 L 387 499 L 420 496 L 421 497 L 419 499 L 370 519 L 336 536 L 307 553 L 284 569 L 265 585 L 239 615 L 275 592 L 322 571 L 366 558 L 396 553 L 405 554 L 375 569 L 358 581 L 351 588 L 377 582 L 399 582 L 374 595 L 353 609 L 333 625 L 312 646 L 296 666 L 282 688 L 273 706 L 266 727 L 275 715 L 298 692 L 318 676 L 338 663 L 360 651 L 383 641 L 408 633 L 424 630 L 424 632 L 404 646 L 391 659 L 382 671 L 402 662 L 420 656 L 443 651 L 445 653 L 430 664 L 405 690 L 388 716 L 378 741 L 390 728 L 415 707 L 442 691 L 464 683 L 465 685 L 455 696 L 442 716 L 432 737 L 426 757 L 423 782 L 436 763 L 453 746 L 465 738 L 466 743 L 463 753 L 461 770 L 463 802 L 471 829 L 482 850 L 493 865 L 507 879 L 523 891 L 542 901 L 568 910 L 597 915 L 634 915 L 658 911 L 659 913 L 647 923 L 626 933 L 656 934 L 674 930 L 675 932 L 660 947 L 648 956 L 633 965 L 621 970 L 669 962 L 706 949 L 728 938 L 747 926 L 761 915 L 780 896 L 797 873 L 807 853 L 813 835 L 813 816 L 805 808 L 789 801 L 758 796 L 731 797 L 711 801 L 707 800 L 733 791 L 767 785 L 794 785 L 811 788 L 831 798 L 835 782 L 834 772 L 816 763 L 794 759 L 769 759 L 737 764 L 692 777 L 651 793 L 575 830 L 558 840 L 556 838 L 567 821 L 586 797 L 620 762 L 658 732 L 696 711 L 723 702 L 743 699 L 755 699 L 785 704 L 796 708 L 815 718 L 818 711 L 816 691 L 810 675 L 794 652 L 802 639 L 804 631 L 802 615 L 794 601 L 787 594 L 779 589 L 773 587 L 762 587 L 748 595 L 740 577 L 731 568 L 719 563 L 716 563 L 722 571 L 727 582 L 726 583 L 711 572 L 693 564 L 673 563 L 659 568 L 650 574 L 641 583 L 633 598 L 631 609 L 634 624 L 640 635 L 637 635 L 631 630 L 625 632 L 605 646 L 585 665 L 571 682 L 554 708 L 539 739 L 531 762 L 530 757 L 533 740 L 544 702 L 561 664 L 577 639 L 542 655 L 540 654 L 564 634 L 590 608 L 603 591 L 579 591 L 565 588 L 567 586 L 574 586 L 592 582 L 576 578 L 576 576 L 593 575 L 614 569 L 599 566 L 581 560 L 556 547 L 536 530 L 526 516 L 525 532 L 532 550 L 530 551 L 524 547 L 513 536 L 505 522 L 503 514 L 503 499 L 505 491 L 512 478 L 525 465 L 534 459 L 549 454 L 537 451 L 519 451 L 521 449 L 534 445 L 553 443 L 579 447 L 591 451 L 611 461 L 638 480 L 684 522 L 694 529 L 702 532 L 713 531 L 718 528 L 723 522 L 729 508 L 730 493 L 733 497 L 736 508 L 736 525 L 734 533 L 730 540 L 740 544 L 749 544 L 756 541 L 767 530 L 769 531 L 769 535 L 766 546 L 774 545 L 788 539 L 794 525 L 793 504 L 784 484 L 772 469 L 751 450 L 710 420 L 692 401 L 663 362 L 637 338 L 603 316 L 561 296 L 539 288 L 523 284 Z M 782 611 L 788 616 L 790 620 L 790 630 L 788 636 L 781 644 L 778 638 L 773 643 L 768 652 L 763 641 L 763 627 L 765 621 L 773 612 Z M 677 600 L 686 593 L 698 593 L 714 600 L 725 608 L 740 624 L 747 637 L 750 647 L 748 648 L 735 638 L 723 632 L 713 630 L 718 638 L 716 639 L 691 629 L 680 620 L 676 613 L 675 605 Z"
+          fill="#ffffff"
+          fill-rule="evenodd"/>
+  </g><g id="cta-gorilla-details">
+    <path d="M 831 800 L 824 795 L 809 789 L 788 786 L 755 788 L 715 798 L 735 795 L 765 795 L 783 798 L 796 802 L 807 808 L 815 817 L 816 822 L 816 820 L 823 813 Z M 815 720 L 792 708 L 779 704 L 761 701 L 731 702 L 708 708 L 693 714 L 656 735 L 613 770 L 580 806 L 557 839 L 576 828 L 643 795 L 693 775 L 719 767 L 748 760 L 775 757 L 799 758 L 816 762 L 815 760 L 819 741 L 818 730 Z M 663 761 L 670 773 L 668 775 L 654 780 L 653 779 L 658 771 L 661 762 Z M 805 729 L 803 744 L 784 740 L 780 737 L 779 734 L 776 737 L 737 737 L 735 733 L 731 739 L 720 743 L 717 743 L 711 736 L 707 741 L 704 752 L 699 761 L 696 764 L 680 770 L 678 769 L 680 759 L 678 750 L 674 742 L 675 738 L 683 732 L 699 724 L 702 724 L 710 734 L 715 719 L 718 717 L 731 715 L 734 718 L 735 714 L 744 712 L 768 713 L 778 715 L 781 721 L 783 718 L 794 721 Z M 805 630 L 803 640 L 795 652 L 808 669 L 814 681 L 819 698 L 819 714 L 817 718 L 819 713 L 833 698 L 833 692 L 827 669 L 820 657 L 821 652 Z M 781 612 L 774 613 L 768 619 L 765 625 L 764 638 L 768 650 L 772 642 L 777 637 L 780 638 L 781 642 L 788 632 L 788 619 L 785 614 Z M 679 599 L 677 603 L 677 612 L 680 618 L 687 625 L 697 631 L 716 637 L 711 630 L 712 629 L 724 631 L 736 637 L 748 646 L 745 636 L 737 622 L 718 604 L 708 598 L 696 594 L 687 594 Z M 788 541 L 773 547 L 765 547 L 764 545 L 767 537 L 767 532 L 760 540 L 751 545 L 742 546 L 731 542 L 729 539 L 733 531 L 735 522 L 735 512 L 731 496 L 730 510 L 724 523 L 714 532 L 700 533 L 683 523 L 642 485 L 623 470 L 590 452 L 562 445 L 544 445 L 522 450 L 539 450 L 551 454 L 549 456 L 540 458 L 523 468 L 515 476 L 507 490 L 504 503 L 504 511 L 507 523 L 513 534 L 519 541 L 530 549 L 523 530 L 524 515 L 526 514 L 534 526 L 545 537 L 557 546 L 580 558 L 601 565 L 614 567 L 616 569 L 614 571 L 596 576 L 578 577 L 592 580 L 594 582 L 587 585 L 568 588 L 605 590 L 588 612 L 570 630 L 543 653 L 576 638 L 578 639 L 562 665 L 547 698 L 537 730 L 532 757 L 537 740 L 553 707 L 563 691 L 579 670 L 602 647 L 630 628 L 639 635 L 631 619 L 630 604 L 635 590 L 647 575 L 658 567 L 667 563 L 676 561 L 686 561 L 695 563 L 710 570 L 725 581 L 715 563 L 717 561 L 730 566 L 740 575 L 747 587 L 749 594 L 758 587 L 765 585 L 773 586 L 772 572 L 785 561 L 788 554 Z M 633 528 L 635 527 L 639 531 L 635 533 L 633 531 Z M 587 516 L 589 514 L 599 512 L 616 514 L 623 518 L 621 521 L 627 528 L 626 530 L 620 529 L 624 536 L 634 539 L 644 535 L 651 544 L 642 548 L 635 549 L 621 548 L 615 546 L 606 541 L 597 533 Z"
+          fill="#111111"
+          fill-rule="evenodd"/>
+  </g></svg>
+    <div class="wrap">
+      <h2 class="reveal">Go full silverback.</h2>
+      <p class="sub reveal">15 organic superfoods. Two gummies a day. Zero excuses.</p>
+      <a class="btn on-dark reveal" href="#pricing">Subscribe &amp; save 38%<span class="arr" aria-hidden="true">→</span></a>
+      <p class="guarantee reveal">30-day money-back guarantee · Free shipping on all orders</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="tile"><svg viewBox="0 0 1254 1254" aria-hidden="true"><defs><radialGradient id="foot-backgroundGradient" cx="50%" cy="47%" r="75%">
+      <stop offset="0%" stop-color="#064929"/>
+      <stop offset="100%" stop-color="#002d1b"/>
+    </radialGradient><linearGradient id="foot-letterGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5fb63b"/>
+      <stop offset="100%" stop-color="#45a72f"/>
+    </linearGradient></defs><g id="foot-background">
+    <rect width="1254" height="1254" fill="url(#foot-backgroundGradient)"/>
+  </g><g id="foot-letter-g">
+    <path d="M 332 233 L 299 265 L 266 304 L 241 340 L 216 384 L 194 435 L 179 483 L 169 531 L 163 583 L 162 635 L 167 694 L 174 732 L 189 784 L 206 826 L 226 865 L 252 905 L 287 948 L 311 973 L 346 1004 L 374 1025 L 421 1054 L 455 1071 L 492 1086 L 538 1100 L 576 1108 L 627 1114 L 685 1114 L 724 1110 L 762 1103 L 803 1092 L 846 1076 L 891 1054 L 918 1037 L 920 1071 L 919 1092 L 1084 1092 L 1084 575 L 819 575 L 814 586 L 825 604 L 828 616 L 828 637 L 822 657 L 828 668 L 834 688 L 836 701 L 835 731 L 918 731 L 920 734 L 919 859 L 887 887 L 861 905 L 835 920 L 801 935 L 777 943 L 752 949 L 708 955 L 696 955 L 696 953 L 691 956 L 669 963 L 623 971 L 620 970 L 648 955 L 660 946 L 674 932 L 656 935 L 632 935 L 625 933 L 644 924 L 658 912 L 634 916 L 597 916 L 577 913 L 542 902 L 523 892 L 507 880 L 492 865 L 481 850 L 470 829 L 465 815 L 461 796 L 460 770 L 462 753 L 466 738 L 453 747 L 437 763 L 424 782 L 422 782 L 424 762 L 431 737 L 447 706 L 464 684 L 442 692 L 424 702 L 407 714 L 390 729 L 379 741 L 378 740 L 387 716 L 404 690 L 430 663 L 444 653 L 436 653 L 402 663 L 385 671 L 382 670 L 390 659 L 404 645 L 424 631 L 408 634 L 383 642 L 360 652 L 338 664 L 318 677 L 298 693 L 276 715 L 266 728 L 265 727 L 272 706 L 281 688 L 295 666 L 311 646 L 333 624 L 353 608 L 374 594 L 398 582 L 385 582 L 366 585 L 352 589 L 350 588 L 358 580 L 375 568 L 404 554 L 388 555 L 366 559 L 322 572 L 275 593 L 256 604 L 240 616 L 238 615 L 252 597 L 265 584 L 284 568 L 307 552 L 336 535 L 370 518 L 420 497 L 387 500 L 384 499 L 416 474 L 452 451 L 429 449 L 410 451 L 394 456 L 393 455 L 405 437 L 423 421 L 407 423 L 387 429 L 366 439 L 351 449 L 348 449 L 352 440 L 361 428 L 379 410 L 393 399 L 416 385 L 448 371 L 468 366 L 445 361 L 425 360 L 426 358 L 438 352 L 455 347 L 461 347 L 451 343 L 430 339 L 399 339 L 376 343 L 373 342 L 392 329 L 410 320 L 439 310 L 466 305 L 502 305 L 520 308 L 538 314 L 529 304 L 513 292 L 498 284 L 496 282 L 497 281 L 510 281 L 532 285 L 551 291 L 581 304 L 617 323 L 637 337 L 651 349 L 671 370 L 693 401 L 710 419 L 751 449 L 773 469 L 785 484 L 791 495 L 792 500 L 793 498 L 1041 342 L 1018 304 L 989 268 L 958 237 L 918 205 L 882 182 L 847 164 L 804 147 L 763 135 L 718 126 L 669 121 L 612 121 L 578 124 L 536 131 L 494 142 L 448 159 L 406 180 L 366 206 Z"
+          fill="url(#foot-letterGradient)"
+          fill-rule="evenodd"/>
+  </g><g id="foot-gorilla-white">
+    <path d="M 663 763 L 655 779 L 668 773 Z M 803 729 L 790 721 L 784 719 L 781 723 L 778 717 L 764 714 L 740 714 L 736 715 L 734 719 L 730 716 L 720 718 L 716 720 L 713 732 L 710 735 L 701 725 L 684 733 L 676 739 L 676 744 L 681 755 L 680 768 L 697 762 L 703 750 L 705 742 L 710 735 L 719 742 L 730 738 L 734 732 L 737 735 L 764 734 L 776 736 L 779 732 L 783 738 L 802 743 Z M 635 528 L 634 530 L 637 531 Z M 589 516 L 596 530 L 604 538 L 614 544 L 624 547 L 639 547 L 650 543 L 644 537 L 638 540 L 629 540 L 625 538 L 618 529 L 626 529 L 620 522 L 622 519 L 617 516 L 609 514 L 596 514 Z M 497 282 L 524 299 L 539 314 L 538 315 L 528 311 L 502 306 L 466 306 L 452 308 L 432 313 L 410 321 L 392 330 L 374 342 L 399 338 L 430 338 L 451 342 L 461 345 L 462 347 L 438 353 L 426 360 L 445 360 L 458 362 L 469 366 L 445 373 L 426 381 L 393 400 L 379 411 L 362 428 L 353 440 L 348 450 L 366 438 L 382 430 L 407 422 L 423 420 L 424 421 L 415 428 L 401 443 L 394 455 L 410 450 L 429 448 L 452 449 L 453 451 L 416 475 L 385 498 L 387 499 L 420 496 L 421 497 L 419 499 L 370 519 L 336 536 L 307 553 L 284 569 L 265 585 L 239 615 L 275 592 L 322 571 L 366 558 L 396 553 L 405 554 L 375 569 L 358 581 L 351 588 L 377 582 L 399 582 L 374 595 L 353 609 L 333 625 L 312 646 L 296 666 L 282 688 L 273 706 L 266 727 L 275 715 L 298 692 L 318 676 L 338 663 L 360 651 L 383 641 L 408 633 L 424 630 L 424 632 L 404 646 L 391 659 L 382 671 L 402 662 L 420 656 L 443 651 L 445 653 L 430 664 L 405 690 L 388 716 L 378 741 L 390 728 L 415 707 L 442 691 L 464 683 L 465 685 L 455 696 L 442 716 L 432 737 L 426 757 L 423 782 L 436 763 L 453 746 L 465 738 L 466 743 L 463 753 L 461 770 L 463 802 L 471 829 L 482 850 L 493 865 L 507 879 L 523 891 L 542 901 L 568 910 L 597 915 L 634 915 L 658 911 L 659 913 L 647 923 L 626 933 L 656 934 L 674 930 L 675 932 L 660 947 L 648 956 L 633 965 L 621 970 L 669 962 L 706 949 L 728 938 L 747 926 L 761 915 L 780 896 L 797 873 L 807 853 L 813 835 L 813 816 L 805 808 L 789 801 L 758 796 L 731 797 L 711 801 L 707 800 L 733 791 L 767 785 L 794 785 L 811 788 L 831 798 L 835 782 L 834 772 L 816 763 L 794 759 L 769 759 L 737 764 L 692 777 L 651 793 L 575 830 L 558 840 L 556 838 L 567 821 L 586 797 L 620 762 L 658 732 L 696 711 L 723 702 L 743 699 L 755 699 L 785 704 L 796 708 L 815 718 L 818 711 L 816 691 L 810 675 L 794 652 L 802 639 L 804 631 L 802 615 L 794 601 L 787 594 L 779 589 L 773 587 L 762 587 L 748 595 L 740 577 L 731 568 L 719 563 L 716 563 L 722 571 L 727 582 L 726 583 L 711 572 L 693 564 L 673 563 L 659 568 L 650 574 L 641 583 L 633 598 L 631 609 L 634 624 L 640 635 L 637 635 L 631 630 L 625 632 L 605 646 L 585 665 L 571 682 L 554 708 L 539 739 L 531 762 L 530 757 L 533 740 L 544 702 L 561 664 L 577 639 L 542 655 L 540 654 L 564 634 L 590 608 L 603 591 L 579 591 L 565 588 L 567 586 L 574 586 L 592 582 L 576 578 L 576 576 L 593 575 L 614 569 L 599 566 L 581 560 L 556 547 L 536 530 L 526 516 L 525 532 L 532 550 L 530 551 L 524 547 L 513 536 L 505 522 L 503 514 L 503 499 L 505 491 L 512 478 L 525 465 L 534 459 L 549 454 L 537 451 L 519 451 L 521 449 L 534 445 L 553 443 L 579 447 L 591 451 L 611 461 L 638 480 L 684 522 L 694 529 L 702 532 L 713 531 L 718 528 L 723 522 L 729 508 L 730 493 L 733 497 L 736 508 L 736 525 L 734 533 L 730 540 L 740 544 L 749 544 L 756 541 L 767 530 L 769 531 L 769 535 L 766 546 L 774 545 L 788 539 L 794 525 L 793 504 L 784 484 L 772 469 L 751 450 L 710 420 L 692 401 L 663 362 L 637 338 L 603 316 L 561 296 L 539 288 L 523 284 Z M 782 611 L 788 616 L 790 620 L 790 630 L 788 636 L 781 644 L 778 638 L 773 643 L 768 652 L 763 641 L 763 627 L 765 621 L 773 612 Z M 677 600 L 686 593 L 698 593 L 714 600 L 725 608 L 740 624 L 747 637 L 750 647 L 748 648 L 735 638 L 723 632 L 713 630 L 718 638 L 716 639 L 691 629 L 680 620 L 676 613 L 675 605 Z"
+          fill="#ffffff"
+          fill-rule="evenodd"/>
+  </g><g id="foot-gorilla-details">
+    <path d="M 831 800 L 824 795 L 809 789 L 788 786 L 755 788 L 715 798 L 735 795 L 765 795 L 783 798 L 796 802 L 807 808 L 815 817 L 816 822 L 816 820 L 823 813 Z M 815 720 L 792 708 L 779 704 L 761 701 L 731 702 L 708 708 L 693 714 L 656 735 L 613 770 L 580 806 L 557 839 L 576 828 L 643 795 L 693 775 L 719 767 L 748 760 L 775 757 L 799 758 L 816 762 L 815 760 L 819 741 L 818 730 Z M 663 761 L 670 773 L 668 775 L 654 780 L 653 779 L 658 771 L 661 762 Z M 805 729 L 803 744 L 784 740 L 780 737 L 779 734 L 776 737 L 737 737 L 735 733 L 731 739 L 720 743 L 717 743 L 711 736 L 707 741 L 704 752 L 699 761 L 696 764 L 680 770 L 678 769 L 680 759 L 678 750 L 674 742 L 675 738 L 683 732 L 699 724 L 702 724 L 710 734 L 715 719 L 718 717 L 731 715 L 734 718 L 735 714 L 744 712 L 768 713 L 778 715 L 781 721 L 783 718 L 794 721 Z M 805 630 L 803 640 L 795 652 L 808 669 L 814 681 L 819 698 L 819 714 L 817 718 L 819 713 L 833 698 L 833 692 L 827 669 L 820 657 L 821 652 Z M 781 612 L 774 613 L 768 619 L 765 625 L 764 638 L 768 650 L 772 642 L 777 637 L 780 638 L 781 642 L 788 632 L 788 619 L 785 614 Z M 679 599 L 677 603 L 677 612 L 680 618 L 687 625 L 697 631 L 716 637 L 711 630 L 712 629 L 724 631 L 736 637 L 748 646 L 745 636 L 737 622 L 718 604 L 708 598 L 696 594 L 687 594 Z M 788 541 L 773 547 L 765 547 L 764 545 L 767 537 L 767 532 L 760 540 L 751 545 L 742 546 L 731 542 L 729 539 L 733 531 L 735 522 L 735 512 L 731 496 L 730 510 L 724 523 L 714 532 L 700 533 L 683 523 L 642 485 L 623 470 L 590 452 L 562 445 L 544 445 L 522 450 L 539 450 L 551 454 L 549 456 L 540 458 L 523 468 L 515 476 L 507 490 L 504 503 L 504 511 L 507 523 L 513 534 L 519 541 L 530 549 L 523 530 L 524 515 L 526 514 L 534 526 L 545 537 L 557 546 L 580 558 L 601 565 L 614 567 L 616 569 L 614 571 L 596 576 L 578 577 L 592 580 L 594 582 L 587 585 L 568 588 L 605 590 L 588 612 L 570 630 L 543 653 L 576 638 L 578 639 L 562 665 L 547 698 L 537 730 L 532 757 L 537 740 L 553 707 L 563 691 L 579 670 L 602 647 L 630 628 L 639 635 L 631 619 L 630 604 L 635 590 L 647 575 L 658 567 L 667 563 L 676 561 L 686 561 L 695 563 L 710 570 L 725 581 L 715 563 L 717 561 L 730 566 L 740 575 L 747 587 L 749 594 L 758 587 L 765 585 L 773 586 L 772 572 L 785 561 L 788 554 Z M 633 528 L 635 527 L 639 531 L 635 533 L 633 531 Z M 587 516 L 589 514 L 599 512 L 616 514 L 623 518 L 621 521 L 627 528 L 626 530 L 620 529 L 624 536 L 634 539 L 644 535 L 651 544 L 642 548 L 635 549 L 621 548 L 615 546 L 606 541 L 597 533 Z"
+          fill="#111111"
+          fill-rule="evenodd"/>
+  </g></svg></span>
+        <p><b>Gorilla Greens</b> — super greens gummies built for men who train. 15 organic ingredients, zero adaptogens, 100% delicious.</p>
+        <p class="dist">Distributed by Healthy Beauty for You</p>
+      </div>
+      <div>
+        <h3>Shop</h3>
+        <ul><li><a href="#pricing">Buy now</a></li><li><a href="#pricing">Subscribe &amp; save</a></li><li><a href="#faq">Contact</a></li></ul>
+      </div>
+      <div>
+        <h3>Learn</h3>
+        <ul><li><a href="#why">Our story</a></li><li><a href="#ingredients">Ingredients</a></li><li><a href="#faq">FAQ</a></li></ul>
+      </div>
+      <div>
+        <h3>Legal</h3>
+        <ul class="plain"><li>Privacy Policy</li><li>Terms of Service</li><li>Refund Policy</li><li>Shipping Policy</li></ul>
+      </div>
+    </div>
+    <div class="legal">
+      <p>Gorilla Greens Super Greens Gummies are manufactured in an FDA-registered facility, in compliance with FDA regulations and standards for dietary supplements. We maintain the highest quality and safety standards throughout our manufacturing process.</p>
+      <p>These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>
+      <p>© 2026 Gorilla Greens. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var btn = document.getElementById('menuBtn');
+  var links = document.getElementById('navlinks');
+  btn.addEventListener('click', function () {
+    var open = links.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  links.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A') { links.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
+  });
+  var toastEl = null;
+  document.querySelectorAll('[data-soon]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (toastEl) toastEl.remove();
+      toastEl = document.createElement('div');
+      toastEl.className = 'toast';
+      toastEl.setAttribute('role', 'status');
+      toastEl.textContent = 'Checkout is coming soon — hang tight.';
+      document.body.appendChild(toastEl);
+      setTimeout(function () { if (toastEl) { toastEl.remove(); toastEl = null; } }, 2600);
+    });
+  });
+  var revealEls = [].slice.call(document.querySelectorAll('.reveal'));
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function show(el) { el.classList.add('in'); }
+  if (reduced || !('IntersectionObserver' in window)) {
+    revealEls.forEach(show);
+  } else {
+    var ioAlive = false;
+    var io = new IntersectionObserver(function (entries) {
+      ioAlive = true;
+      entries.forEach(function (en) { if (en.isIntersecting) { show(en.target); io.unobserve(en.target); } });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    function manualCheck() {
+      if (ioAlive) { window.removeEventListener('scroll', manualCheck); return; }
+      revealEls.forEach(function (el) {
+        if (!el.classList.contains('in') && el.getBoundingClientRect().top < window.innerHeight) { show(el); }
+      });
+    }
+    revealEls.forEach(function (el) {
+      if (el.getBoundingClientRect().top < window.innerHeight) { show(el); }
+      else { io.observe(el); }
+    });
+    window.addEventListener('scroll', manualCheck, { passive: true });
+  }
+})();
+</script>
+</body>
+</html>
