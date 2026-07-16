@@ -585,7 +585,7 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
             </svg>
           </button>
           <div class="mood bg-face" id="moodBox" aria-hidden="true">
-            <span class="mico-slot" data-mood="calm"><img class="mico" src="public/marks/png/g-rilla-calm-head.png" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
+            <span class="mico-slot in" data-mood="calm"><img class="mico" src="public/marks/png/g-rilla-calm-head.png" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
             <span class="mico-slot" data-mood="grimace"><img class="mico" src="public/marks/png/g-rilla-grimace-head.png" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
             <span class="mico-slot" data-mood="grin"><img class="mico" src="public/marks/png/g-rilla-grin-head.png" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
             <span class="mico-slot" data-mood="stare"><img class="mico" src="public/marks/png/g-rilla-stare-head.png" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
@@ -597,7 +597,7 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
             <span class="mico-slot" data-mood="pleased"><img class="mico" src="public/marks/png/g-rilla-pleased-head.png" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
             <span class="mico-slot" data-mood="focus"><img class="mico" src="public/marks/png/g-rilla-focus-head.png" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
             <span class="mico-slot" data-mood="laugh"><img class="mico" src="public/marks/png/g-rilla-laugh-head.png" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
-            <span class="mico-slot in" data-mood="roar"><img class="mico" src="public/marks/png/g-rilla-roar-head.png" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
+            <span class="mico-slot" data-mood="roar"><img class="mico" src="public/marks/png/g-rilla-roar-head.png" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
           </div>
           <div class="pr-tag" id="prTag" hidden><span>PR</span><b id="prVal">0</b></div>
           <div class="rep-row" aria-live="polite">
@@ -918,7 +918,7 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
       el.classList.toggle('in', el.getAttribute('data-mood') === name);
     });
   }
-  var MOOD_DEFAULT = { rest: 'roar', steps: [{ at: 1, face: 'focus' }, { at: 5, face: 'strain' }, { at: 15, face: 'laugh' }], flash: { every: 10, face: 'grin' } };
+  var MOOD_DEFAULT = { rest: 'calm', steps: [{ at: 1, face: 'smirk' }, { at: 3, face: 'focus' }, { at: 5, face: 'grimace' }, { at: 10, face: 'roar' }], flash: { every: 0, face: 'grin' } };
   var moodMap = MOOD_DEFAULT;
   try {
     var mm = JSON.parse(localStorage.getItem('gg-mood-map') || 'null');
