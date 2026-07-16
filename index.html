@@ -807,6 +807,39 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
     for (var i = 0; i < st.length; i++) if (n >= st[i].at) face = st[i].face;
     return face;
   }
+  // nav brand: cycle expressions while hovered
+  (function () {
+    var brand = document.querySelector('.brand');
+    var brandImg = brand && brand.querySelector('.tile img');
+    if (!brand || !brandImg) return;
+    var REST = 'public/marks/png/g-rilla-roar-full.png';
+    var CYCLE = ['calm', 'smirk', 'grin', 'stare', 'grimace', 'roar'].map(function (n) {
+      return 'public/marks/png/g-rilla-' + n + '-full.png';
+    });
+    var cycleTimer = null, ci = 0, preloaded = false;
+    function preloadFrames() {
+      if (preloaded) return;
+      preloaded = true;
+      CYCLE.forEach(function (src) { var im = new Image(); im.src = src; });
+    }
+    setTimeout(preloadFrames, 3500);
+    brand.addEventListener('mouseenter', function () {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      preloadFrames();
+      clearInterval(cycleTimer);
+      ci = 0;
+      cycleTimer = setInterval(function () {
+        brandImg.src = CYCLE[ci % CYCLE.length];
+        ci++;
+      }, 200);
+    });
+    brand.addEventListener('mouseleave', function () {
+      clearInterval(cycleTimer);
+      cycleTimer = null;
+      brandImg.src = REST;
+    });
+  })();
+
   var barGroup = document.getElementById('barGroup');
   var repFallback = null;
   function finishRep() {
