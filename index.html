@@ -9,7 +9,7 @@
 <!-- TODO before launch: add og:url, og:image (1200x630 raster), and <link rel="canonical"> once the production domain is known -->
 <meta property="og:title" content="Gorilla Greens — Super Greens Gummies Built for Men">
 <meta property="og:description" content="A 400-pound silverback builds its muscle on plants. 15 organic superfoods, two gummies, zero excuses.">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/svg+xml" href="public/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -166,10 +166,10 @@ header.nav { position: sticky; top: 0; z-index: 50; background: rgba(23,24,26,0.
   100% { transform: translateY(0); }
 }
 .rig-active #barGroup { animation: rep-press var(--rep-dur) both; }
-.rep-row { display: flex; align-items: baseline; gap: 18px; margin-top: 6px; padding: 0 6px 10px; }
+.rep-row { display: flex; align-items: baseline; gap: 18px; margin-top: 6px; padding: 0 6px 10px; position: relative; }
 .rep-row b { font-family: 'Archivo Black', sans-serif; font-size: 52px; color: var(--green); min-width: 74px; }
 .rep-row .lbl { color: var(--dim); font-weight: 700; letter-spacing: 0.2em; font-size: 12px; text-transform: uppercase; }
-.rep-row .msg { color: var(--muted); font-size: 14.5px; margin-left: auto; text-align: right; max-width: 30ch; min-height: 2.9em; display: flex; align-items: center; justify-content: flex-end; }
+.rep-row .msg { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 14.5px; text-align: right; max-width: 30ch; }
 .bench-hint { color: var(--dim); font-size: 13px; margin-top: 14px; }
 kbd { border: 1px solid var(--steel-2); border-bottom-width: 2px; border-radius: 4px; padding: 1px 6px; font-size: 12px; color: var(--muted); font-family: inherit; }
 
@@ -303,7 +303,7 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
 }
 @media (max-width: 860px) {
   .ing-list { columns: 1; }
-  .rep-row .msg { text-align: left; margin-left: 0; justify-content: flex-start; }
+  .rep-row .msg { position: static; transform: none; text-align: left; min-height: 2.9em; }
   .rep-row { flex-wrap: wrap; }
 }
 </style>
