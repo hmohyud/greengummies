@@ -15,11 +15,9 @@
   .panel { background: #1D1F22; border: 1px solid #2A2D30; border-radius: 12px; padding: 18px 20px; margin-bottom: 16px; }
   .panel h2 { font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: #3FA75C; margin-bottom: 12px; }
   .row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
-  select, input[type=number] { background: #26282B; color: #E8E9E6; border: 1px solid #34373B; border-radius: 7px; padding: 7px 10px; font: inherit; }
-  input[type=number] { width: 74px; }
-  .thumb { width: 44px; height: 44px; object-fit: contain; background: #26282B; border-radius: 8px; padding: 3px; }
-  button { background: #3FA75C; color: #0E1410; font-weight: 700; border: 0; border-radius: 7px; padding: 9px 16px; cursor: pointer; font: inherit; font-weight: 700; }
-  button.ghost { background: transparent; color: #E8E9E6; border: 1px solid #34373B; }
+  input[type=number] { background: #26282B; color: #E8E9E6; border: 1px solid #34373B; border-radius: 7px; padding: 7px 10px; font: inherit; width: 74px; }
+  button { background: #3FA75C; color: #0E1410; border: 0; border-radius: 7px; padding: 9px 16px; cursor: pointer; font: inherit; font-weight: 700; }
+  button.ghost { background: transparent; color: #E8E9E6; border: 1px solid #34373B; font-weight: 400; }
   button.small { padding: 5px 10px; font-size: 13px; }
   .steps-list .row { background: #212326; border: 1px solid #2A2D30; border-radius: 9px; padding: 8px 12px; }
   .lbl { color: #9AA39D; font-size: 13px; }
@@ -33,6 +31,17 @@
   .actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
   .saved { color: #3FA75C; font-size: 13px; opacity: 0; transition: opacity 0.3s; }
   .saved.show { opacity: 1; }
+  /* image picker */
+  .picker { position: relative; display: inline-block; }
+  .pk-btn { display: inline-flex; align-items: center; gap: 9px; background: #26282B; color: #E8E9E6; border: 1px solid #34373B; border-radius: 8px; padding: 5px 12px 5px 7px; cursor: pointer; font: inherit; font-weight: 400; }
+  .pk-btn img { width: 36px; height: 36px; object-fit: contain; }
+  .pk-btn .car { color: #9AA39D; font-size: 11px; }
+  .pk-pop { position: absolute; top: calc(100% + 6px); left: 0; z-index: 40; background: #1D1F22; border: 1px solid rgba(63,167,92,0.45); border-radius: 10px; padding: 10px; display: grid; grid-template-columns: repeat(5, 76px); gap: 6px; box-shadow: 0 16px 34px rgba(0,0,0,0.55); }
+  .pk-opt { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 7px 4px 5px; border: 1px solid transparent; border-radius: 8px; cursor: pointer; font-size: 11px; color: #9AA39D; }
+  .pk-opt img { width: 46px; height: 46px; object-fit: contain; }
+  .pk-opt:hover { background: #26282B; color: #E8E9E6; }
+  .pk-opt.sel { border-color: #3FA75C; color: #7ED09A; }
+  @media (max-width: 560px) { .pk-pop { grid-template-columns: repeat(3, 76px); } }
 </style>
 </head>
 <body>
@@ -42,10 +51,7 @@
 
   <div class="panel">
     <h2>Resting face (0 reps)</h2>
-    <div class="row">
-      <img class="thumb" id="restThumb" alt="">
-      <select id="restSel"></select>
-    </div>
+    <div class="row"><span id="restPk"></span></div>
   </div>
 
   <div class="panel">
@@ -61,8 +67,7 @@
       <span class="lbl">Every</span>
       <input type="number" id="flashEvery" min="0" max="50" step="1">
       <span class="lbl">reps (0 = off), flash</span>
-      <img class="thumb" id="flashThumb" alt="">
-      <select id="flashSel"></select>
+      <span id="flashPk"></span>
       <span class="lbl">for 1.5s</span>
     </div>
   </div>
@@ -85,7 +90,7 @@
 </div>
 <script>
 var FACES = ['calm', 'grimace', 'grin', 'stare', 'smirk', 'roar', 'scowl', 'alert', 'strain', 'smug', 'pleased', 'focus', 'laugh'];
-var DEFAULT = { rest: 'calm', steps: [{ at: 1, face: 'smirk' }, { at: 3, face: 'focus' }, { at: 5, face: 'grimace' }, { at: 10, face: 'roar' }], flash: { every: 0, face: 'grin' } };
+var DEFAULT = { rest: 'calm', steps: [{ at: 1, face: 'smirk' }, { at: 3, face: 'smug' }, { at: 5, face: 'grin' }, { at: 10, face: 'grimace' }, { at: 15, face: 'roar' }], flash: { every: 0, face: 'grin' } };
 var img = function (n) { return 'public/marks/png/g-rilla-' + n + '-head.png'; };
 
 var state;
@@ -95,9 +100,40 @@ try {
 } catch (e) { state = JSON.parse(JSON.stringify(DEFAULT)); }
 if (!state.flash) state.flash = { every: 0, face: 'grin' };
 
-function faceOptions(sel, val) {
-  sel.innerHTML = FACES.map(function (n) { return '<option value="' + n + '"' + (n === val ? ' selected' : '') + '>' + n + '</option>'; }).join('');
+function closePops() {
+  var pops = document.querySelectorAll('.pk-pop');
+  for (var i = 0; i < pops.length; i++) pops[i].parentNode.removeChild(pops[i]);
 }
+document.addEventListener('click', function () { closePops(); });
+
+function picker(value, onPick) {
+  var root = document.createElement('span');
+  root.className = 'picker';
+  var btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'pk-btn';
+  btn.innerHTML = '<img src="' + img(value) + '" alt=""><span>' + value + '</span><span class="car">▼</span>';
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var open = root.querySelector('.pk-pop');
+    closePops();
+    if (open) return;
+    var pop = document.createElement('div');
+    pop.className = 'pk-pop';
+    pop.addEventListener('click', function (ev) { ev.stopPropagation(); });
+    FACES.forEach(function (n) {
+      var o = document.createElement('div');
+      o.className = 'pk-opt' + (n === value ? ' sel' : '');
+      o.innerHTML = '<img src="' + img(n) + '" alt=""><span>' + n + '</span>';
+      o.addEventListener('click', function () { onPick(n); });
+      pop.appendChild(o);
+    });
+    root.appendChild(pop);
+  });
+  root.appendChild(btn);
+  return root;
+}
+
 function moodFor(n) {
   var face = state.rest;
   var st = state.steps.slice().sort(function (a, b) { return a.at - b.at; });
@@ -105,27 +141,41 @@ function moodFor(n) {
   return face;
 }
 function render() {
-  var restSel = document.getElementById('restSel');
-  faceOptions(restSel, state.rest);
-  document.getElementById('restThumb').src = img(state.rest);
+  closePops();
+  var restHold = document.getElementById('restPk');
+  restHold.innerHTML = '';
+  restHold.appendChild(picker(state.rest, function (v) { state.rest = v; render(); }));
 
   var list = document.getElementById('stepsList');
   list.innerHTML = '';
   state.steps.forEach(function (stp, i) {
     var row = document.createElement('div');
     row.className = 'row';
-    row.innerHTML = '<span class="lbl">from rep</span><input type="number" min="1" max="99" value="' + stp.at + '" data-i="' + i + '" class="at">' +
-      '<img class="thumb" src="' + img(stp.face) + '"><select class="face" data-i="' + i + '"></select>' +
-      '<button class="ghost small del" data-i="' + i + '" type="button">remove</button>';
+    var lbl = document.createElement('span');
+    lbl.className = 'lbl';
+    lbl.textContent = 'from rep';
+    var at = document.createElement('input');
+    at.type = 'number'; at.min = 1; at.max = 99; at.value = stp.at;
+    at.addEventListener('input', function () { stp.at = Math.max(1, parseInt(at.value || '1', 10)); renderStrip(); });
+    at.addEventListener('change', function () { render(); });
+    var del = document.createElement('button');
+    del.type = 'button'; del.className = 'ghost small'; del.textContent = 'remove';
+    del.addEventListener('click', function () { state.steps.splice(i, 1); render(); });
+    row.appendChild(lbl);
+    row.appendChild(at);
+    row.appendChild(picker(stp.face, function (v) { stp.face = v; render(); }));
+    row.appendChild(del);
     list.appendChild(row);
-    faceOptions(row.querySelector('select'), stp.face);
   });
 
   document.getElementById('flashEvery').value = state.flash.every;
-  var flashSel = document.getElementById('flashSel');
-  faceOptions(flashSel, state.flash.face);
-  document.getElementById('flashThumb').src = img(state.flash.face);
+  var flashHold = document.getElementById('flashPk');
+  flashHold.innerHTML = '';
+  flashHold.appendChild(picker(state.flash.face, function (v) { state.flash.face = v; render(); }));
 
+  renderStrip();
+}
+function renderStrip() {
   var strip = document.getElementById('strip');
   strip.innerHTML = '';
   for (var n = 0; n <= 30; n++) {
@@ -133,38 +183,28 @@ function render() {
     var face = isFlash ? state.flash.face : moodFor(n);
     strip.innerHTML += '<div class="cell' + (isFlash ? ' flash' : '') + '"><img src="' + img(face) + '" title="' + face + '"><span>' + n + (isFlash ? '⚡' : '') + '</span></div>';
   }
-
   document.getElementById('out').value = JSON.stringify(state);
 }
 
-document.addEventListener('input', function (e) {
-  var i = e.target.getAttribute('data-i');
-  if (e.target.id === 'restSel') state.rest = e.target.value;
-  else if (e.target.id === 'flashEvery') state.flash.every = Math.max(0, parseInt(e.target.value || '0', 10));
-  else if (e.target.id === 'flashSel') state.flash.face = e.target.value;
-  else if (e.target.classList.contains('at') && i !== null) state.steps[+i].at = Math.max(1, parseInt(e.target.value || '1', 10));
-  else if (e.target.classList.contains('face') && i !== null) state.steps[+i].face = e.target.value;
-  else return;
+document.getElementById('flashEvery').addEventListener('input', function (e) {
+  state.flash.every = Math.max(0, parseInt(e.target.value || '0', 10));
+  renderStrip();
+});
+document.getElementById('addStep').addEventListener('click', function () {
+  var maxAt = state.steps.reduce(function (m, s) { return Math.max(m, s.at); }, 0);
+  state.steps.push({ at: maxAt + 5, face: FACES[0] });
   render();
 });
-document.addEventListener('click', function (e) {
-  if (e.target.classList.contains('del')) {
-    state.steps.splice(+e.target.getAttribute('data-i'), 1);
-    render();
-  } else if (e.target.id === 'addStep') {
-    var maxAt = state.steps.reduce(function (m, s) { return Math.max(m, s.at); }, 0);
-    state.steps.push({ at: maxAt + 5, face: FACES[0] });
-    render();
-  } else if (e.target.id === 'save') {
-    try { localStorage.setItem('gg-mood-map', JSON.stringify(state)); } catch (err) {}
-    var msg = document.getElementById('savedMsg');
-    msg.classList.add('show');
-    setTimeout(function () { msg.classList.remove('show'); }, 2600);
-  } else if (e.target.id === 'reset') {
-    try { localStorage.removeItem('gg-mood-map'); } catch (err) {}
-    state = JSON.parse(JSON.stringify(DEFAULT));
-    render();
-  }
+document.getElementById('save').addEventListener('click', function () {
+  try { localStorage.setItem('gg-mood-map', JSON.stringify(state)); } catch (err) {}
+  var msg = document.getElementById('savedMsg');
+  msg.classList.add('show');
+  setTimeout(function () { msg.classList.remove('show'); }, 2600);
+});
+document.getElementById('reset').addEventListener('click', function () {
+  try { localStorage.removeItem('gg-mood-map'); } catch (err) {}
+  state = JSON.parse(JSON.stringify(DEFAULT));
+  render();
 });
 render();
 </script>
