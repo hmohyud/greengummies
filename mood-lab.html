@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Gorilla Greens — Rep Face Lab</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #17181A; color: #E8E9E6; font: 15px/1.5 "Segoe UI", system-ui, sans-serif; padding: 28px 18px 60px; }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  h1 { font-size: 22px; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 4px; }
+  h1 b { color: #3FA75C; }
+  .note { color: #9AA39D; font-size: 13.5px; margin-bottom: 26px; }
+  .panel { background: #1D1F22; border: 1px solid #2A2D30; border-radius: 12px; padding: 18px 20px; margin-bottom: 16px; }
+  .panel h2 { font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: #3FA75C; margin-bottom: 12px; }
+  .row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+  select, input[type=number] { background: #26282B; color: #E8E9E6; border: 1px solid #34373B; border-radius: 7px; padding: 7px 10px; font: inherit; }
+  input[type=number] { width: 74px; }
+  .thumb { width: 44px; height: 44px; object-fit: contain; background: #26282B; border-radius: 8px; padding: 3px; }
+  button { background: #3FA75C; color: #0E1410; font-weight: 700; border: 0; border-radius: 7px; padding: 9px 16px; cursor: pointer; font: inherit; font-weight: 700; }
+  button.ghost { background: transparent; color: #E8E9E6; border: 1px solid #34373B; }
+  button.small { padding: 5px 10px; font-size: 13px; }
+  .steps-list .row { background: #212326; border: 1px solid #2A2D30; border-radius: 9px; padding: 8px 12px; }
+  .lbl { color: #9AA39D; font-size: 13px; }
+  .strip { display: grid; grid-template-columns: repeat(auto-fill, minmax(52px, 1fr)); gap: 6px; }
+  .cell { background: #212326; border: 1px solid #2A2D30; border-radius: 8px; padding: 5px 3px 3px; text-align: center; }
+  .cell img { width: 100%; height: 40px; object-fit: contain; display: block; }
+  .cell span { font-size: 11px; color: #9AA39D; }
+  .cell.flash { border-color: #3FA75C; }
+  .cell.flash span { color: #3FA75C; font-weight: 700; }
+  textarea { width: 100%; min-height: 64px; background: #101112; color: #9AA39D; border: 1px solid #2A2D30; border-radius: 8px; padding: 10px; font: 12.5px/1.5 Consolas, monospace; resize: vertical; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .saved { color: #3FA75C; font-size: 13px; opacity: 0; transition: opacity 0.3s; }
+  .saved.show { opacity: 1; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Rep face <b>lab</b></h1>
+  <p class="note">Set which gorilla face shows at which rep counts on the bench-press counter. <b>Save</b> applies it instantly to this browser on this site (the live page reads your override). To make it the default for everyone, copy the config string below and send it over.</p>
+
+  <div class="panel">
+    <h2>Resting face (0 reps)</h2>
+    <div class="row">
+      <img class="thumb" id="restThumb" alt="">
+      <select id="restSel"></select>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>During the set</h2>
+    <p class="lbl" style="margin-bottom:10px">Each row: from this rep count (and up), show this face. Rows apply highest-matching-threshold.</p>
+    <div class="steps-list" id="stepsList"></div>
+    <button class="ghost small" id="addStep" type="button">+ add threshold</button>
+  </div>
+
+  <div class="panel">
+    <h2>Milestone flash</h2>
+    <div class="row">
+      <span class="lbl">Every</span>
+      <input type="number" id="flashEvery" min="0" max="50" step="1">
+      <span class="lbl">reps (0 = off), flash</span>
+      <img class="thumb" id="flashThumb" alt="">
+      <select id="flashSel"></select>
+      <span class="lbl">for 1.5s</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Preview — reps 0 to 30</h2>
+    <div class="strip" id="strip"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Save</h2>
+    <div class="actions">
+      <button id="save" type="button">Save to this browser</button>
+      <button class="ghost" id="reset" type="button">Reset to site default</button>
+      <span class="saved" id="savedMsg">Saved — reload the site page to see it.</span>
+    </div>
+    <p class="lbl" style="margin:12px 0 6px">Config string (send this to bake it in as the default):</p>
+    <textarea id="out" readonly onclick="this.select()"></textarea>
+  </div>
+</div>
+<script>
+var FACES = ['calm', 'grimace', 'grin', 'stare', 'smirk', 'roar', 'scowl', 'alert', 'strain', 'smug', 'pleased', 'focus', 'laugh'];
+var DEFAULT = { rest: 'roar', steps: [{ at: 1, face: 'focus' }, { at: 5, face: 'strain' }, { at: 15, face: 'laugh' }], flash: { every: 10, face: 'grin' } };
+var img = function (n) { return 'public/marks/png/g-rilla-' + n + '-head.png'; };
+
+var state;
+try {
+  var saved = JSON.parse(localStorage.getItem('gg-mood-map') || 'null');
+  state = (saved && saved.rest && Array.isArray(saved.steps)) ? saved : JSON.parse(JSON.stringify(DEFAULT));
+} catch (e) { state = JSON.parse(JSON.stringify(DEFAULT)); }
+if (!state.flash) state.flash = { every: 0, face: 'grin' };
+
+function faceOptions(sel, val) {
+  sel.innerHTML = FACES.map(function (n) { return '<option value="' + n + '"' + (n === val ? ' selected' : '') + '>' + n + '</option>'; }).join('');
+}
+function moodFor(n) {
+  var face = state.rest;
+  var st = state.steps.slice().sort(function (a, b) { return a.at - b.at; });
+  for (var i = 0; i < st.length; i++) if (n >= st[i].at) face = st[i].face;
+  return face;
+}
+function render() {
+  var restSel = document.getElementById('restSel');
+  faceOptions(restSel, state.rest);
+  document.getElementById('restThumb').src = img(state.rest);
+
+  var list = document.getElementById('stepsList');
+  list.innerHTML = '';
+  state.steps.forEach(function (stp, i) {
+    var row = document.createElement('div');
+    row.className = 'row';
+    row.innerHTML = '<span class="lbl">from rep</span><input type="number" min="1" max="99" value="' + stp.at + '" data-i="' + i + '" class="at">' +
+      '<img class="thumb" src="' + img(stp.face) + '"><select class="face" data-i="' + i + '"></select>' +
+      '<button class="ghost small del" data-i="' + i + '" type="button">remove</button>';
+    list.appendChild(row);
+    faceOptions(row.querySelector('select'), stp.face);
+  });
+
+  document.getElementById('flashEvery').value = state.flash.every;
+  var flashSel = document.getElementById('flashSel');
+  faceOptions(flashSel, state.flash.face);
+  document.getElementById('flashThumb').src = img(state.flash.face);
+
+  var strip = document.getElementById('strip');
+  strip.innerHTML = '';
+  for (var n = 0; n <= 30; n++) {
+    var isFlash = state.flash.every > 0 && n > 0 && n % state.flash.every === 0;
+    var face = isFlash ? state.flash.face : moodFor(n);
+    strip.innerHTML += '<div class="cell' + (isFlash ? ' flash' : '') + '"><img src="' + img(face) + '" title="' + face + '"><span>' + n + (isFlash ? '⚡' : '') + '</span></div>';
+  }
+
+  document.getElementById('out').value = JSON.stringify(state);
+}
+
+document.addEventListener('input', function (e) {
+  var i = e.target.getAttribute('data-i');
+  if (e.target.id === 'restSel') state.rest = e.target.value;
+  else if (e.target.id === 'flashEvery') state.flash.every = Math.max(0, parseInt(e.target.value || '0', 10));
+  else if (e.target.id === 'flashSel') state.flash.face = e.target.value;
+  else if (e.target.classList.contains('at') && i !== null) state.steps[+i].at = Math.max(1, parseInt(e.target.value || '1', 10));
+  else if (e.target.classList.contains('face') && i !== null) state.steps[+i].face = e.target.value;
+  else return;
+  render();
+});
+document.addEventListener('click', function (e) {
+  if (e.target.classList.contains('del')) {
+    state.steps.splice(+e.target.getAttribute('data-i'), 1);
+    render();
+  } else if (e.target.id === 'addStep') {
+    var maxAt = state.steps.reduce(function (m, s) { return Math.max(m, s.at); }, 0);
+    state.steps.push({ at: maxAt + 5, face: FACES[0] });
+    render();
+  } else if (e.target.id === 'save') {
+    try { localStorage.setItem('gg-mood-map', JSON.stringify(state)); } catch (err) {}
+    var msg = document.getElementById('savedMsg');
+    msg.classList.add('show');
+    setTimeout(function () { msg.classList.remove('show'); }, 2600);
+  } else if (e.target.id === 'reset') {
+    try { localStorage.removeItem('gg-mood-map'); } catch (err) {}
+    state = JSON.parse(JSON.stringify(DEFAULT));
+    render();
+  }
+});
+render();
+</script>
+</body>
+</html>
