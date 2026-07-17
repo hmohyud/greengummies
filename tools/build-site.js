@@ -1011,7 +1011,8 @@ ${['calm','grimace','grin','stare','smirk','scowl','alert','strain','smug','plea
     for (var i = 0; i < st.length; i++) if (n >= st[i].at) face = st[i].face;
     return face;
   }
-  // nav brand: cycle expressions while hovered
+  // nav brand: mouse hover loops the expressions; a touch tap plays one full
+  // cycle (~2.4s) and settles back on the resting logo by itself
   (function () {
     var brand = document.querySelector('.brand');
     var brandImg = brand && brand.querySelector('.tile img');
@@ -1020,28 +1021,44 @@ ${['calm','grimace','grin','stare','smirk','scowl','alert','strain','smug','plea
     var CYCLE = ['calm', 'pleased', 'smirk', 'smug', 'grin', 'laugh', 'alert', 'stare', 'focus', 'strain', 'grimace', 'scowl'].map(function (n) {
       return 'public/marks/png/g-rilla-' + n + '-full.png';
     });
-    var cycleTimer = null, ci = 0, preloaded = false;
+    var cycleTimer = null, ci = 0, preloaded = false, oneShotActive = false;
     function preloadFrames() {
       if (preloaded) return;
       preloaded = true;
       CYCLE.forEach(function (src) { var im = new Image(); im.src = src; });
     }
     setTimeout(preloadFrames, 3500);
-    brand.addEventListener('mouseenter', function () {
+    function stopCycle() {
+      clearInterval(cycleTimer);
+      cycleTimer = null;
+      oneShotActive = false;
+      brandImg.src = REST;
+    }
+    function startCycle(oneShot) {
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       preloadFrames();
       clearInterval(cycleTimer);
       ci = 0;
+      oneShotActive = oneShot;
       cycleTimer = setInterval(function () {
+        if (oneShot && ci >= CYCLE.length) { stopCycle(); return; }
         brandImg.src = CYCLE[ci % CYCLE.length];
         ci++;
       }, 200);
-    });
-    brand.addEventListener('mouseleave', function () {
-      clearInterval(cycleTimer);
-      cycleTimer = null;
-      brandImg.src = REST;
-    });
+    }
+    if (window.PointerEvent) {
+      brand.addEventListener('pointerenter', function (e) {
+        startCycle(e.pointerType !== 'mouse');
+      });
+      brand.addEventListener('pointerleave', function () {
+        // touch fires pointerleave right after the tap — let the one-shot finish
+        if (oneShotActive) return;
+        stopCycle();
+      });
+    } else {
+      brand.addEventListener('mouseenter', function () { startCycle(false); });
+      brand.addEventListener('mouseleave', stopCycle);
+    }
   })();
 
   var barGroup = document.getElementById('barGroup');
