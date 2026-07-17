@@ -169,23 +169,73 @@ const puImgs = PU_FRAMES.map((fr, i) => {
 
 const ingRows = INGREDIENTS.map((n, i) => `<li><span class="idx">${String(i + 1).padStart(2, '0')}</span>${T(n)}</li>`).join('');
 
-const html = `<!doctype html>
+// ---- site variants: the main US page and the Swiss-made client version ----
+const swissPanel = `
+  <section id="swiss">
+    <div class="wrap">
+      <div class="swiss-panel reveal">
+        <div class="swiss-head">
+          <span class="swiss-cross" aria-hidden="true"></span>
+          <div>
+            <p class="eyebrow" style="margin-bottom:6px">${T('Swiss made')}</p>
+            <h2 style="margin-bottom:0">${T('Swiss precision. <span class="grn">Gorilla strength.</span>')}</h2>
+          </div>
+        </div>
+        <p class="sub">${T("Gorilla Greens gummies are made in Switzerland, where supplement manufacturing runs on pharma-grade discipline. Precision isn't a buzzword here — it's the house rules.")}</p>
+        <div class="steps" style="margin-top:26px">
+          <div class="step"><h3>${T('Swiss GMP production')}</h3><p>${T('Produced in a GMP-certified Swiss facility under pharmaceutical-grade quality management.')}</p></div>
+          <div class="step"><h3>${T('Batch-by-batch testing')}</h3><p>${T('Every production run is tested for purity and consistency before it ships.')}</p></div>
+          <div class="step"><h3>${T('Traceable ingredients')}</h3><p>${T('Full traceability from raw ingredient to finished gummy — the Swiss way.')}</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+`;
+const VARIANTS = {
+  us: {
+    file: 'index.html',
+    titleEn: 'Gorilla Greens — Super Greens Gummies Built for Men',
+    titleFr: 'Gorilla Greens — Gommes aux super verts conçues pour les hommes',
+    url: 'https://hmohyud.github.io/greengummies/',
+    robots: '',
+    badges: BADGES,
+    ins: INS,
+    metaLine: 'Non-GMO ·&nbsp;Vegan ·&nbsp;Gluten-free ·&nbsp;Made&nbsp;in&nbsp;USA',
+    legal1: 'Gorilla Greens Super Greens Gummies are manufactured in an FDA-registered facility, in compliance with FDA regulations and standards for dietary supplements. We maintain the highest quality and safety standards throughout our manufacturing process.',
+    swissPanel: '',
+  },
+  swiss: {
+    file: 'swiss.html',
+    titleEn: 'Gorilla Greens — Swiss-Made Super Greens Gummies',
+    titleFr: 'Gorilla Greens — Gommes aux super verts fabriquées en Suisse',
+    url: 'https://hmohyud.github.io/greengummies/swiss.html',
+    robots: '<meta name="robots" content="noindex">\n',
+    badges: ['Non-GMO', 'Vegan', 'Gluten-free', 'No adaptogens', 'GMP-certified facility', 'Swiss-made'],
+    ins: INS.map(([t, d]) => t === 'Clean credentials' ? [t, 'Non-GMO, vegan, gluten-free, made in Switzerland.'] : [t, d]),
+    metaLine: 'Non-GMO ·&nbsp;Vegan ·&nbsp;Gluten-free ·&nbsp;Swiss-made',
+    legal1: 'Gorilla Greens Super Greens Gummies are made in Switzerland in a GMP-certified facility, in compliance with Swiss quality and safety standards for dietary supplements. We maintain the highest quality and safety standards throughout our manufacturing process.',
+    swissPanel: swissPanel,
+  },
+};
+let V = VARIANTS.us;
+
+const renderPage = () => `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gorilla Greens — Super Greens Gummies Built for Men</title>
-<meta name="description" content="15 organic superfoods in two gummies a day. No adaptogens, no ashwagandha, no chalky shakes. Strength runs on greens.">
+<title>${V.titleEn}</title>
+${V.robots}<meta name="description" content="15 organic superfoods in two gummies a day. No adaptogens, no ashwagandha, no chalky shakes. Strength runs on greens.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://hmohyud.github.io/greengummies/">
+<meta property="og:url" content="${V.url}">
 <meta property="og:image" content="https://hmohyud.github.io/greengummies/public/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://hmohyud.github.io/greengummies/public/og-card.png">
-<link rel="canonical" href="https://hmohyud.github.io/greengummies/">
-<!-- swap the three absolute URLs above when a custom production domain lands -->
-<meta property="og:title" content="Gorilla Greens — Super Greens Gummies Built for Men">
+<link rel="canonical" href="${V.url}">
+<!-- swap the absolute URLs above when a custom production domain lands -->
+<meta property="og:title" content="${V.titleEn}">
 <meta property="og:description" content="A 400-pound silverback builds its muscle on plants. 15 organic superfoods, two gummies, zero excuses.">
 <link rel="icon" type="image/png" href="public/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -465,6 +515,18 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
 .legal { border-top: 1px solid var(--steel); padding-top: 22px; color: var(--dim); font-size: 12px; line-height: 1.7; }
 .legal p { margin-bottom: 10px; max-width: 100ch; }
 
+/* swiss reliability panel (swiss.html variant) */
+.swiss-panel { background-color: var(--panel); background-image: var(--tex-fleck); border: 1px solid var(--steel); border-radius: 14px; padding: 40px 42px; position: relative; overflow: hidden; }
+.swiss-head { display: flex; align-items: center; gap: 22px; margin-bottom: 14px; }
+.swiss-cross { width: 56px; height: 56px; flex: none; border-radius: 12px; background: #DA291C; display: grid; place-items: center; box-shadow: 0 10px 24px rgba(0,0,0,0.45); }
+.swiss-cross::before { content: ''; width: 32px; height: 32px;
+  background: linear-gradient(#fff,#fff) center / 32px 10px no-repeat, linear-gradient(#fff,#fff) center / 10px 32px no-repeat; }
+.swiss-panel .step { border: 1px solid var(--steel); }
+@media (max-width: 700px) {
+  .swiss-panel { padding: 26px 22px; }
+  .swiss-head { align-items: flex-start; }
+}
+
 /* toast */
 .toast[hidden] { display: none; }
 .toast { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--bg-deep); border-radius: 8px; padding: 13px 24px; font-weight: 700; font-size: 14px; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
@@ -579,7 +641,7 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
           <a class="btn" href="#pricing">${T('Get started — $33.99/mo')}<span class="arr" aria-hidden="true">→</span></a>
           <a class="btn ghost" href="#ingredients">${T("See what's inside")}</a>
         </div>
-        <p class="meta-line">${T('Non-GMO ·&nbsp;Vegan ·&nbsp;Gluten-free ·&nbsp;Made&nbsp;in&nbsp;USA')}</p>
+        <p class="meta-line">${T(V.metaLine)}</p>
       </div>
       <div class="plate-zone">
         <div class="plate" aria-hidden="true">
@@ -600,7 +662,7 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
   </div>
 
   <div class="badgerow">
-    <div class="wrap"><ul>${BADGES.map(b => `<li>${T(b)}</li>`).join('')}</ul></div>
+    <div class="wrap"><ul>${V.badges.map(b => `<li>${T(b)}</li>`).join('')}</ul></div>
   </div>
 
   <section id="why">
@@ -614,7 +676,7 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
       <div class="inout reveal">
         <div class="locker">
           <h3>${T('In the formula')}</h3><span class="bg-face bf-card">${mark('pleased')}</span>
-          <ul>${INS.map(([t, d]) => `<li><b>${T(t)}</b>${T(d)}</li>`).join('')}</ul>
+          <ul>${V.ins.map(([t, d]) => `<li><b>${T(t)}</b>${T(d)}</li>`).join('')}</ul>
         </div>
         <div class="locker out">
           <h3>${T('Cut from the formula')}</h3><span class="bg-face bf-card">${mark('strain')}</span>
@@ -623,7 +685,7 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
       </div>
     </div>
   </section>
-
+${V.swissPanel}
   <div class="knurl" aria-hidden="true"></div>
 
   <section id="benefits">
@@ -848,7 +910,7 @@ ${['calm','grimace','grin','stare','smirk','scowl','alert','strain','smug','plea
       </div>
     </div>
     <div class="legal">
-      <p>${T('Gorilla Greens Super Greens Gummies are manufactured in an FDA-registered facility, in compliance with FDA regulations and standards for dietary supplements. We maintain the highest quality and safety standards throughout our manufacturing process.')}</p>
+      <p>${T(V.legal1)}</p>
       <p>${T('These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.')}</p>
       <p>${T('© 2026 Gorilla Greens. All rights reserved.')}</p>
     </div>
@@ -861,7 +923,7 @@ ${['calm','grimace','grin','stare','smirk','scowl','alert','strain','smug','plea
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var I18N = {
-    title: { en: 'Gorilla Greens — Super Greens Gummies Built for Men', fr: 'Gorilla Greens — Gommes aux super verts conçues pour les hommes' },
+    title: { en: '${V.titleEn}', fr: '${V.titleFr}' },
     toast: { en: 'Checkout is coming soon — hang tight.', fr: 'Le paiement en ligne arrive bientôt — tenez bon.' },
     msgs: {
       en: ["Bar's loaded. Get under it.", 'Good depth. Keep moving.', 'Warm-up complete. Plate up.', 'Past halfway. Gummies in sight.', 'Set complete — two gummies earned. That IS the protocol.', 'Third plate. Now it means something.', "Still going? Respect. The gummies aren't going anywhere.", 'Silverback status. Go eat your greens.'],
@@ -1216,7 +1278,12 @@ ${['calm','grimace','grin','stare','smirk','scowl','alert','strain','smug','plea
 </body>
 </html>`;
 
-fs.writeFileSync(path.join(REPO, 'index.html'), html);
+for (const key of Object.keys(VARIANTS)) {
+  V = VARIANTS[key];
+  const out = renderPage();
+  fs.writeFileSync(path.join(REPO, V.file), out);
+  console.log('[' + key + '] ' + V.file + ' written: ' + out.length + ' chars');
+}
 
 // ---- i18n coverage report: run this build after editing copy to see what needs French ----
 const missing = [...usedI18n].filter(k => !(k in FR) || FR[k] === '');
@@ -1233,4 +1300,3 @@ if (missing.length) {
   console.log('[i18n] all ' + usedI18n.size + ' strings have French');
 }
 if (stale.length) console.warn('[i18n] STALE fr.json entries (' + stale.length + ') — English source changed or was removed: ' + stale.map(x => '"' + (x.length > 60 ? x.slice(0, 60) + '…' : x) + '"').join(', '));
-console.log('Iron Works index.html written:', html.length, 'chars');
