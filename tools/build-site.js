@@ -170,8 +170,14 @@ const puImgs = PU_FRAMES.map((fr, i) => {
 const ingRows = INGREDIENTS.map((n, i) => `<li><span class="idx">${String(i + 1).padStart(2, '0')}</span>${T(n)}</li>`).join('');
 
 // ---- site variants: the main US page and the Swiss-made client version ----
+const flagSwiss = '<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="6" fill="#DA291C"/><rect x="13.2" y="6.5" width="5.6" height="19" fill="#fff"/><rect x="6.5" y="13.2" width="19" height="5.6" fill="#fff"/></svg>';
+const flagUS = '<svg viewBox="0 0 32 32" aria-hidden="true"><defs><clipPath id="ggUsClip"><rect width="32" height="32" rx="6"/></clipPath></defs><g clip-path="url(#ggUsClip)">' +
+  '<rect width="32" height="32" fill="#fff"/>' +
+  '<g fill="#B22234"><rect y="0" width="32" height="2.46"/><rect y="4.92" width="32" height="2.46"/><rect y="9.85" width="32" height="2.46"/><rect y="14.77" width="32" height="2.46"/><rect y="19.69" width="32" height="2.46"/><rect y="24.62" width="32" height="2.46"/><rect y="29.54" width="32" height="2.46"/></g>' +
+  '<rect width="15" height="14.77" fill="#3C3B6E"/>' +
+  '<g fill="#fff"><circle cx="3" cy="3" r="0.9"/><circle cx="7.5" cy="3" r="0.9"/><circle cx="12" cy="3" r="0.9"/><circle cx="5.25" cy="6" r="0.9"/><circle cx="9.75" cy="6" r="0.9"/><circle cx="3" cy="9" r="0.9"/><circle cx="7.5" cy="9" r="0.9"/><circle cx="12" cy="9" r="0.9"/><circle cx="5.25" cy="12" r="0.9"/><circle cx="9.75" cy="12" r="0.9"/></g></g></svg>';
 const swissPanel = `
-  <section id="swiss">
+  <section id="swiss" class="swissband">
     <div class="wrap">
       <div class="swiss-panel reveal">
         <div class="swiss-head">
@@ -201,6 +207,7 @@ const VARIANTS = {
     badges: BADGES,
     ins: INS,
     metaLine: 'Non-GMO ·&nbsp;Vegan ·&nbsp;Gluten-free ·&nbsp;Made&nbsp;in&nbsp;USA',
+    flagBtn: '<a class="ver-flag" href="swiss.html" ' + TA('aria-label', 'Swiss-made version') + '>' + flagSwiss + '</a>',
     legal1: 'Gorilla Greens Super Greens Gummies are manufactured in an FDA-registered facility, in compliance with FDA regulations and standards for dietary supplements. We maintain the highest quality and safety standards throughout our manufacturing process.',
     swissPanel: '',
   },
@@ -213,6 +220,7 @@ const VARIANTS = {
     badges: ['Non-GMO', 'Vegan', 'Gluten-free', 'No adaptogens', 'GMP-certified facility', 'Swiss-made'],
     ins: INS.map(([t, d]) => t === 'Clean credentials' ? [t, 'Non-GMO, vegan, gluten-free, made in Switzerland.'] : [t, d]),
     metaLine: 'Non-GMO ·&nbsp;Vegan ·&nbsp;Gluten-free ·&nbsp;Swiss-made',
+    flagBtn: '<a class="ver-flag" href="./" ' + TA('aria-label', 'US version') + '>' + flagUS + '</a>',
     legal1: 'Gorilla Greens Super Greens Gummies are made in Switzerland in a GMP-certified facility, in compliance with Swiss quality and safety standards for dietary supplements. We maintain the highest quality and safety standards throughout our manufacturing process.',
     swissPanel: swissPanel,
   },
@@ -516,6 +524,7 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
 .legal p { margin-bottom: 10px; max-width: 100ch; }
 
 /* swiss reliability panel (swiss.html variant) */
+.swissband { border-top: 1px solid var(--steel); border-bottom: 1px solid var(--steel); background: rgba(14,15,16,0.45); }
 .swiss-panel { background-color: var(--panel); background-image: var(--tex-fleck); border: 1px solid var(--steel); border-radius: 14px; padding: 40px 42px; position: relative; overflow: hidden; }
 .swiss-head { display: flex; align-items: center; gap: 22px; margin-bottom: 14px; }
 .swiss-cross { width: 56px; height: 56px; flex: none; border-radius: 12px; background: #DA291C; display: grid; place-items: center; box-shadow: 0 10px 24px rgba(0,0,0,0.45); }
@@ -526,6 +535,12 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
   .swiss-panel { padding: 26px 22px; }
   .swiss-head { align-items: flex-start; }
 }
+
+/* version flag toggle (bottom-right) */
+.ver-flag { position: fixed; right: 18px; bottom: 18px; z-index: 90; width: 54px; height: 54px; display: grid; place-items: center; background: var(--panel); border: 1px solid var(--steel-2); border-radius: 14px; box-shadow: 0 12px 28px rgba(0,0,0,0.5); transition: transform 0.15s ease, border-color 0.15s ease; }
+.ver-flag:hover { transform: translateY(-2px); border-color: #4A4E53; }
+.ver-flag svg { width: 28px; height: 28px; display: block; }
+@media (max-width: 700px) { .ver-flag { right: 12px; bottom: 12px; width: 48px; height: 48px; } .ver-flag svg { width: 25px; height: 25px; } }
 
 /* toast */
 .toast[hidden] { display: none; }
@@ -917,6 +932,7 @@ ${['calm','grimace','grin','stare','smirk','scowl','alert','strain','smug','plea
   </div>
 </footer>
 
+${V.flagBtn}
 <div class="toast" id="toast" role="status" hidden></div>
 <script>
 (function () {
