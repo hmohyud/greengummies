@@ -65,6 +65,8 @@ h2 .grn { color: var(--green); }
 .knurl { height: 12px; border-top: 1px solid var(--steel); border-bottom: 1px solid var(--steel); background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 6px), repeating-linear-gradient(-45deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 6px); }
 
 /* buttons */
+/* repeat-tappable controls: keep panning, drop the browser's double-tap zoom */
+.btn, .lang-opt, .menu-btn, summary, .fchip { touch-action: manipulation; }
 .btn { display: inline-block; background: var(--green); color: var(--green-ink); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; text-decoration: none; border: 0; border-radius: 6px; padding: 15px 28px; font-size: 14.5px; cursor: pointer; font-family: inherit; transition: background 0.15s ease, transform 0.15s ease; }
 .btn:hover { background: #4CBF6C; transform: translateY(-1px); }
 .btn.ghost { background: transparent; color: var(--ink); border: 2px solid var(--steel-2); }
@@ -107,11 +109,12 @@ html[lang="fr"] .navlinks a { font-size: 13px; letter-spacing: 0.03em; }
 .meta-line { color: var(--dim); font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
 .plate-zone { display: flex; justify-content: center; }
 .plate { position: relative; overflow: hidden; width: min(470px, 82vw); aspect-ratio: 1; border-radius: 50%; background: #1D1F21; border: 1px solid #2A2D30;
-  box-shadow: inset 0 0 0 26px #202225, inset 0 0 0 28px #17181A, inset 0 0 0 60px #1B1D1F, inset 0 0 0 62px #141517, 0 30px 60px rgba(0,0,0,0.5); }
-.plate .card { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 57%; aspect-ratio: 1; filter: drop-shadow(0 16px 30px rgba(0,0,0,0.5)); }
+  box-shadow: inset 0 0 0 26px #202225, inset 0 0 0 28px #17181A, inset 0 0 0 60px #1B1D1F, inset 0 0 0 62px #141517, 0 30px 60px rgba(0,0,0,0.5);
+  cursor: grab; touch-action: none; -webkit-tap-highlight-color: transparent; }
+.plate.dragging { cursor: grabbing; }
+.plate .card { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 57%; aspect-ratio: 1; filter: drop-shadow(0 16px 30px rgba(0,0,0,0.5)); pointer-events: none; }
 .plate .card svg, .plate .card img { width: 100%; height: 100%; object-fit: contain; display: block; }
-.plate-ring { position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; touch-action: none; will-change: transform; }
-.plate-ring.dragging { cursor: grabbing; }
+.plate-ring { position: absolute; inset: 0; width: 100%; height: 100%; will-change: transform; pointer-events: none; }
 
 /* stats */
 .stats { border-top: 1px solid var(--steel); border-bottom: 1px solid var(--steel); background: rgba(14,15,16,0.55); }
@@ -152,7 +155,7 @@ html[lang="fr"] .navlinks a { font-size: 13px; letter-spacing: 0.03em; }
 /* bench press interactive */
 .bench { border-top: 1px solid var(--steel); border-bottom: 1px solid var(--steel); background: rgba(14,15,16,0.45); }
 .bench .wrap { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 48px; align-items: center; }
-.rig-btn { display: block; width: 100%; background: none; border: 0; cursor: pointer; padding: 0; -webkit-tap-highlight-color: transparent; }
+.rig-btn { display: block; width: 100%; background: none; border: 0; cursor: pointer; padding: 0; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 .rig-wrap { background-color: var(--panel); background-image: var(--tex-fleck); border: 1px solid var(--steel); border-radius: 14px; padding: 20px 20px 8px; position: relative; overflow: hidden; --rep-dur: 0.85s; }
 .rig-l1 { --rep-dur: 0.95s; }
 .rig-l2 { --rep-dur: 1.05s; }
@@ -913,22 +916,25 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
 
   // ---- hero plate: idle torque + grab to spin ----
   var ring = document.getElementById('heroRing');
-  if (ring) {
+  // the whole plate is the grab target — the logo card sits over the ring's centre
+  var grip = ring && ring.closest('.plate');
+  if (ring && grip) {
     var angle = 0, vel = reduced ? 0 : 0.05;
     var dragging = false, lastA = 0, lastT = 0;
     function ptrAngle(e) {
-      var r = ring.getBoundingClientRect();
+      var r = grip.getBoundingClientRect();
       return Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180 / Math.PI;
     }
-    ring.addEventListener('pointerdown', function (e) {
+    grip.addEventListener('pointerdown', function (e) {
       dragging = true;
-      try { ring.setPointerCapture(e.pointerId); } catch (err) {}
+      try { grip.setPointerCapture(e.pointerId); } catch (err) {}
       lastA = ptrAngle(e); lastT = performance.now();
-      ring.classList.add('dragging');
+      grip.classList.add('dragging');
       e.preventDefault();
     });
-    ring.addEventListener('pointermove', function (e) {
+    grip.addEventListener('pointermove', function (e) {
       if (!dragging) return;
+      e.preventDefault();
       var a = ptrAngle(e);
       var d = a - lastA;
       if (d > 180) d -= 360;
@@ -939,9 +945,9 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
       lastA = a; lastT = now;
       ring.style.transform = 'rotate(' + angle + 'deg)';
     });
-    function endDrag() { dragging = false; ring.classList.remove('dragging'); }
-    ring.addEventListener('pointerup', endDrag);
-    ring.addEventListener('pointercancel', endDrag);
+    function endDrag() { dragging = false; grip.classList.remove('dragging'); }
+    grip.addEventListener('pointerup', endDrag);
+    grip.addEventListener('pointercancel', endDrag);
     (function spinLoop() {
       if (!dragging) {
         angle += vel;
