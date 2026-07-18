@@ -1082,8 +1082,8 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
       if (heatEl && !reduced) {
         var target = Math.max(0, Math.min(1, (speedSm - 3) / 8.5));
         target = target * target;
-        heatLevel += (target - heatLevel) * Math.min(1, (target > heatLevel ? 0.06 : 0.008) * f);
-        whiteLevel += ((target > 0.72 ? 1 : 0) - whiteLevel) * Math.min(1, (target > 0.72 ? 0.01 : 0.02) * f);
+        heatLevel += (target - heatLevel) * Math.min(1, (target > heatLevel ? 0.06 : 0.0016) * f);
+        whiteLevel += ((target > 0.72 ? 1 : 0) - whiteLevel) * Math.min(1, (target > 0.72 ? 0.01 : 0.004) * f);
         if (Math.abs(heatLevel - heatShown) > 0.003 || Math.abs(whiteLevel - whiteShown) > 0.003) {
           heatShown = heatLevel;
           whiteShown = whiteLevel;
