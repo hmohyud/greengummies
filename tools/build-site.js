@@ -35,6 +35,12 @@ const logoInst = (p) => p === 'nav'
   ? '<img src="public/marks/png/g-rilla-roar-nav.png" alt="" width="548" height="552" decoding="async">'
   : '<img src="public/marks/png/g-rilla-roar-full.png" alt="" width="523" height="536" decoding="async">';
 const apeInst = (p, cls) => '<svg class="' + cls + '" viewBox="191 234 692 784" aria-hidden="true">' + uid(apeInner, p) + '</svg>';
+// hero plate expression frames, one pixel-identical G base so swapping them
+// never jitters; spin speed picks the face (see spinLoop). The roar rests on
+// top of the stack as the default (no-JS / reduced-motion / idle brand mark).
+const SPIN_FRAMES = ['pleased', 'focus', 'strain', 'scowl', 'roar'];
+const spinCard = SPIN_FRAMES.map((n, i) =>
+  '<img' + (n === 'roar' ? ' class="on"' : '') + ' src="public/marks/spin/g-rilla-spin-' + i + '-' + n + '.png" alt="" width="523" height="536" decoding="async">').join('');
 
 // ---- procedural gym textures (SVG data URIs) ----
 const enc = (svg) => "url('data:image/svg+xml," + encodeURIComponent(svg).replace(/'/g, '%27') + "')";
@@ -339,6 +345,8 @@ html[lang="fr"] .navlinks a { font-size: 13px; letter-spacing: 0.03em; }
 .plate.dragging { cursor: grabbing; }
 .plate .card { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 57%; aspect-ratio: 1; filter: drop-shadow(0 16px 30px rgba(0,0,0,0.5)); pointer-events: none; }
 .plate .card svg, .plate .card img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.plate .card img { position: absolute; inset: 0; opacity: 0; }
+.plate .card img.on { opacity: 1; }
 .plate-ring { position: absolute; inset: 0; width: 100%; height: 100%; will-change: transform; pointer-events: none; }
 
 /* stats */
@@ -658,7 +666,7 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
       <div class="plate-zone">
         <div class="plate" aria-hidden="true">
           ${plateRing}
-          <div class="card">${logoInst('hero')}</div>
+          <div class="card">${spinCard}</div>
         </div>
       </div>
     </div>
@@ -1163,13 +1171,24 @@ ${V.flagBtn}
     });
   });
 
-  // ---- hero plate: idle torque + grab to spin ----
+  // ---- hero plate: idle torque + grab to spin; spin speed picks the face ----
   var ring = document.getElementById('heroRing');
   // the whole plate is the grab target — the logo card sits over the ring's centre
   var grip = ring && ring.closest('.plate');
   if (ring && grip) {
     var angle = 0, vel = reduced ? 0 : 0.05;
     var dragging = false, lastA = 0, lastT = 0;
+    // the ladder rests on the roar brand mark, relaxes to pleased on a gentle
+    // spin, works up through effort faces, and roars again flat-out:
+    //   rest -> pleased -> focus -> strain -> scowl -> roar
+    // FACE_UP thresholds are deg/frame@60fps, geometrically spaced to match
+    // the exponential spin-down (vel decays with tau ~1.4s), so the wind-down
+    // steps through faces at an even, settling pace. Drop-back happens below
+    // threshold * 0.72 so a boundary speed never flaps between two faces.
+    var faces = [].slice.call(grip.querySelectorAll('.card img'));
+    var FACE_SEQ = [4, 0, 1, 2, 3, 4];
+    var FACE_UP = [0.5, 1.8, 3.8, 7.0, 11.0];
+    var tier = 0, speedSm = 0;
     function ptrAngle(e) {
       var r = grip.getBoundingClientRect();
       return Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180 / Math.PI;
@@ -1197,11 +1216,30 @@ ${V.flagBtn}
     function endDrag() { dragging = false; grip.classList.remove('dragging'); }
     grip.addEventListener('pointerup', endDrag);
     grip.addEventListener('pointercancel', endDrag);
+    // vel is in deg per 60fps-frame; integrate against real dt so speed,
+    // spin-down time and the face ladder feel the same on 60Hz and 144Hz
+    var lastFrame = performance.now();
     (function spinLoop() {
+      var now = performance.now();
+      var f = Math.min(100, now - lastFrame) / 16.7;
+      lastFrame = now;
       if (!dragging) {
-        angle += vel;
-        vel += ((reduced ? 0 : 0.05) - vel) * 0.012;
+        angle += vel * f;
+        vel += ((reduced ? 0 : 0.05) - vel) * Math.min(1, 0.012 * f);
         ring.style.transform = 'rotate(' + angle + 'deg)';
+      } else if (now - lastT > 120) {
+        vel *= Math.pow(0.9, f); // finger holding still mid-grab: bleed speed so the face relaxes
+      }
+      if (!reduced && faces.length > 1) {
+        speedSm += (Math.abs(vel) - speedSm) * Math.min(1, 0.2 * f);
+        var t = tier;
+        while (t < FACE_UP.length && speedSm >= FACE_UP[t]) t++;
+        while (t > 0 && speedSm < FACE_UP[t - 1] * 0.72) t--;
+        if (t !== tier) {
+          faces[FACE_SEQ[tier]].classList.remove('on');
+          tier = t;
+          faces[FACE_SEQ[tier]].classList.add('on');
+        }
       }
       requestAnimationFrame(spinLoop);
     })();

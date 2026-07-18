@@ -1,1 +1,6 @@
 roar-touchup.html
+tools/node_modules/
+tools/package.json
+tools/package-lock.json
+head-touchup.html
+public/marks/png/clean/
