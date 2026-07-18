@@ -38,7 +38,7 @@ const apeInst = (p, cls) => '<svg class="' + cls + '" viewBox="191 234 692 784" 
 // hero plate expression frames, one pixel-identical G base so swapping them
 // never jitters; spin speed picks the face (see spinLoop). The roar rests on
 // top of the stack as the default (no-JS / reduced-motion / idle brand mark).
-const SPIN_FRAMES = ['pleased', 'focus', 'strain', 'scowl', 'roar', 'laugh'];
+const SPIN_FRAMES = ['pleased', 'focus', 'strain', 'scowl', 'roar', 'laugh', 'grin', 'r0c0'];
 const spinCard = SPIN_FRAMES.map((n, i) =>
   '<img' + (n === 'roar' ? ' class="on"' : '') + ' src="public/marks/spin/g-rilla-spin-' + i + '-' + n + '.png" alt="" width="523" height="536" decoding="async">').join('');
 
@@ -428,7 +428,8 @@ html[lang="fr"] .navlinks a { font-size: 13px; letter-spacing: 0.03em; }
 .ptc { position: absolute; pointer-events: none; z-index: 60; border-radius: 50%; }
 .ptc.gummy { border-radius: 34%; box-shadow: inset 0 -1.5px 2px rgba(0,0,0,0.3), inset 0 1px 1.5px rgba(255,255,255,0.25); }
 .ptc.chalk { filter: blur(0.4px); }
-.ptc.chalk-puff { filter: blur(5px); }
+.ptc.chalk-grain { border-radius: 32%; }
+.ptc.chalk-haze { filter: blur(3px); }
 .ptc.spark { height: 2.6px !important; border-radius: 2px; box-shadow: 0 0 9px rgba(255,186,64,0.9), 0 0 3px rgba(255,240,190,0.9); }
 @keyframes rep-press {
   0% { transform: translateY(0); animation-timing-function: cubic-bezier(0.55, 0, 0.75, 0.5); }
@@ -1010,15 +1011,16 @@ ${V.flagBtn}
     }
   }
   var CHALK = ['rgba(216,220,216,0.55)', 'rgba(192,197,194,0.45)', 'rgba(232,234,231,0.4)'];
-  var CHALK_SOFT = ['rgba(226,230,227,1)', 'rgba(210,215,212,1)', 'rgba(240,242,239,1)'];
-  var CHALK_FLECK = ['rgba(238,241,238,0.95)', 'rgba(218,223,220,0.9)', 'rgba(250,251,249,1)'];
+  var CHALK_GRAIN = ['#D7DAD5', '#C9CDC8', '#E4E6E2', '#BFC4BE'];
   var SPARK = ['#FFE28A', '#FFC65C', '#FFAD42', '#FFF6D0'];
   var GUMMY = ['#3FA75C', '#4CBF6C', '#2F8A4A', '#C24B36'];
-  // a lifter's chalk clap: soft rising dust cloud + crisp flecks + settling powder
+  // a lifter's chalk clap: DRY powder — a wide burst of fine matte grains
+  // that scatter and settle, plus a faint gray haze. Deliberately no big
+  // soft white blobs: those read wet/glossy, chalk is grain and dust.
   function chalkClap(x, y) {
-    spawn(document.body, x, y, { cls: 'chalk-puff', fixed: true, count: 7, size: [16, 34], colors: CHALK_SOFT, angle: 0, spread: 360, dist: [6, 26], fall: -10, grow: 2.6, dur: [750, 1250], op: 0.5 });
-    spawn(document.body, x, y, { cls: 'chalk', fixed: true, count: 16, size: [2.5, 5.5], colors: CHALK_FLECK, angle: 0, spread: 220, dist: [20, 70], fall: 38, dur: [500, 950], op: 0.95 });
-    spawn(document.body, x, y, { cls: 'chalk', fixed: true, count: 10, size: [1.2, 2.6], colors: CHALK_FLECK, angle: 0, spread: 330, dist: [12, 42], fall: 60, dur: [750, 1250], op: 0.65 });
+    spawn(document.body, x, y, { cls: 'chalk-grain', fixed: true, count: 26, size: [1.2, 3.2], colors: CHALK_GRAIN, angle: 0, spread: 360, dist: [14, 52], fall: 46, rot: 160, dur: [700, 1300], op: 0.9 });
+    spawn(document.body, x, y, { cls: 'chalk-grain', fixed: true, count: 8, size: [2.6, 4.6], colors: CHALK_GRAIN, angle: 0, spread: 210, dist: [24, 66], fall: 60, rot: 240, dur: [600, 1000], op: 0.8 });
+    spawn(document.body, x, y, { cls: 'chalk-haze', fixed: true, count: 6, size: [7, 13], colors: CHALK_GRAIN, angle: 0, spread: 360, dist: [8, 26], fall: 4, grow: 1.7, dur: [800, 1300], op: 0.2 });
   }
 
   // ---- bench rig ----

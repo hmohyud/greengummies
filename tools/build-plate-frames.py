@@ -47,9 +47,13 @@ HEADS = {
     'strain':  (0.91, 550, 608),
     'scowl':   (0.95, 548, 606),
     'laugh':   (0.97, 549, 602),
+    'grin':    (0.95, 549, 604),
+    'r0c0':    (0.90, 551, 608),
 }
 ROAR_H = 759.0  # roar head alpha height in 1254-space
-FRAMES = ['pleased', 'focus', 'strain', 'scowl', 'roar', 'laugh']
+FRAMES = ['pleased', 'focus', 'strain', 'scowl', 'roar', 'laugh', 'grin', 'r0c0']
+# heads published to clean/ for the speck lab but not (yet) built as frames
+CANDIDATES = []
 
 
 def ensure_resvg():
@@ -216,6 +220,22 @@ def extract_roar_head(base_arr, prod, s, dx, dy):
     return layer
 
 
+def crisp_upscale(im):
+    """2x upscale for the small grid-1 heads: LANCZOS, then re-crisp the
+    flat two-tone art — silhouette re-antialiased, interior line edges pushed
+    back toward black/white so the enlargement doesn't read soft."""
+    up = im.resize((im.width * 2, im.height * 2), Image.LANCZOS)
+    a = np.array(up).astype(float)
+    m = a[:, :, 3] > 128
+    alpha = np.clip((ndimage.gaussian_filter(m.astype(float), 0.7) - 0.25) / 0.5, 0, 1) * 255
+    lum = a[:, :, :3].mean(axis=2, keepdims=True)
+    contrast = np.clip((lum - 128) * 1.8 + 128, 0, 255)
+    blend = np.clip(np.abs(lum - 128) / 96, 0, 1)  # push mid-grays hardest
+    a[:, :, :3] = a[:, :, :3] + (contrast - lum) * (1 - blend) * 0.85
+    a[:, :, 3] = alpha
+    return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
+
+
 def clean_head(path):
     """Strip chroma-key/shadow residue off a grid2 head cutout and re-antialias."""
     a = np.array(Image.open(path).convert('RGBA')).astype(float)
@@ -251,6 +271,11 @@ def main():
 
     exports = []
     os.makedirs(CLEAN_DIR, exist_ok=True)
+    for name in CANDIDATES:
+        touched = os.path.join(TOUCHED_DIR, f'g-rilla-{name}-head-touched.png')
+        h = (Image.open(touched).convert('RGBA') if os.path.exists(touched)
+             else clean_head(os.path.join(REPO, 'public', 'marks', 'png', f'g-rilla-{name}-head.png')))
+        h.save(os.path.join(CLEAN_DIR, f'g-rilla-{name}-head-clean.png'))
     for name in FRAMES:
         fr = base.copy()
         if name == 'roar':
@@ -264,6 +289,8 @@ def main():
                 h = clean_head(os.path.join(REPO, 'public', 'marks', 'png', f'g-rilla-{name}-head.png'))
             # publish the auto-cleaned head for the touchup tool to load
             h.save(os.path.join(CLEAN_DIR, f'g-rilla-{name}-head-clean.png'))
+            if h.height < 200:
+                h = crisp_upscale(h)
             t, cx, cy = HEADS[name]
             s = t * ROAR_H / h.height
             hs = h.resize((round(h.width * s), round(t * ROAR_H)), Image.LANCZOS)

@@ -198,7 +198,8 @@ html[lang="fr"] .navlinks a { font-size: 13px; letter-spacing: 0.03em; }
 .ptc { position: absolute; pointer-events: none; z-index: 60; border-radius: 50%; }
 .ptc.gummy { border-radius: 34%; box-shadow: inset 0 -1.5px 2px rgba(0,0,0,0.3), inset 0 1px 1.5px rgba(255,255,255,0.25); }
 .ptc.chalk { filter: blur(0.4px); }
-.ptc.chalk-puff { filter: blur(5px); }
+.ptc.chalk-grain { border-radius: 32%; }
+.ptc.chalk-haze { filter: blur(3px); }
 .ptc.spark { height: 2.6px !important; border-radius: 2px; box-shadow: 0 0 9px rgba(255,186,64,0.9), 0 0 3px rgba(255,240,190,0.9); }
 @keyframes rep-press {
   0% { transform: translateY(0); animation-timing-function: cubic-bezier(0.55, 0, 0.75, 0.5); }
@@ -438,7 +439,7 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
       <div class="plate-zone">
         <div class="plate" aria-hidden="true">
           <svg class="plate-ring" id="heroRing" viewBox="0 0 200 200"><g stroke="#3A3E42" stroke-width="2" stroke-linecap="round" opacity="0.9"><line x1="186.0" y1="100.0" x2="176.0" y2="100.0"/><line x1="185.7" y1="107.5" x2="180.7" y2="107.1"/><line x1="184.7" y1="114.9" x2="179.8" y2="114.1"/><line x1="183.1" y1="122.3" x2="178.2" y2="121.0"/><line x1="180.8" y1="129.4" x2="176.1" y2="127.7"/><line x1="177.9" y1="136.3" x2="173.4" y2="134.2"/><line x1="174.5" y1="143.0" x2="170.1" y2="140.5"/><line x1="170.4" y1="149.3" x2="166.4" y2="146.5"/><line x1="165.9" y1="155.3" x2="162.0" y2="152.1"/><line x1="160.8" y1="160.8" x2="157.3" y2="157.3"/><line x1="155.3" y1="165.9" x2="152.1" y2="162.0"/><line x1="149.3" y1="170.4" x2="146.5" y2="166.4"/><line x1="143.0" y1="174.5" x2="140.5" y2="170.1"/><line x1="136.3" y1="177.9" x2="134.2" y2="173.4"/><line x1="129.4" y1="180.8" x2="127.7" y2="176.1"/><line x1="122.3" y1="183.1" x2="121.0" y2="178.2"/><line x1="114.9" y1="184.7" x2="114.1" y2="179.8"/><line x1="107.5" y1="185.7" x2="107.1" y2="180.7"/><line x1="100.0" y1="186.0" x2="100.0" y2="176.0"/><line x1="92.5" y1="185.7" x2="92.9" y2="180.7"/><line x1="85.1" y1="184.7" x2="85.9" y2="179.8"/><line x1="77.7" y1="183.1" x2="79.0" y2="178.2"/><line x1="70.6" y1="180.8" x2="72.3" y2="176.1"/><line x1="63.7" y1="177.9" x2="65.8" y2="173.4"/><line x1="57.0" y1="174.5" x2="59.5" y2="170.1"/><line x1="50.7" y1="170.4" x2="53.5" y2="166.4"/><line x1="44.7" y1="165.9" x2="47.9" y2="162.0"/><line x1="39.2" y1="160.8" x2="42.7" y2="157.3"/><line x1="34.1" y1="155.3" x2="38.0" y2="152.1"/><line x1="29.6" y1="149.3" x2="33.6" y2="146.5"/><line x1="25.5" y1="143.0" x2="29.9" y2="140.5"/><line x1="22.1" y1="136.3" x2="26.6" y2="134.2"/><line x1="19.2" y1="129.4" x2="23.9" y2="127.7"/><line x1="16.9" y1="122.3" x2="21.8" y2="121.0"/><line x1="15.3" y1="114.9" x2="20.2" y2="114.1"/><line x1="14.3" y1="107.5" x2="19.3" y2="107.1"/><line x1="14.0" y1="100.0" x2="24.0" y2="100.0"/><line x1="14.3" y1="92.5" x2="19.3" y2="92.9"/><line x1="15.3" y1="85.1" x2="20.2" y2="85.9"/><line x1="16.9" y1="77.7" x2="21.8" y2="79.0"/><line x1="19.2" y1="70.6" x2="23.9" y2="72.3"/><line x1="22.1" y1="63.7" x2="26.6" y2="65.8"/><line x1="25.5" y1="57.0" x2="29.9" y2="59.5"/><line x1="29.6" y1="50.7" x2="33.6" y2="53.5"/><line x1="34.1" y1="44.7" x2="38.0" y2="47.9"/><line x1="39.2" y1="39.2" x2="42.7" y2="42.7"/><line x1="44.7" y1="34.1" x2="47.9" y2="38.0"/><line x1="50.7" y1="29.6" x2="53.5" y2="33.6"/><line x1="57.0" y1="25.5" x2="59.5" y2="29.9"/><line x1="63.7" y1="22.1" x2="65.8" y2="26.6"/><line x1="70.6" y1="19.2" x2="72.3" y2="23.9"/><line x1="77.7" y1="16.9" x2="79.0" y2="21.8"/><line x1="85.1" y1="15.3" x2="85.9" y2="20.2"/><line x1="92.5" y1="14.3" x2="92.9" y2="19.3"/><line x1="100.0" y1="14.0" x2="100.0" y2="24.0"/><line x1="107.5" y1="14.3" x2="107.1" y2="19.3"/><line x1="114.9" y1="15.3" x2="114.1" y2="20.2"/><line x1="122.3" y1="16.9" x2="121.0" y2="21.8"/><line x1="129.4" y1="19.2" x2="127.7" y2="23.9"/><line x1="136.3" y1="22.1" x2="134.2" y2="26.6"/><line x1="143.0" y1="25.5" x2="140.5" y2="29.9"/><line x1="149.3" y1="29.6" x2="146.5" y2="33.6"/><line x1="155.3" y1="34.1" x2="152.1" y2="38.0"/><line x1="160.8" y1="39.2" x2="157.3" y2="42.7"/><line x1="165.9" y1="44.7" x2="162.0" y2="47.9"/><line x1="170.4" y1="50.7" x2="166.4" y2="53.5"/><line x1="174.5" y1="57.0" x2="170.1" y2="59.5"/><line x1="177.9" y1="63.7" x2="173.4" y2="65.8"/><line x1="180.8" y1="70.6" x2="176.1" y2="72.3"/><line x1="183.1" y1="77.7" x2="178.2" y2="79.0"/><line x1="184.7" y1="85.1" x2="179.8" y2="85.9"/><line x1="185.7" y1="92.5" x2="180.7" y2="92.9"/></g><g fill="#4A4F54"><circle cx="143.8" cy="143.8" r="3.4"/><circle cx="56.2" cy="143.8" r="3.4"/><circle cx="56.2" cy="56.2" r="3.4"/><circle cx="143.8" cy="56.2" r="3.4"/></g></svg>
-          <div class="card"><img src="public/marks/spin/g-rilla-spin-0-pleased.png" alt="" width="523" height="536" decoding="async"><img src="public/marks/spin/g-rilla-spin-1-focus.png" alt="" width="523" height="536" decoding="async"><img src="public/marks/spin/g-rilla-spin-2-strain.png" alt="" width="523" height="536" decoding="async"><img src="public/marks/spin/g-rilla-spin-3-scowl.png" alt="" width="523" height="536" decoding="async"><img class="on" src="public/marks/spin/g-rilla-spin-4-roar.png" alt="" width="523" height="536" decoding="async"><img src="public/marks/spin/g-rilla-spin-5-laugh.png" alt="" width="523" height="536" decoding="async"></div>
+          <div class="card"><img src="public/marks/spin/g-rilla-spin-0-pleased.png" alt="" width="523" height="536" decoding="async"><img src="public/marks/spin/g-rilla-spin-1-focus.png" alt="" width="523" height="536" decoding="async"><img src="public/marks/spin/g-rilla-spin-2-strain.png" alt="" width="523" height="536" decoding="async"><img src="public/marks/spin/g-rilla-spin-3-scowl.png" alt="" width="523" height="536" decoding="async"><img class="on" src="public/marks/spin/g-rilla-spin-4-roar.png" alt="" width="523" height="536" decoding="async"><img src="public/marks/spin/g-rilla-spin-5-laugh.png" alt="" width="523" height="536" decoding="async"><img src="public/marks/spin/g-rilla-spin-6-grin.png" alt="" width="523" height="536" decoding="async"><img src="public/marks/spin/g-rilla-spin-7-r0c0.png" alt="" width="523" height="536" decoding="async"></div>
         </div>
       </div>
     </div>
@@ -812,15 +813,16 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
     }
   }
   var CHALK = ['rgba(216,220,216,0.55)', 'rgba(192,197,194,0.45)', 'rgba(232,234,231,0.4)'];
-  var CHALK_SOFT = ['rgba(226,230,227,1)', 'rgba(210,215,212,1)', 'rgba(240,242,239,1)'];
-  var CHALK_FLECK = ['rgba(238,241,238,0.95)', 'rgba(218,223,220,0.9)', 'rgba(250,251,249,1)'];
+  var CHALK_GRAIN = ['#D7DAD5', '#C9CDC8', '#E4E6E2', '#BFC4BE'];
   var SPARK = ['#FFE28A', '#FFC65C', '#FFAD42', '#FFF6D0'];
   var GUMMY = ['#3FA75C', '#4CBF6C', '#2F8A4A', '#C24B36'];
-  // a lifter's chalk clap: soft rising dust cloud + crisp flecks + settling powder
+  // a lifter's chalk clap: DRY powder — a wide burst of fine matte grains
+  // that scatter and settle, plus a faint gray haze. Deliberately no big
+  // soft white blobs: those read wet/glossy, chalk is grain and dust.
   function chalkClap(x, y) {
-    spawn(document.body, x, y, { cls: 'chalk-puff', fixed: true, count: 7, size: [16, 34], colors: CHALK_SOFT, angle: 0, spread: 360, dist: [6, 26], fall: -10, grow: 2.6, dur: [750, 1250], op: 0.5 });
-    spawn(document.body, x, y, { cls: 'chalk', fixed: true, count: 16, size: [2.5, 5.5], colors: CHALK_FLECK, angle: 0, spread: 220, dist: [20, 70], fall: 38, dur: [500, 950], op: 0.95 });
-    spawn(document.body, x, y, { cls: 'chalk', fixed: true, count: 10, size: [1.2, 2.6], colors: CHALK_FLECK, angle: 0, spread: 330, dist: [12, 42], fall: 60, dur: [750, 1250], op: 0.65 });
+    spawn(document.body, x, y, { cls: 'chalk-grain', fixed: true, count: 26, size: [1.2, 3.2], colors: CHALK_GRAIN, angle: 0, spread: 360, dist: [14, 52], fall: 46, rot: 160, dur: [700, 1300], op: 0.9 });
+    spawn(document.body, x, y, { cls: 'chalk-grain', fixed: true, count: 8, size: [2.6, 4.6], colors: CHALK_GRAIN, angle: 0, spread: 210, dist: [24, 66], fall: 60, rot: 240, dur: [600, 1000], op: 0.8 });
+    spawn(document.body, x, y, { cls: 'chalk-haze', fixed: true, count: 6, size: [7, 13], colors: CHALK_GRAIN, angle: 0, spread: 360, dist: [8, 26], fall: 4, grow: 1.7, dur: [800, 1300], op: 0.2 });
   }
 
   // ---- bench rig ----
@@ -1006,7 +1008,7 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
     var faces = [].slice.call(grip.querySelectorAll('.card img'));
     // ladder config: baked default, overridable per-browser via spin-lab.html
     // (localStorage 'gg-spin-map' = { rest: name, ladder: [5 names] })
-    var SPIN_NAMES = ["pleased","focus","strain","scowl","roar","laugh"];
+    var SPIN_NAMES = ["pleased","focus","strain","scowl","roar","laugh","grin","r0c0"];
     var spinCfg = { rest: 'roar', ladder: ['focus', 'strain', 'scowl', 'laugh', 'pleased'] };
     try {
       var spinSv = JSON.parse(localStorage.getItem('gg-spin-map') || 'null');
