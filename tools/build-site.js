@@ -1179,15 +1179,15 @@ ${V.flagBtn}
     var angle = 0, vel = reduced ? 0 : 0.05;
     var dragging = false, lastA = 0, lastT = 0;
     // the ladder rests on the roar brand mark, relaxes to pleased on a gentle
-    // spin, works up through effort faces, and roars again flat-out:
-    //   rest -> pleased -> focus -> strain -> scowl -> roar
+    // spin, and works up through the effort faces to an angry scowl flat-out:
+    //   rest(roar) -> pleased -> focus -> strain -> scowl
     // FACE_UP thresholds are deg/frame@60fps, geometrically spaced to match
     // the exponential spin-down (vel decays with tau ~1.4s), so the wind-down
     // steps through faces at an even, settling pace. Drop-back happens below
     // threshold * 0.72 so a boundary speed never flaps between two faces.
     var faces = [].slice.call(grip.querySelectorAll('.card img'));
-    var FACE_SEQ = [4, 0, 1, 2, 3, 4];
-    var FACE_UP = [0.5, 1.8, 3.8, 7.0, 11.0];
+    var FACE_SEQ = [4, 0, 1, 2, 3];
+    var FACE_UP = [0.5, 1.8, 3.8, 7.0];
     var tier = 0, speedSm = 0;
     function ptrAngle(e) {
       var r = grip.getBoundingClientRect();
