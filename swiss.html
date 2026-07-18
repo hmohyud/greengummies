@@ -988,9 +988,25 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
     // steps through faces at an even, settling pace. Drop-back happens below
     // threshold * 0.72 so a boundary speed never flaps between two faces.
     var faces = [].slice.call(grip.querySelectorAll('.card img'));
-    var FACE_SEQ = [4, 0, 1, 2, 3, 5];
+    // ladder config: baked default, overridable per-browser via spin-lab.html
+    // (localStorage 'gg-spin-map' = { rest: name, ladder: [5 names] })
+    var SPIN_NAMES = ["pleased","focus","strain","scowl","roar","laugh"];
+    var spinCfg = { rest: 'roar', ladder: ['pleased', 'focus', 'strain', 'scowl', 'laugh'] };
+    try {
+      var spinSv = JSON.parse(localStorage.getItem('gg-spin-map') || 'null');
+      if (spinSv && SPIN_NAMES.indexOf(spinSv.rest) >= 0 && Array.isArray(spinSv.ladder) &&
+          spinSv.ladder.length === 5 && spinSv.ladder.every(function (n) { return SPIN_NAMES.indexOf(n) >= 0; })) {
+        spinCfg = spinSv;
+      }
+    } catch (err) {}
+    var FACE_SEQ = [SPIN_NAMES.indexOf(spinCfg.rest)].concat(spinCfg.ladder.map(function (n) { return SPIN_NAMES.indexOf(n); }));
     var FACE_UP = [0.5, 1.8, 3.8, 7.0, 11.0];
     var tier = 0, speedSm = 0;
+    // markup rests on the roar img; move the .on if the config rests elsewhere
+    if (faces.length > 1 && !faces[FACE_SEQ[0]].classList.contains('on')) {
+      faces.forEach(function (f) { f.classList.remove('on'); });
+      faces[FACE_SEQ[0]].classList.add('on');
+    }
     function ptrAngle(e) {
       var r = grip.getBoundingClientRect();
       return Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180 / Math.PI;

@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Gorilla Greens — Spin Face Lab</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #17181A; color: #E8E9E6; font: 15px/1.5 "Segoe UI", system-ui, sans-serif; padding: 28px 18px 60px; }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  h1 { font-size: 22px; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 4px; }
+  h1 b { color: #3FA75C; }
+  .note { color: #9AA39D; font-size: 13.5px; margin-bottom: 26px; max-width: 74ch; }
+  .panel { background: #1D1F22; border: 1px solid #2A2D30; border-radius: 12px; padding: 18px 20px; margin-bottom: 16px; }
+  .panel h2 { font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: #3FA75C; margin-bottom: 12px; }
+  .row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+  .slot-row { background: #212326; border: 1px solid #2A2D30; border-radius: 9px; padding: 8px 12px; }
+  .lbl { color: #9AA39D; font-size: 13px; }
+  .lbl b { color: #E8E9E6; font-weight: 600; }
+  .speed { min-width: 150px; }
+  .speed small { display: block; color: #6E776F; font-size: 11px; }
+  button { background: #3FA75C; color: #0E1410; border: 0; border-radius: 7px; padding: 9px 16px; cursor: pointer; font: inherit; font-weight: 700; }
+  button.ghost { background: transparent; color: #E8E9E6; border: 1px solid #34373B; font-weight: 400; }
+  button.small { padding: 4px 9px; font-size: 13px; }
+  button:disabled { opacity: 0.3; cursor: default; }
+  .strip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .cell { background: #212326; border: 1px solid #2A2D30; border-radius: 8px; padding: 6px 4px 4px; text-align: center; }
+  .cell img { width: 100%; max-height: 96px; object-fit: contain; display: block; }
+  .cell span { font-size: 11px; color: #9AA39D; }
+  .cell.rest { border-color: rgba(63,167,92,0.5); }
+  .cell.rest span { color: #3FA75C; font-weight: 700; }
+  textarea { width: 100%; min-height: 64px; background: #101112; color: #9AA39D; border: 1px solid #2A2D30; border-radius: 8px; padding: 10px; font: 12.5px/1.5 Consolas, monospace; resize: vertical; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .saved { color: #3FA75C; font-size: 13px; opacity: 0; transition: opacity 0.3s; }
+  .saved.show { opacity: 1; }
+  /* image picker (same interaction as the rep-face lab) */
+  .picker { position: relative; display: inline-block; }
+  .pk-btn { display: inline-flex; align-items: center; gap: 9px; background: #26282B; color: #E8E9E6; border: 1px solid #34373B; border-radius: 8px; padding: 5px 12px 5px 7px; cursor: pointer; font: inherit; font-weight: 400; }
+  .pk-btn img { width: 36px; height: 36px; object-fit: contain; }
+  .pk-btn .car { color: #9AA39D; font-size: 11px; }
+  .pk-pop { position: absolute; top: calc(100% + 6px); left: 0; z-index: 40; background: #1D1F22; border: 1px solid rgba(63,167,92,0.45); border-radius: 10px; padding: 10px; display: grid; grid-template-columns: repeat(6, 76px); gap: 6px; box-shadow: 0 16px 34px rgba(0,0,0,0.55); }
+  .pk-opt { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 7px 4px 5px; border: 1px solid transparent; border-radius: 8px; cursor: pointer; font-size: 11px; color: #9AA39D; }
+  .pk-opt img { width: 46px; height: 46px; object-fit: contain; }
+  .pk-opt:hover { background: #26282B; color: #E8E9E6; }
+  .pk-opt.sel { border-color: #3FA75C; color: #7ED09A; }
+  @media (max-width: 640px) { .pk-pop { grid-template-columns: repeat(3, 76px); } .strip { grid-template-columns: repeat(3, 1fr); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Spin face <b>lab</b></h1>
+  <p class="note">Set which gorilla face the hero plate shows at rest and at each spin speed. <b>Save</b> applies it instantly to this browser on the live site (the page reads your override). To make it the default for everyone, copy the config string below and send it over. Speeds are fixed — you're choosing which face goes in each slot; the wind-down walks back down your order.</p>
+
+  <div class="panel">
+    <h2>Resting face (idle plate)</h2>
+    <div class="row"><span id="restPk"></span></div>
+  </div>
+
+  <div class="panel">
+    <h2>Speed ladder — slow to flat-out</h2>
+    <div id="slots"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Preview — rest, then speeding up</h2>
+    <div class="strip" id="strip"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Save</h2>
+    <div class="actions">
+      <button id="save" type="button">Save to this browser</button>
+      <button class="ghost" id="reset" type="button">Reset to site default</button>
+      <span class="saved" id="savedMsg">Saved — reload the site page to see it.</span>
+    </div>
+    <p class="lbl" style="margin:12px 0 6px">Config string (send this to bake it in as the default):</p>
+    <textarea id="out" readonly onclick="this.select()"></textarea>
+  </div>
+</div>
+<script>
+var FACES = ['pleased', 'focus', 'strain', 'scowl', 'roar', 'laugh'];
+var FRAME = { pleased: '0-pleased', focus: '1-focus', strain: '2-strain', scowl: '3-scowl', roar: '4-roar', laugh: '5-laugh' };
+var SPEEDS = [
+  ['gentle spin', '≥ 0.5°/frame'],
+  ['steady spin', '≥ 1.8°/frame'],
+  ['working', '≥ 3.8°/frame'],
+  ['fast', '≥ 7°/frame'],
+  ['flat-out', '≥ 11°/frame'],
+];
+var DEFAULT = { rest: 'roar', ladder: ['pleased', 'focus', 'strain', 'scowl', 'laugh'] };
+var img = function (n) { return 'public/marks/spin/g-rilla-spin-' + FRAME[n] + '.png'; };
+
+var state;
+try {
+  var saved = JSON.parse(localStorage.getItem('gg-spin-map') || 'null');
+  state = (saved && FACES.indexOf(saved.rest) >= 0 && Array.isArray(saved.ladder) && saved.ladder.length === 5)
+    ? saved : JSON.parse(JSON.stringify(DEFAULT));
+} catch (e) { state = JSON.parse(JSON.stringify(DEFAULT)); }
+
+function closePops() {
+  var pops = document.querySelectorAll('.pk-pop');
+  for (var i = 0; i < pops.length; i++) pops[i].parentNode.removeChild(pops[i]);
+}
+document.addEventListener('click', function () { closePops(); });
+
+function picker(value, onPick) {
+  var root = document.createElement('span');
+  root.className = 'picker';
+  var btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'pk-btn';
+  btn.innerHTML = '<img src="' + img(value) + '" alt=""><span>' + value + '</span><span class="car">▼</span>';
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var open = root.querySelector('.pk-pop');
+    closePops();
+    if (open) return;
+    var pop = document.createElement('div');
+    pop.className = 'pk-pop';
+    pop.addEventListener('click', function (ev) { ev.stopPropagation(); });
+    FACES.forEach(function (n) {
+      var o = document.createElement('div');
+      o.className = 'pk-opt' + (n === value ? ' sel' : '');
+      o.innerHTML = '<img src="' + img(n) + '" alt=""><span>' + n + '</span>';
+      o.addEventListener('click', function () { onPick(n); });
+      pop.appendChild(o);
+    });
+    root.appendChild(pop);
+  });
+  root.appendChild(btn);
+  return root;
+}
+
+function render() {
+  closePops();
+  var restHold = document.getElementById('restPk');
+  restHold.innerHTML = '';
+  restHold.appendChild(picker(state.rest, function (v) { state.rest = v; render(); }));
+
+  var slots = document.getElementById('slots');
+  slots.innerHTML = '';
+  state.ladder.forEach(function (face, i) {
+    var row = document.createElement('div');
+    row.className = 'row slot-row';
+    var lbl = document.createElement('span');
+    lbl.className = 'lbl speed';
+    lbl.innerHTML = '<b>' + SPEEDS[i][0] + '</b><small>' + SPEEDS[i][1] + '</small>';
+    var up = document.createElement('button');
+    up.type = 'button'; up.className = 'ghost small'; up.textContent = '▲'; up.disabled = i === 0;
+    up.addEventListener('click', function () {
+      var t = state.ladder[i - 1]; state.ladder[i - 1] = state.ladder[i]; state.ladder[i] = t; render();
+    });
+    var dn = document.createElement('button');
+    dn.type = 'button'; dn.className = 'ghost small'; dn.textContent = '▼'; dn.disabled = i === state.ladder.length - 1;
+    dn.addEventListener('click', function () {
+      var t = state.ladder[i + 1]; state.ladder[i + 1] = state.ladder[i]; state.ladder[i] = t; render();
+    });
+    row.appendChild(lbl);
+    row.appendChild(picker(face, function (v) { state.ladder[i] = v; render(); }));
+    row.appendChild(up);
+    row.appendChild(dn);
+    slots.appendChild(row);
+  });
+
+  var strip = document.getElementById('strip');
+  strip.innerHTML = '<div class="cell rest"><img src="' + img(state.rest) + '"><span>rest</span></div>';
+  state.ladder.forEach(function (face, i) {
+    strip.innerHTML += '<div class="cell"><img src="' + img(face) + '" title="' + face + '"><span>' + SPEEDS[i][0] + '</span></div>';
+  });
+
+  document.getElementById('out').value = JSON.stringify(state);
+}
+
+document.getElementById('save').addEventListener('click', function () {
+  try { localStorage.setItem('gg-spin-map', JSON.stringify(state)); } catch (err) {}
+  var msg = document.getElementById('savedMsg');
+  msg.classList.add('show');
+  setTimeout(function () { msg.classList.remove('show'); }, 2600);
+});
+document.getElementById('reset').addEventListener('click', function () {
+  try { localStorage.removeItem('gg-spin-map'); } catch (err) {}
+  state = JSON.parse(JSON.stringify(DEFAULT));
+  render();
+});
+render();
+</script>
+</body>
+</html>
