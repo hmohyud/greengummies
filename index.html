@@ -109,11 +109,15 @@ html[lang="fr"] .navlinks a { font-size: 13px; letter-spacing: 0.03em; }
 .meta-line { color: var(--dim); font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
 .plate-zone { display: flex; justify-content: center; position: relative; }
 /* friction heat: a rim that blooms red-orange as spin speed climbs (JS sets opacity) */
-.plate-heat { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
-  width: min(470px, 82vw); aspect-ratio: 1; border-radius: 50%; pointer-events: none; opacity: 0;
-  border: 2.5px solid rgba(255,96,42,0.85);
-  box-shadow: 0 0 26px 7px rgba(255,72,24,0.5), 0 0 60px 18px rgba(255,50,10,0.22), inset 0 0 22px 4px rgba(255,64,20,0.45);
-  will-change: opacity; }
+.plate-heat, .plate-heat-white, .plate-heat-core { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+  width: min(470px, 82vw); aspect-ratio: 1; border-radius: 50%; pointer-events: none; opacity: 0; will-change: opacity; }
+.plate-heat { border: 2.5px solid rgba(255,96,42,0.85);
+  box-shadow: 0 0 26px 7px rgba(255,72,24,0.5), 0 0 60px 18px rgba(255,50,10,0.22), inset 0 0 22px 4px rgba(255,64,20,0.45); }
+/* sustained flat-out: the rim whitens and the heat seeps toward the centre */
+.plate-heat-white { border: 2.5px solid rgba(255,246,232,0.95);
+  box-shadow: 0 0 30px 9px rgba(255,240,215,0.55), inset 0 0 34px 10px rgba(255,236,205,0.5); }
+.plate-heat-core { background: radial-gradient(circle,
+  rgba(255,180,90,0) 38%, rgba(255,140,50,0.13) 62%, rgba(255,190,110,0.3) 84%, rgba(255,235,200,0.42) 100%); }
 .plate { position: relative; overflow: hidden; width: min(470px, 82vw); aspect-ratio: 1; border-radius: 50%; background: #1D1F21; border: 1px solid #2A2D30;
   box-shadow: inset 0 0 0 26px #202225, inset 0 0 0 28px #17181A, inset 0 0 0 60px #1B1D1F, inset 0 0 0 62px #141517, 0 30px 60px rgba(0,0,0,0.5);
   cursor: grab; touch-action: none; -webkit-tap-highlight-color: transparent; }
@@ -442,9 +446,11 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
       <div class="plate-zone">
         <div class="plate" aria-hidden="true">
           <svg class="plate-ring" id="heroRing" viewBox="0 0 200 200"><g stroke="#3A3E42" stroke-width="2" stroke-linecap="round" opacity="0.9"><line x1="186.0" y1="100.0" x2="176.0" y2="100.0"/><line x1="185.7" y1="107.5" x2="180.7" y2="107.1"/><line x1="184.7" y1="114.9" x2="179.8" y2="114.1"/><line x1="183.1" y1="122.3" x2="178.2" y2="121.0"/><line x1="180.8" y1="129.4" x2="176.1" y2="127.7"/><line x1="177.9" y1="136.3" x2="173.4" y2="134.2"/><line x1="174.5" y1="143.0" x2="170.1" y2="140.5"/><line x1="170.4" y1="149.3" x2="166.4" y2="146.5"/><line x1="165.9" y1="155.3" x2="162.0" y2="152.1"/><line x1="160.8" y1="160.8" x2="157.3" y2="157.3"/><line x1="155.3" y1="165.9" x2="152.1" y2="162.0"/><line x1="149.3" y1="170.4" x2="146.5" y2="166.4"/><line x1="143.0" y1="174.5" x2="140.5" y2="170.1"/><line x1="136.3" y1="177.9" x2="134.2" y2="173.4"/><line x1="129.4" y1="180.8" x2="127.7" y2="176.1"/><line x1="122.3" y1="183.1" x2="121.0" y2="178.2"/><line x1="114.9" y1="184.7" x2="114.1" y2="179.8"/><line x1="107.5" y1="185.7" x2="107.1" y2="180.7"/><line x1="100.0" y1="186.0" x2="100.0" y2="176.0"/><line x1="92.5" y1="185.7" x2="92.9" y2="180.7"/><line x1="85.1" y1="184.7" x2="85.9" y2="179.8"/><line x1="77.7" y1="183.1" x2="79.0" y2="178.2"/><line x1="70.6" y1="180.8" x2="72.3" y2="176.1"/><line x1="63.7" y1="177.9" x2="65.8" y2="173.4"/><line x1="57.0" y1="174.5" x2="59.5" y2="170.1"/><line x1="50.7" y1="170.4" x2="53.5" y2="166.4"/><line x1="44.7" y1="165.9" x2="47.9" y2="162.0"/><line x1="39.2" y1="160.8" x2="42.7" y2="157.3"/><line x1="34.1" y1="155.3" x2="38.0" y2="152.1"/><line x1="29.6" y1="149.3" x2="33.6" y2="146.5"/><line x1="25.5" y1="143.0" x2="29.9" y2="140.5"/><line x1="22.1" y1="136.3" x2="26.6" y2="134.2"/><line x1="19.2" y1="129.4" x2="23.9" y2="127.7"/><line x1="16.9" y1="122.3" x2="21.8" y2="121.0"/><line x1="15.3" y1="114.9" x2="20.2" y2="114.1"/><line x1="14.3" y1="107.5" x2="19.3" y2="107.1"/><line x1="14.0" y1="100.0" x2="24.0" y2="100.0"/><line x1="14.3" y1="92.5" x2="19.3" y2="92.9"/><line x1="15.3" y1="85.1" x2="20.2" y2="85.9"/><line x1="16.9" y1="77.7" x2="21.8" y2="79.0"/><line x1="19.2" y1="70.6" x2="23.9" y2="72.3"/><line x1="22.1" y1="63.7" x2="26.6" y2="65.8"/><line x1="25.5" y1="57.0" x2="29.9" y2="59.5"/><line x1="29.6" y1="50.7" x2="33.6" y2="53.5"/><line x1="34.1" y1="44.7" x2="38.0" y2="47.9"/><line x1="39.2" y1="39.2" x2="42.7" y2="42.7"/><line x1="44.7" y1="34.1" x2="47.9" y2="38.0"/><line x1="50.7" y1="29.6" x2="53.5" y2="33.6"/><line x1="57.0" y1="25.5" x2="59.5" y2="29.9"/><line x1="63.7" y1="22.1" x2="65.8" y2="26.6"/><line x1="70.6" y1="19.2" x2="72.3" y2="23.9"/><line x1="77.7" y1="16.9" x2="79.0" y2="21.8"/><line x1="85.1" y1="15.3" x2="85.9" y2="20.2"/><line x1="92.5" y1="14.3" x2="92.9" y2="19.3"/><line x1="100.0" y1="14.0" x2="100.0" y2="24.0"/><line x1="107.5" y1="14.3" x2="107.1" y2="19.3"/><line x1="114.9" y1="15.3" x2="114.1" y2="20.2"/><line x1="122.3" y1="16.9" x2="121.0" y2="21.8"/><line x1="129.4" y1="19.2" x2="127.7" y2="23.9"/><line x1="136.3" y1="22.1" x2="134.2" y2="26.6"/><line x1="143.0" y1="25.5" x2="140.5" y2="29.9"/><line x1="149.3" y1="29.6" x2="146.5" y2="33.6"/><line x1="155.3" y1="34.1" x2="152.1" y2="38.0"/><line x1="160.8" y1="39.2" x2="157.3" y2="42.7"/><line x1="165.9" y1="44.7" x2="162.0" y2="47.9"/><line x1="170.4" y1="50.7" x2="166.4" y2="53.5"/><line x1="174.5" y1="57.0" x2="170.1" y2="59.5"/><line x1="177.9" y1="63.7" x2="173.4" y2="65.8"/><line x1="180.8" y1="70.6" x2="176.1" y2="72.3"/><line x1="183.1" y1="77.7" x2="178.2" y2="79.0"/><line x1="184.7" y1="85.1" x2="179.8" y2="85.9"/><line x1="185.7" y1="92.5" x2="180.7" y2="92.9"/></g><g fill="#4A4F54"><circle cx="143.8" cy="143.8" r="3.4"/><circle cx="56.2" cy="143.8" r="3.4"/><circle cx="56.2" cy="56.2" r="3.4"/><circle cx="143.8" cy="56.2" r="3.4"/></g></svg>
-          <div class="card"><img src="public/marks/spin/g-rilla-spin-0-pleased.png" alt="" width="523" height="536" decoding="async"><img src="public/marks/spin/g-rilla-spin-1-focus.png" alt="" width="523" height="536" decoding="async"><img src="public/marks/spin/g-rilla-spin-2-strain.png" alt="" width="523" height="536" decoding="async"><img src="public/marks/spin/g-rilla-spin-3-scowl.png" alt="" width="523" height="536" decoding="async"><img class="on" src="public/marks/spin/g-rilla-spin-4-roar.png" alt="" width="523" height="536" decoding="async"><img src="public/marks/spin/g-rilla-spin-5-laugh.png" alt="" width="523" height="536" decoding="async"><img src="public/marks/spin/g-rilla-spin-6-grin.png" alt="" width="523" height="536" decoding="async"><img src="public/marks/spin/g-rilla-spin-7-r0c0.png" alt="" width="523" height="536" decoding="async"></div>
+          <div class="card"><img src="public/marks/spin/g-rilla-spin-0-pleased.png" alt="" width="523" height="536" decoding="async"><img src="public/marks/spin/g-rilla-spin-1-focus.png" alt="" width="523" height="536" decoding="async"><img src="public/marks/spin/g-rilla-spin-2-strain.png" alt="" width="523" height="536" decoding="async"><img src="public/marks/spin/g-rilla-spin-3-scowl.png" alt="" width="523" height="536" decoding="async"><img class="on" src="public/marks/spin/g-rilla-spin-4-roar.png" alt="" width="523" height="536" decoding="async"><img src="public/marks/spin/g-rilla-spin-5-laugh.png" alt="" width="523" height="536" decoding="async"></div>
         </div>
         <div class="plate-heat" id="plateHeat" aria-hidden="true"></div>
+        <div class="plate-heat-core" id="plateHeatCore" aria-hidden="true"></div>
+        <div class="plate-heat-white" id="plateHeatWhite" aria-hidden="true"></div>
       </div>
     </div>
   </section>
@@ -974,20 +980,17 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
     var faces = [].slice.call(grip.querySelectorAll('.card img'));
     // ladder config: baked default, overridable per-browser via spin-lab.html
     // (localStorage 'gg-spin-map' = { rest: name, ladder: [5 names] })
-    var SPIN_NAMES = ["pleased","focus","strain","scowl","roar","laugh","grin","r0c0"];
-    var spinCfg = { rest: 'roar', ladder: ['r0c0', 'focus', 'scowl', 'strain', 'pleased', 'laugh', 'grin'] };
+    var SPIN_NAMES = ["pleased","focus","strain","scowl","roar","laugh"];
+    var spinCfg = { rest: 'roar', ladder: ['focus', 'scowl', 'laugh', 'strain', 'pleased'] };
     try {
       var spinSv = JSON.parse(localStorage.getItem('gg-spin-map') || 'null');
       if (spinSv && SPIN_NAMES.indexOf(spinSv.rest) >= 0 && Array.isArray(spinSv.ladder) &&
-          spinSv.ladder.length === 7 && spinSv.ladder.every(function (n) { return SPIN_NAMES.indexOf(n) >= 0; })) {
+          spinSv.ladder.length === 5 && spinSv.ladder.every(function (n) { return SPIN_NAMES.indexOf(n) >= 0; })) {
         spinCfg = spinSv;
       }
     } catch (err) {}
     var FACE_SEQ = [SPIN_NAMES.indexOf(spinCfg.rest)].concat(spinCfg.ladder.map(function (n) { return SPIN_NAMES.indexOf(n); }));
-    // 7 thresholds, log-spaced 1.4 -> 11 above the 0.5 gentle engage: the
-    // exponential spin-down then steps faces at an even ~0.6s cadence with a
-    // longer settle on the last face before the roar rest
-    var FACE_UP = [0.5, 1.4, 2.1, 3.2, 4.8, 7.3, 11.0];
+    var FACE_UP = [0.5, 1.8, 3.8, 7.0, 11.0];
     var tier = 0, speedSm = 0;
     // markup rests on the roar img; move the .on if the config rests elsewhere
     if (faces.length > 1 && !faces[FACE_SEQ[0]].classList.contains('on')) {
@@ -1026,7 +1029,9 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
     var lastFrame = performance.now();
     var sparkAcc = 0, sparkZone = grip.parentElement;
     var heatEl = document.getElementById('plateHeat');
-    var heatShown = 0, heatLevel = 0;
+    var heatWhiteEl = document.getElementById('plateHeatWhite');
+    var heatCoreEl = document.getElementById('plateHeatCore');
+    var heatShown = 0, heatLevel = 0, whiteLevel = 0, whiteShown = 0;
     (function spinLoop() {
       var now = performance.now();
       var f = Math.min(100, now - lastFrame) / 16.7;
@@ -1051,14 +1056,21 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
       }
       // friction heat with thermal inertia: the rim heats fast while the
       // wheel rips (quadratic ramp keeps it cold at low speed) but COOLS
-      // slowly, so it keeps glowing for a few seconds after the spin dies
+      // slowly, so it keeps glowing for a few seconds after the spin dies.
+      // Held near flat-out, a second stage builds: the rim whitens and the
+      // glow seeps inward (~3s to full white); on cooldown the white recedes
+      // first and the red ember lingers, like metal coming off temperature.
       if (heatEl && !reduced) {
         var target = Math.max(0, Math.min(1, (speedSm - 3) / 8.5));
         target = target * target;
         heatLevel += (target - heatLevel) * Math.min(1, (target > heatLevel ? 0.06 : 0.008) * f);
-        if (Math.abs(heatLevel - heatShown) > 0.003) {
+        whiteLevel += ((target > 0.72 ? 1 : 0) - whiteLevel) * Math.min(1, (target > 0.72 ? 0.01 : 0.02) * f);
+        if (Math.abs(heatLevel - heatShown) > 0.003 || Math.abs(whiteLevel - whiteShown) > 0.003) {
           heatShown = heatLevel;
+          whiteShown = whiteLevel;
           heatEl.style.opacity = heatLevel.toFixed(3);
+          heatWhiteEl.style.opacity = (whiteLevel * heatLevel).toFixed(3);
+          heatCoreEl.style.opacity = (whiteLevel * heatLevel).toFixed(3);
         }
       }
       // sparks off the rim: none until the wheel is really working, a storm

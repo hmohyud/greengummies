@@ -79,24 +79,22 @@
   </div>
 </div>
 <script>
-var FACES = ['pleased', 'focus', 'strain', 'scowl', 'roar', 'laugh', 'grin', 'r0c0'];
-var FRAME = { pleased: '0-pleased', focus: '1-focus', strain: '2-strain', scowl: '3-scowl', roar: '4-roar', laugh: '5-laugh', grin: '6-grin', r0c0: '7-r0c0' };
+var FACES = ['pleased', 'focus', 'strain', 'scowl', 'roar', 'laugh'];
+var FRAME = { pleased: '0-pleased', focus: '1-focus', strain: '2-strain', scowl: '3-scowl', roar: '4-roar', laugh: '5-laugh' };
 var SPEEDS = [
   ['gentle spin', '≥ 0.5°/frame'],
-  ['easy', '≥ 1.4°/frame'],
-  ['steady', '≥ 2.1°/frame'],
-  ['working', '≥ 3.2°/frame'],
-  ['quick', '≥ 4.8°/frame'],
-  ['fast', '≥ 7.3°/frame'],
+  ['steady spin', '≥ 1.8°/frame'],
+  ['working', '≥ 3.8°/frame'],
+  ['fast', '≥ 7°/frame'],
   ['flat-out', '≥ 11°/frame'],
 ];
-var DEFAULT = { rest: 'roar', ladder: ['r0c0', 'focus', 'scowl', 'strain', 'pleased', 'laugh', 'grin'] };
+var DEFAULT = { rest: 'roar', ladder: ['focus', 'scowl', 'laugh', 'strain', 'pleased'] };
 var img = function (n) { return 'public/marks/spin/g-rilla-spin-' + FRAME[n] + '.png'; };
 
 var state;
 try {
   var saved = JSON.parse(localStorage.getItem('gg-spin-map') || 'null');
-  state = (saved && FACES.indexOf(saved.rest) >= 0 && Array.isArray(saved.ladder) && saved.ladder.length === 7)
+  state = (saved && FACES.indexOf(saved.rest) >= 0 && Array.isArray(saved.ladder) && saved.ladder.length === 5)
     ? saved : JSON.parse(JSON.stringify(DEFAULT));
 } catch (e) { state = JSON.parse(JSON.stringify(DEFAULT)); }
 

@@ -38,7 +38,7 @@ const apeInst = (p, cls) => '<svg class="' + cls + '" viewBox="191 234 692 784" 
 // hero plate expression frames, one pixel-identical G base so swapping them
 // never jitters; spin speed picks the face (see spinLoop). The roar rests on
 // top of the stack as the default (no-JS / reduced-motion / idle brand mark).
-const SPIN_FRAMES = ['pleased', 'focus', 'strain', 'scowl', 'roar', 'laugh', 'grin', 'r0c0'];
+const SPIN_FRAMES = ['pleased', 'focus', 'strain', 'scowl', 'roar', 'laugh'];
 const spinCard = SPIN_FRAMES.map((n, i) =>
   '<img' + (n === 'roar' ? ' class="on"' : '') + ' src="public/marks/spin/g-rilla-spin-' + i + '-' + n + '.png" alt="" width="523" height="536" decoding="async">').join('');
 
@@ -340,11 +340,15 @@ html[lang="fr"] .navlinks a { font-size: 13px; letter-spacing: 0.03em; }
 .meta-line { color: var(--dim); font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
 .plate-zone { display: flex; justify-content: center; position: relative; }
 /* friction heat: a rim that blooms red-orange as spin speed climbs (JS sets opacity) */
-.plate-heat { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
-  width: min(470px, 82vw); aspect-ratio: 1; border-radius: 50%; pointer-events: none; opacity: 0;
-  border: 2.5px solid rgba(255,96,42,0.85);
-  box-shadow: 0 0 26px 7px rgba(255,72,24,0.5), 0 0 60px 18px rgba(255,50,10,0.22), inset 0 0 22px 4px rgba(255,64,20,0.45);
-  will-change: opacity; }
+.plate-heat, .plate-heat-white, .plate-heat-core { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+  width: min(470px, 82vw); aspect-ratio: 1; border-radius: 50%; pointer-events: none; opacity: 0; will-change: opacity; }
+.plate-heat { border: 2.5px solid rgba(255,96,42,0.85);
+  box-shadow: 0 0 26px 7px rgba(255,72,24,0.5), 0 0 60px 18px rgba(255,50,10,0.22), inset 0 0 22px 4px rgba(255,64,20,0.45); }
+/* sustained flat-out: the rim whitens and the heat seeps toward the centre */
+.plate-heat-white { border: 2.5px solid rgba(255,246,232,0.95);
+  box-shadow: 0 0 30px 9px rgba(255,240,215,0.55), inset 0 0 34px 10px rgba(255,236,205,0.5); }
+.plate-heat-core { background: radial-gradient(circle,
+  rgba(255,180,90,0) 38%, rgba(255,140,50,0.13) 62%, rgba(255,190,110,0.3) 84%, rgba(255,235,200,0.42) 100%); }
 .plate { position: relative; overflow: hidden; width: min(470px, 82vw); aspect-ratio: 1; border-radius: 50%; background: #1D1F21; border: 1px solid #2A2D30;
   box-shadow: inset 0 0 0 26px #202225, inset 0 0 0 28px #17181A, inset 0 0 0 60px #1B1D1F, inset 0 0 0 62px #141517, 0 30px 60px rgba(0,0,0,0.5);
   cursor: grab; touch-action: none; -webkit-tap-highlight-color: transparent; }
@@ -676,6 +680,8 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
           <div class="card">${spinCard}</div>
         </div>
         <div class="plate-heat" id="plateHeat" aria-hidden="true"></div>
+        <div class="plate-heat-core" id="plateHeatCore" aria-hidden="true"></div>
+        <div class="plate-heat-white" id="plateHeatWhite" aria-hidden="true"></div>
       </div>
     </div>
   </section>
@@ -1192,19 +1198,16 @@ ${V.flagBtn}
     // ladder config: baked default, overridable per-browser via spin-lab.html
     // (localStorage 'gg-spin-map' = { rest: name, ladder: [5 names] })
     var SPIN_NAMES = ${JSON.stringify(SPIN_FRAMES)};
-    var spinCfg = { rest: 'roar', ladder: ['r0c0', 'focus', 'scowl', 'strain', 'pleased', 'laugh', 'grin'] };
+    var spinCfg = { rest: 'roar', ladder: ['focus', 'scowl', 'laugh', 'strain', 'pleased'] };
     try {
       var spinSv = JSON.parse(localStorage.getItem('gg-spin-map') || 'null');
       if (spinSv && SPIN_NAMES.indexOf(spinSv.rest) >= 0 && Array.isArray(spinSv.ladder) &&
-          spinSv.ladder.length === 7 && spinSv.ladder.every(function (n) { return SPIN_NAMES.indexOf(n) >= 0; })) {
+          spinSv.ladder.length === 5 && spinSv.ladder.every(function (n) { return SPIN_NAMES.indexOf(n) >= 0; })) {
         spinCfg = spinSv;
       }
     } catch (err) {}
     var FACE_SEQ = [SPIN_NAMES.indexOf(spinCfg.rest)].concat(spinCfg.ladder.map(function (n) { return SPIN_NAMES.indexOf(n); }));
-    // 7 thresholds, log-spaced 1.4 -> 11 above the 0.5 gentle engage: the
-    // exponential spin-down then steps faces at an even ~0.6s cadence with a
-    // longer settle on the last face before the roar rest
-    var FACE_UP = [0.5, 1.4, 2.1, 3.2, 4.8, 7.3, 11.0];
+    var FACE_UP = [0.5, 1.8, 3.8, 7.0, 11.0];
     var tier = 0, speedSm = 0;
     // markup rests on the roar img; move the .on if the config rests elsewhere
     if (faces.length > 1 && !faces[FACE_SEQ[0]].classList.contains('on')) {
@@ -1243,7 +1246,9 @@ ${V.flagBtn}
     var lastFrame = performance.now();
     var sparkAcc = 0, sparkZone = grip.parentElement;
     var heatEl = document.getElementById('plateHeat');
-    var heatShown = 0, heatLevel = 0;
+    var heatWhiteEl = document.getElementById('plateHeatWhite');
+    var heatCoreEl = document.getElementById('plateHeatCore');
+    var heatShown = 0, heatLevel = 0, whiteLevel = 0, whiteShown = 0;
     (function spinLoop() {
       var now = performance.now();
       var f = Math.min(100, now - lastFrame) / 16.7;
@@ -1268,14 +1273,21 @@ ${V.flagBtn}
       }
       // friction heat with thermal inertia: the rim heats fast while the
       // wheel rips (quadratic ramp keeps it cold at low speed) but COOLS
-      // slowly, so it keeps glowing for a few seconds after the spin dies
+      // slowly, so it keeps glowing for a few seconds after the spin dies.
+      // Held near flat-out, a second stage builds: the rim whitens and the
+      // glow seeps inward (~3s to full white); on cooldown the white recedes
+      // first and the red ember lingers, like metal coming off temperature.
       if (heatEl && !reduced) {
         var target = Math.max(0, Math.min(1, (speedSm - 3) / 8.5));
         target = target * target;
         heatLevel += (target - heatLevel) * Math.min(1, (target > heatLevel ? 0.06 : 0.008) * f);
-        if (Math.abs(heatLevel - heatShown) > 0.003) {
+        whiteLevel += ((target > 0.72 ? 1 : 0) - whiteLevel) * Math.min(1, (target > 0.72 ? 0.01 : 0.02) * f);
+        if (Math.abs(heatLevel - heatShown) > 0.003 || Math.abs(whiteLevel - whiteShown) > 0.003) {
           heatShown = heatLevel;
+          whiteShown = whiteLevel;
           heatEl.style.opacity = heatLevel.toFixed(3);
+          heatWhiteEl.style.opacity = (whiteLevel * heatLevel).toFixed(3);
+          heatCoreEl.style.opacity = (whiteLevel * heatLevel).toFixed(3);
         }
       }
       // sparks off the rim: none until the wheel is really working, a storm

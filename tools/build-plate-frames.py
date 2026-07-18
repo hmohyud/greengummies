@@ -47,11 +47,9 @@ HEADS = {
     'strain':  (0.91, 550, 608),
     'scowl':   (0.95, 548, 606),
     'laugh':   (0.97, 549, 602),
-    'grin':    (0.95, 549, 604),
-    'r0c0':    (0.90, 551, 608),
 }
 ROAR_H = 759.0  # roar head alpha height in 1254-space
-FRAMES = ['pleased', 'focus', 'strain', 'scowl', 'roar', 'laugh', 'grin', 'r0c0']
+FRAMES = ['pleased', 'focus', 'strain', 'scowl', 'roar', 'laugh']
 # heads published to clean/ for the speck lab but not (yet) built as frames
 CANDIDATES = []
 
