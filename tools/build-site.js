@@ -38,7 +38,7 @@ const apeInst = (p, cls) => '<svg class="' + cls + '" viewBox="191 234 692 784" 
 // hero plate expression frames, one pixel-identical G base so swapping them
 // never jitters; spin speed picks the face (see spinLoop). The roar rests on
 // top of the stack as the default (no-JS / reduced-motion / idle brand mark).
-const SPIN_FRAMES = ['pleased', 'focus', 'strain', 'scowl', 'roar'];
+const SPIN_FRAMES = ['pleased', 'focus', 'strain', 'scowl', 'roar', 'laugh'];
 const spinCard = SPIN_FRAMES.map((n, i) =>
   '<img' + (n === 'roar' ? ' class="on"' : '') + ' src="public/marks/spin/g-rilla-spin-' + i + '-' + n + '.png" alt="" width="523" height="536" decoding="async">').join('');
 
@@ -1179,15 +1179,15 @@ ${V.flagBtn}
     var angle = 0, vel = reduced ? 0 : 0.05;
     var dragging = false, lastA = 0, lastT = 0;
     // the ladder rests on the roar brand mark, relaxes to pleased on a gentle
-    // spin, and works up through the effort faces to an angry scowl flat-out:
-    //   rest(roar) -> pleased -> focus -> strain -> scowl
+    // spin, works up through the effort faces, and flat-out he's loving it:
+    //   rest(roar) -> pleased -> focus -> strain -> scowl -> laugh
     // FACE_UP thresholds are deg/frame@60fps, geometrically spaced to match
     // the exponential spin-down (vel decays with tau ~1.4s), so the wind-down
     // steps through faces at an even, settling pace. Drop-back happens below
     // threshold * 0.72 so a boundary speed never flaps between two faces.
     var faces = [].slice.call(grip.querySelectorAll('.card img'));
-    var FACE_SEQ = [4, 0, 1, 2, 3];
-    var FACE_UP = [0.5, 1.8, 3.8, 7.0];
+    var FACE_SEQ = [4, 0, 1, 2, 3, 5];
+    var FACE_UP = [0.5, 1.8, 3.8, 7.0, 11.0];
     var tier = 0, speedSm = 0;
     function ptrAngle(e) {
       var r = grip.getBoundingClientRect();
