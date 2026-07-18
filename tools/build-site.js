@@ -434,8 +434,6 @@ html[lang="fr"] .navlinks a { font-size: 13px; letter-spacing: 0.03em; }
 .ptc { position: absolute; pointer-events: none; z-index: 60; border-radius: 50%; }
 .ptc.gummy { border-radius: 34%; box-shadow: inset 0 -1.5px 2px rgba(0,0,0,0.3), inset 0 1px 1.5px rgba(255,255,255,0.25); }
 .ptc.chalk { filter: blur(0.4px); }
-.ptc.chalk-grain { border-radius: 32%; }
-.ptc.chalk-haze { filter: blur(3px); }
 .ptc.spark { height: 2.6px !important; border-radius: 2px; box-shadow: 0 0 9px rgba(255,186,64,0.9), 0 0 3px rgba(255,240,190,0.9); }
 @keyframes rep-press {
   0% { transform: translateY(0); animation-timing-function: cubic-bezier(0.55, 0, 0.75, 0.5); }
@@ -1018,17 +1016,8 @@ ${V.flagBtn}
     }
   }
   var CHALK = ['rgba(216,220,216,0.55)', 'rgba(192,197,194,0.45)', 'rgba(232,234,231,0.4)'];
-  var CHALK_GRAIN = ['#D7DAD5', '#C9CDC8', '#E4E6E2', '#BFC4BE'];
   var SPARK = ['#FFE28A', '#FFC65C', '#FFAD42', '#FFF6D0'];
   var GUMMY = ['#3FA75C', '#4CBF6C', '#2F8A4A', '#C24B36'];
-  // a lifter's chalk clap: DRY powder — a wide burst of fine matte grains
-  // that scatter and settle, plus a faint gray haze. Deliberately no big
-  // soft white blobs: those read wet/glossy, chalk is grain and dust.
-  function chalkClap(x, y) {
-    spawn(document.body, x, y, { cls: 'chalk-grain', fixed: true, count: 26, size: [1.2, 3.2], colors: CHALK_GRAIN, angle: 0, spread: 360, dist: [14, 52], fall: 46, rot: 160, dur: [700, 1300], op: 0.9 });
-    spawn(document.body, x, y, { cls: 'chalk-grain', fixed: true, count: 8, size: [2.6, 4.6], colors: CHALK_GRAIN, angle: 0, spread: 210, dist: [24, 66], fall: 60, rot: 240, dur: [600, 1000], op: 0.8 });
-    spawn(document.body, x, y, { cls: 'chalk-haze', fixed: true, count: 6, size: [7, 13], colors: CHALK_GRAIN, angle: 0, spread: 360, dist: [8, 26], fall: 4, grow: 1.7, dur: [800, 1300], op: 0.2 });
-  }
 
   // ---- bench rig ----
   var rig = document.getElementById('rigBtn');
@@ -1185,17 +1174,6 @@ ${V.flagBtn}
     repFallback = setTimeout(finishRep, 1700);
   });
 
-  // ---- chalk clap on primary CTA hover (throttled) ----
-  var lastPuff = 0;
-  document.querySelectorAll('a.btn:not(.ghost), button.btn:not(.ghost)').forEach(function (b) {
-    b.addEventListener('pointerenter', function (e) {
-      var now = performance.now();
-      if (now - lastPuff < 650 || e.pointerType === 'touch') return;
-      lastPuff = now;
-      chalkClap(e.clientX, e.clientY);
-    });
-  });
-
   // ---- hero plate: idle torque + grab to spin; spin speed picks the face ----
   var ring = document.getElementById('heroRing');
   // the whole plate is the grab target — the logo card sits over the ring's centre
@@ -1214,16 +1192,19 @@ ${V.flagBtn}
     // ladder config: baked default, overridable per-browser via spin-lab.html
     // (localStorage 'gg-spin-map' = { rest: name, ladder: [5 names] })
     var SPIN_NAMES = ${JSON.stringify(SPIN_FRAMES)};
-    var spinCfg = { rest: 'roar', ladder: ['focus', 'strain', 'scowl', 'laugh', 'pleased'] };
+    var spinCfg = { rest: 'roar', ladder: ['r0c0', 'focus', 'scowl', 'strain', 'pleased', 'laugh', 'grin'] };
     try {
       var spinSv = JSON.parse(localStorage.getItem('gg-spin-map') || 'null');
       if (spinSv && SPIN_NAMES.indexOf(spinSv.rest) >= 0 && Array.isArray(spinSv.ladder) &&
-          spinSv.ladder.length === 5 && spinSv.ladder.every(function (n) { return SPIN_NAMES.indexOf(n) >= 0; })) {
+          spinSv.ladder.length === 7 && spinSv.ladder.every(function (n) { return SPIN_NAMES.indexOf(n) >= 0; })) {
         spinCfg = spinSv;
       }
     } catch (err) {}
     var FACE_SEQ = [SPIN_NAMES.indexOf(spinCfg.rest)].concat(spinCfg.ladder.map(function (n) { return SPIN_NAMES.indexOf(n); }));
-    var FACE_UP = [0.5, 1.8, 3.8, 7.0, 11.0];
+    // 7 thresholds, log-spaced 1.4 -> 11 above the 0.5 gentle engage: the
+    // exponential spin-down then steps faces at an even ~0.6s cadence with a
+    // longer settle on the last face before the roar rest
+    var FACE_UP = [0.5, 1.4, 2.1, 3.2, 4.8, 7.3, 11.0];
     var tier = 0, speedSm = 0;
     // markup rests on the roar img; move the .on if the config rests elsewhere
     if (faces.length > 1 && !faces[FACE_SEQ[0]].classList.contains('on')) {
@@ -1262,7 +1243,7 @@ ${V.flagBtn}
     var lastFrame = performance.now();
     var sparkAcc = 0, sparkZone = grip.parentElement;
     var heatEl = document.getElementById('plateHeat');
-    var heatShown = 0;
+    var heatShown = 0, heatLevel = 0;
     (function spinLoop() {
       var now = performance.now();
       var f = Math.min(100, now - lastFrame) / 16.7;
@@ -1285,14 +1266,16 @@ ${V.flagBtn}
           faces[FACE_SEQ[tier]].classList.add('on');
         }
       }
-      // friction heat: the rim blooms red-orange as speed climbs (quadratic
-      // ramp so it stays subtle until the wheel is genuinely fast)
+      // friction heat with thermal inertia: the rim heats fast while the
+      // wheel rips (quadratic ramp keeps it cold at low speed) but COOLS
+      // slowly, so it keeps glowing for a few seconds after the spin dies
       if (heatEl && !reduced) {
-        var heat = Math.max(0, Math.min(1, (speedSm - 3) / 8.5));
-        heat = heat * heat;
-        if (Math.abs(heat - heatShown) > 0.004) {
-          heatShown = heat;
-          heatEl.style.opacity = heat.toFixed(3);
+        var target = Math.max(0, Math.min(1, (speedSm - 3) / 8.5));
+        target = target * target;
+        heatLevel += (target - heatLevel) * Math.min(1, (target > heatLevel ? 0.06 : 0.008) * f);
+        if (Math.abs(heatLevel - heatShown) > 0.003) {
+          heatShown = heatLevel;
+          heatEl.style.opacity = heatLevel.toFixed(3);
         }
       }
       // sparks off the rim: none until the wheel is really working, a storm
