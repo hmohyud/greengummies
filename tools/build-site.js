@@ -1189,7 +1189,7 @@ ${V.flagBtn}
     // ladder config: baked default, overridable per-browser via spin-lab.html
     // (localStorage 'gg-spin-map' = { rest: name, ladder: [5 names] })
     var SPIN_NAMES = ${JSON.stringify(SPIN_FRAMES)};
-    var spinCfg = { rest: 'roar', ladder: ['pleased', 'focus', 'strain', 'scowl', 'laugh'] };
+    var spinCfg = { rest: 'roar', ladder: ['focus', 'strain', 'scowl', 'laugh', 'pleased'] };
     try {
       var spinSv = JSON.parse(localStorage.getItem('gg-spin-map') || 'null');
       if (spinSv && SPIN_NAMES.indexOf(spinSv.rest) >= 0 && Array.isArray(spinSv.ladder) &&

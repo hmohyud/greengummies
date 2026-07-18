@@ -40,7 +40,9 @@ EXPORT = (523, 536)
 # speed ladder: name -> (head height as fraction of the roar head, centre x/y
 # in 1254-space). The roar frame uses the SVG gorilla layers at native coords.
 HEADS = {
-    'pleased': (0.84, 552, 612),
+    # scale, centre x, centre y — scaled about the centre so a size change
+    # never shifts the head's anchor
+    'pleased': (0.924, 552, 612),
     'focus':   (0.87, 552, 608),
     'strain':  (0.91, 550, 608),
     'scowl':   (0.95, 548, 606),
@@ -92,10 +94,12 @@ def complete_g_path(svg):
     # outer boundary, bar and stem survive untouched: indices 209..226 + 0..36
     outer = [tuple(pts[k]) for k in list(range(209, 227)) + list(range(0, 37))]
 
-    # hook left edge (jaw-nibbled): smooth curve (819,575)->(835,731)
-    t = np.linspace(0, 1, 12)
-    hook = list(zip(819 + 16 * t + 6.0 * np.sin(np.pi * t), 575 + 156 * t))
-    hook += [tuple(pts[k]) for k in range(47, 50)]  # bar bottom + stem inner edge
+    # bar: the top edge continues left until the head silhouette bounds it
+    # (per the source art the bar has no visible terminus — the face meets
+    # it). x=710 sits >=30px under every frame's head across the bar band,
+    # so the tip edge is never exposed. Then the hook step + stem inner edge.
+    hook = [(710.0, 575.0), (710.0, 731.0)]
+    hook += [tuple(pts[k]) for k in range(47, 50)]  # (918,731) (920,734) (919,859)
 
     # inner boundary: periodic-pchip radius over trusted surviving points
     trusted = ([tuple(pts[49])] + [tuple(pts[k]) for k in range(50, 56)]
