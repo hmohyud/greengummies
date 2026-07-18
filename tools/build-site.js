@@ -339,6 +339,12 @@ html[lang="fr"] .navlinks a { font-size: 13px; letter-spacing: 0.03em; }
 .cta-row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 26px; }
 .meta-line { color: var(--dim); font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
 .plate-zone { display: flex; justify-content: center; position: relative; }
+/* friction heat: a rim that blooms red-orange as spin speed climbs (JS sets opacity) */
+.plate-heat { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+  width: min(470px, 82vw); aspect-ratio: 1; border-radius: 50%; pointer-events: none; opacity: 0;
+  border: 2.5px solid rgba(255,96,42,0.85);
+  box-shadow: 0 0 26px 7px rgba(255,72,24,0.5), 0 0 60px 18px rgba(255,50,10,0.22), inset 0 0 22px 4px rgba(255,64,20,0.45);
+  will-change: opacity; }
 .plate { position: relative; overflow: hidden; width: min(470px, 82vw); aspect-ratio: 1; border-radius: 50%; background: #1D1F21; border: 1px solid #2A2D30;
   box-shadow: inset 0 0 0 26px #202225, inset 0 0 0 28px #17181A, inset 0 0 0 60px #1B1D1F, inset 0 0 0 62px #141517, 0 30px 60px rgba(0,0,0,0.5);
   cursor: grab; touch-action: none; -webkit-tap-highlight-color: transparent; }
@@ -671,6 +677,7 @@ footer.site ul.plain li { color: var(--dim); font-size: 14px; }
           ${plateRing}
           <div class="card">${spinCard}</div>
         </div>
+        <div class="plate-heat" id="plateHeat" aria-hidden="true"></div>
       </div>
     </div>
   </section>
@@ -1254,6 +1261,8 @@ ${V.flagBtn}
     // spin-down time and the face ladder feel the same on 60Hz and 144Hz
     var lastFrame = performance.now();
     var sparkAcc = 0, sparkZone = grip.parentElement;
+    var heatEl = document.getElementById('plateHeat');
+    var heatShown = 0;
     (function spinLoop() {
       var now = performance.now();
       var f = Math.min(100, now - lastFrame) / 16.7;
@@ -1274,6 +1283,16 @@ ${V.flagBtn}
           faces[FACE_SEQ[tier]].classList.remove('on');
           tier = t;
           faces[FACE_SEQ[tier]].classList.add('on');
+        }
+      }
+      // friction heat: the rim blooms red-orange as speed climbs (quadratic
+      // ramp so it stays subtle until the wheel is genuinely fast)
+      if (heatEl && !reduced) {
+        var heat = Math.max(0, Math.min(1, (speedSm - 3) / 8.5));
+        heat = heat * heat;
+        if (Math.abs(heat - heatShown) > 0.004) {
+          heatShown = heat;
+          heatEl.style.opacity = heat.toFixed(3);
         }
       }
       // sparks off the rim: none until the wheel is really working, a storm
