@@ -338,7 +338,7 @@ html[lang="fr"] .navlinks a { font-size: 13px; letter-spacing: 0.03em; }
 .hero .sub { margin-bottom: 32px; }
 .cta-row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 26px; }
 .meta-line { color: var(--dim); font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
-.plate-zone { display: flex; justify-content: center; }
+.plate-zone { display: flex; justify-content: center; position: relative; }
 .plate { position: relative; overflow: hidden; width: min(470px, 82vw); aspect-ratio: 1; border-radius: 50%; background: #1D1F21; border: 1px solid #2A2D30;
   box-shadow: inset 0 0 0 26px #202225, inset 0 0 0 28px #17181A, inset 0 0 0 60px #1B1D1F, inset 0 0 0 62px #141517, 0 30px 60px rgba(0,0,0,0.5);
   cursor: grab; touch-action: none; -webkit-tap-highlight-color: transparent; }
@@ -425,9 +425,11 @@ html[lang="fr"] .navlinks a { font-size: 13px; letter-spacing: 0.03em; }
 .mico-slot.in { opacity: 0.11; }
 .mood .mico { opacity: 1; }
 .rig-btn { position: relative; z-index: 1; }
-.ptc { position: absolute; pointer-events: none; z-index: 6; border-radius: 50%; }
+.ptc { position: absolute; pointer-events: none; z-index: 60; border-radius: 50%; }
 .ptc.gummy { border-radius: 34%; box-shadow: inset 0 -1.5px 2px rgba(0,0,0,0.3), inset 0 1px 1.5px rgba(255,255,255,0.25); }
 .ptc.chalk { filter: blur(0.4px); }
+.ptc.chalk-puff { filter: blur(5px); }
+.ptc.spark { height: 2.6px !important; border-radius: 2px; box-shadow: 0 0 9px rgba(255,186,64,0.9), 0 0 3px rgba(255,240,190,0.9); }
 @keyframes rep-press {
   0% { transform: translateY(0); animation-timing-function: cubic-bezier(0.55, 0, 0.75, 0.5); }
   38% { transform: translateY(52px); animation-timing-function: linear; }
@@ -993,17 +995,31 @@ ${V.flagBtn}
       var dx = Math.cos(rad) * dist, dy = Math.sin(rad) * dist;
       var fall = o.fall || 0;
       var rot = (Math.random() - 0.5) * (o.rot || 0);
+      // align: lay the particle's long axis along its travel direction (sparks)
+      var base = o.align ? ang : 0;
+      // grow: end-scale for soft expanding puffs (chalk clouds)
+      var g1 = o.grow ? 1 + (o.grow - 1) * 0.55 : 1;
+      var g2 = o.grow || 1;
       var dur = o.dur[0] + Math.random() * (o.dur[1] - o.dur[0]);
       var anim = p.animate([
-        { transform: 'translate(-50%,-50%) translate(0,0) rotate(0deg)', opacity: o.op },
-        { transform: 'translate(-50%,-50%) translate(' + (dx * 0.7) + 'px,' + (dy * 0.7) + 'px) rotate(' + (rot * 0.6) + 'deg)', opacity: o.op * 0.65, offset: 0.55 },
-        { transform: 'translate(-50%,-50%) translate(' + dx + 'px,' + (dy + fall) + 'px) rotate(' + rot + 'deg)', opacity: 0 }
+        { transform: 'translate(-50%,-50%) translate(0,0) rotate(' + base + 'deg) scale(1)', opacity: o.op },
+        { transform: 'translate(-50%,-50%) translate(' + (dx * 0.7) + 'px,' + (dy * 0.7) + 'px) rotate(' + (base + rot * 0.6) + 'deg) scale(' + g1 + ')', opacity: o.op * 0.65, offset: 0.55 },
+        { transform: 'translate(-50%,-50%) translate(' + dx + 'px,' + (dy + fall) + 'px) rotate(' + (base + rot) + 'deg) scale(' + g2 + ')', opacity: 0 }
       ], { duration: dur, easing: 'cubic-bezier(0.25,0.6,0.35,1)' });
       anim.onfinish = (function (el) { return function () { el.remove(); }; })(p);
     }
   }
   var CHALK = ['rgba(216,220,216,0.55)', 'rgba(192,197,194,0.45)', 'rgba(232,234,231,0.4)'];
+  var CHALK_SOFT = ['rgba(226,230,227,1)', 'rgba(210,215,212,1)', 'rgba(240,242,239,1)'];
+  var CHALK_FLECK = ['rgba(238,241,238,0.95)', 'rgba(218,223,220,0.9)', 'rgba(250,251,249,1)'];
+  var SPARK = ['#FFE28A', '#FFC65C', '#FFAD42', '#FFF6D0'];
   var GUMMY = ['#3FA75C', '#4CBF6C', '#2F8A4A', '#C24B36'];
+  // a lifter's chalk clap: soft rising dust cloud + crisp flecks + settling powder
+  function chalkClap(x, y) {
+    spawn(document.body, x, y, { cls: 'chalk-puff', fixed: true, count: 7, size: [16, 34], colors: CHALK_SOFT, angle: 0, spread: 360, dist: [6, 26], fall: -10, grow: 2.6, dur: [750, 1250], op: 0.5 });
+    spawn(document.body, x, y, { cls: 'chalk', fixed: true, count: 16, size: [2.5, 5.5], colors: CHALK_FLECK, angle: 0, spread: 220, dist: [20, 70], fall: 38, dur: [500, 950], op: 0.95 });
+    spawn(document.body, x, y, { cls: 'chalk', fixed: true, count: 10, size: [1.2, 2.6], colors: CHALK_FLECK, angle: 0, spread: 330, dist: [12, 42], fall: 60, dur: [750, 1250], op: 0.65 });
+  }
 
   // ---- bench rig ----
   var rig = document.getElementById('rigBtn');
@@ -1160,14 +1176,14 @@ ${V.flagBtn}
     repFallback = setTimeout(finishRep, 1700);
   });
 
-  // ---- chalk on primary CTA hover (throttled, subtle) ----
+  // ---- chalk clap on primary CTA hover (throttled) ----
   var lastPuff = 0;
   document.querySelectorAll('a.btn:not(.ghost), button.btn:not(.ghost)').forEach(function (b) {
     b.addEventListener('pointerenter', function (e) {
       var now = performance.now();
-      if (now - lastPuff < 700 || e.pointerType === 'touch') return;
+      if (now - lastPuff < 650 || e.pointerType === 'touch') return;
       lastPuff = now;
-      spawn(document.body, e.clientX, e.clientY, { cls: 'chalk', fixed: true, count: 8, size: [1.6, 4], colors: CHALK, angle: 0, spread: 170, dist: [6, 24], fall: 16, dur: [400, 700], op: 0.4 });
+      chalkClap(e.clientX, e.clientY);
     });
   });
 
@@ -1235,6 +1251,7 @@ ${V.flagBtn}
     // vel is in deg per 60fps-frame; integrate against real dt so speed,
     // spin-down time and the face ladder feel the same on 60Hz and 144Hz
     var lastFrame = performance.now();
+    var sparkAcc = 0, sparkZone = grip.parentElement;
     (function spinLoop() {
       var now = performance.now();
       var f = Math.min(100, now - lastFrame) / 16.7;
@@ -1255,6 +1272,21 @@ ${V.flagBtn}
           faces[FACE_SEQ[tier]].classList.remove('on');
           tier = t;
           faces[FACE_SEQ[tier]].classList.add('on');
+        }
+      }
+      // sparks off the rim: none until the wheel is really working, a storm
+      // flat-out; they fly tangent to the rim in the direction of spin
+      if (!reduced && speedSm > 4.2) {
+        sparkAcc += (0.2 + Math.min(1, (speedSm - 4.2) / 7.3) * 2.5) * f;
+        var R = grip.offsetWidth / 2;
+        while (sparkAcc >= 1) {
+          sparkAcc--;
+          var th = Math.random() * Math.PI * 2;
+          var travel = th * 180 / Math.PI + (vel >= 0 ? 90 : -90);
+          spawn(sparkZone, grip.offsetLeft + R + Math.cos(th) * (R - 3),
+                grip.offsetTop + R + Math.sin(th) * (R - 3),
+                { cls: 'spark', count: 1, size: [8, 18], colors: SPARK, angle: travel + 90, align: true,
+                  spread: 22, dist: [30, 80 + speedSm * 4], fall: 48, dur: [340, 640], op: 1 });
         }
       }
       requestAnimationFrame(spinLoop);
