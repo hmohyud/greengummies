@@ -139,7 +139,19 @@ for (let i = 0; i < 4; i++) {
   const a = (45 + i * 90) * Math.PI / 180;
   ringBolts += '<circle cx="' + (100 + Math.cos(a) * 62).toFixed(1) + '" cy="' + (100 + Math.sin(a) * 62).toFixed(1) + '" r="3.4"/>';
 }
-const plateRing = '<svg class="plate-ring" id="heroRing" viewBox="0 0 200 200"><g stroke="#3A3E42" stroke-width="2" stroke-linecap="round" opacity="0.9">' + ringTicks + '</g><g fill="#4A4F54">' + ringBolts + '</g></svg>';
+// rim stamp: brand over the top arc, weight along the bottom (both upright,
+// like a real bumper plate); it lives in the ring svg so it spins with drags
+const rimStamp =
+  '<defs>'
+  + '<path id="rimTop" d="M 10 100 A 90 90 0 0 1 190 100" fill="none"/>'
+  + '<path id="rimBot" d="M 2.5 100 A 97.5 97.5 0 0 0 197.5 100" fill="none"/>'
+  + '</defs>'
+  + '<g fill="#4A4F54" font-family="\'Archivo Black\', Archivo, sans-serif" font-size="8" letter-spacing="2.2">'
+  + '<text><textPath href="#rimTop" startOffset="50%" text-anchor="middle">GORILLA GREENS</textPath></text>'
+  + '<text><textPath href="#rimBot" startOffset="50%" text-anchor="middle">45 LB &#183; 20.4 KG</textPath></text>'
+  + '</g>'
+  + '<g fill="#3F4348"><circle cx="7" cy="100" r="1.6"/><circle cx="193" cy="100" r="1.6"/></g>';
+const plateRing = '<svg class="plate-ring" id="heroRing" viewBox="0 0 200 200">' + rimStamp + '<g stroke="#3A3E42" stroke-width="2" stroke-linecap="round" opacity="0.9">' + ringTicks + '</g><g fill="#4A4F54">' + ringBolts + '</g></svg>';
 
 const strawIcon = '<svg class="fico" viewBox="0 0 24 24" aria-hidden="true">' +
   '<path d="M12 21.2 C7.2 18.4 4.6 14.4 4.6 10.9 C4.6 8.2 6.8 6.6 9 7 L15 7 C17.2 6.6 19.4 8.2 19.4 10.9 C19.4 14.4 16.8 18.4 12 21.2 Z" fill="#D6453A"/>' +
